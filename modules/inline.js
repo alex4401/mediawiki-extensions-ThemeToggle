@@ -1,17 +1,16 @@
 window.extApplyThemePreference = function () {
-    var themeKey = 'skin-theme',
-        classPrefix = 'theme-',
-        modulePrefix = 'ext.theming.';
-    var themes = [ 'dark', 'light' ];
+    var themeKey = 'skin-theme';
 
 
     function getCurrentTheme() {
-        return window.localStorage.getItem( themeKey );
+        return window.localStorage.getItem( themeKey ) || SITEDEFAULTTHEME;
     }
 
 
-    var targetTheme = getCurrentTheme();
-    var prefersDark = window.matchMedia( '(prefers-color-scheme: dark)' );
+    var targetTheme = getCurrentTheme(),
+        prefersDark = window.matchMedia( '(prefers-color-scheme: dark)' ),
+        htmlNode = document.documentElement,
+        linkNode = null;
 
 
 	function applyInternal() {
@@ -21,12 +20,22 @@ window.extApplyThemePreference = function () {
 			// Apply by changing class
 			if ( targetTheme !== null ) {
 				// Remove all theme classes
-                themes.forEach( function ( item ) {
-                    document.documentElement.classList.remove( classPrefix + item );
-                } );
+                htmlNode.className = htmlNode.className.replace( / theme-[^\s]+/ig, '' );
                 // Add new theme class
-				document.documentElement.classList.add( classPrefix + targetTheme );
+				htmlNode.classList.add( 'theme-' + targetTheme );
 			}
+
+            if ( SITEBUNDLEDTHEMES.indexOf( targetTheme ) < 0 ) {
+                if ( linkNode == null ) {
+                    linkNode = document.createElement( 'link' );
+                    document.head.appendChild( linkNode );
+                }
+                linkNode.rel = 'stylesheet';
+                linkNode.type = 'text/css';
+                linkNode.href = '/load.php?lang='+htmlNode.lang+'&modules=ext.theming.'+targetTheme+'&only=styles';
+            } else if ( linkNode != null ) {
+                document.head.removeChild( linkNode );
+            }
 		} catch ( e ) { }
 	}
 
