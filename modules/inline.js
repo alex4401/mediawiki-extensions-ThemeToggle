@@ -35,6 +35,7 @@ window.extApplyThemePreference = function () {
                 linkNode.href = THEMELOAD+'?lang='+htmlNode.lang+'&modules=ext.theming.'+targetTheme+'&only=styles';
             } else if ( linkNode != null ) {
                 document.head.removeChild( linkNode );
+                linkNode = null;
             }
 		} catch ( e ) { }
 	}
