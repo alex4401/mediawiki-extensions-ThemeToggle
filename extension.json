@@ -42,15 +42,13 @@
 	},
 
 	"config": {
-		"DefaultTheme": {
+		"ThemingDefault": {
 			"value": "auto",
 			"description": "Default theme. Valid values are 'auto', 'light', 'dark'.",
 			"public": true
 		},
-		"UnbundledThemes": {
-			"value": {
-				"light": "Theme-light.css"
-			},
+		"ThemingSiteCssBundled": {
+			"value": [ "light" ],
 			"public": true
 		}
 	},
