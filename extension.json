@@ -1,0 +1,59 @@
+{
+	"name": "Theming",
+	"version": "0.1.0",
+
+	"author": [
+		"alex4401"
+	],
+	"url": "https://gitlab.mglolenstine.xyz/alex4401/mediawiki-extension-theming",
+	"descriptionmsg": "theming-desc",
+	"license-name": "GPL-2.0-or-later",
+	"type": "other",
+
+	"requires": {
+		"MediaWiki": ">= 1.37.0",
+		"platform": {
+			"php": ">= 7.4"
+		}
+	},
+
+	"MessagesDirs": {
+		"Theming.class": [
+			"i18n"
+		]
+	},
+
+	"ResourceFileModulePaths": {
+		"localBasePath": "modules",
+		"remoteExtPath": "Theming/modules"
+	},
+
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\Ark\\Theming\\": "includes/"
+	},
+	
+	"HookHandlers": {
+		"SkinHooks": {
+			"class": "MediaWiki\\Extension\\Ark\\Theming\\SkinHooks"
+		}
+	},
+	"Hooks": {
+		"BeforePageDisplay": "SkinHooks"
+	},
+
+	"config": {
+		"DefaultTheme": {
+			"value": "auto",
+			"description": "Default theme. Valid values are 'auto', 'light', 'dark'.",
+			"public": true
+		},
+		"UnbundledThemes": {
+			"value": {
+				"light": "Theme-light.css"
+			},
+			"public": true
+		}
+	},
+
+	"manifest_version": 2
+}
