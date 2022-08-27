@@ -3,7 +3,7 @@ window.extApplyThemePreference = function () {
 
 
     function getCurrentTheme() {
-        return window.localStorage.getItem( themeKey ) || SITEDEFAULTTHEME;
+        return window.localStorage.getItem( themeKey ) || THEMESITEDEFAULT;
     }
 
 
@@ -25,14 +25,14 @@ window.extApplyThemePreference = function () {
 				htmlNode.classList.add( 'theme-' + targetTheme );
 			}
 
-            if ( SITEBUNDLEDTHEMES.indexOf( targetTheme ) < 0 ) {
+            if ( THEMESITEBUNDLED.indexOf( targetTheme ) < 0 ) {
                 if ( linkNode == null ) {
                     linkNode = document.createElement( 'link' );
                     document.head.appendChild( linkNode );
                 }
                 linkNode.rel = 'stylesheet';
                 linkNode.type = 'text/css';
-                linkNode.href = '/load.php?lang='+htmlNode.lang+'&modules=ext.theming.'+targetTheme+'&only=styles';
+                linkNode.href = THEMELOAD+'?lang='+htmlNode.lang+'&modules=ext.theming.'+targetTheme+'&only=styles';
             } else if ( linkNode != null ) {
                 document.head.removeChild( linkNode );
             }
@@ -62,6 +62,5 @@ window.extApplyThemePreference = function () {
 	}
 };
 
-( function () {
-	window.extApplyThemePreference();
-} )();
+
+window.extApplyThemePreference();
