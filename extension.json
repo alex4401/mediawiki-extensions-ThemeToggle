@@ -33,12 +33,13 @@
 	},
 	
 	"HookHandlers": {
-		"SkinHooks": {
-			"class": "MediaWiki\\Extension\\Ark\\Theming\\SkinHooks"
+		"Hooks": {
+			"class": "MediaWiki\\Extension\\Ark\\Theming\\Hooks"
 		}
 	},
 	"Hooks": {
-		"BeforePageDisplay": "SkinHooks"
+		"BeforePageDisplay": "Hooks",
+		"ResourceLoaderRegisterModules": "Hooks"
 	},
 
 	"config": {

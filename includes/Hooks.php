@@ -1,13 +1,11 @@
 <?php
 namespace MediaWiki\Extension\Ark\Theming;
 
-use MediaWiki\Hook\BeforePageDisplayHook;
-use OutputPage;
-use ResourceLoaderContext;
-use Skin;
+use ResourceLoader;
 
-
-class SkinHooks implements BeforePageDisplayHook {
+class Hooks implements
+    \MediaWiki\Hook\BeforePageDisplayHook,
+    \MediaWiki\ResourceLoader\Hook\ResourceLoaderRegisterModulesHook {
 	/**
 	 * Injects the inline theme applying script to the document head
 	 */
@@ -27,5 +25,25 @@ class SkinHooks implements BeforePageDisplayHook {
         );
 
 		$out->addHeadItem( 'ext.theming.inline', $script );
+	}
+
+    private function registerThemeModule( ResourceLoader $resourceLoader, string $id ): void {
+        $resourceLoader->register( 'ext.theming.' . $id, [
+			'class' => WikiThemeResourceLoaderModule::class,
+			'id' => $id
+		] );
+    }
+    
+	public function onResourceLoaderRegisterModules( ResourceLoader $resourceLoader ): void {
+        /* This is a stub, ideally there'd be a definitions page unless there's some more clever way */
+        global $wgThemingSiteCssBundled;
+
+        if ( !in_array( 'light', $wgThemingSiteCssBundled ) ) {
+            $this->registerThemeModule( $resourceLoader, 'light' );
+        }
+        
+        if ( !in_array( 'dark', $wgThemingSiteCssBundled ) ) {
+            $this->registerThemeModule( $resourceLoader, 'dark' );
+        }
 	}
 }
