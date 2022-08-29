@@ -28,6 +28,18 @@
 		"remoteExtPath": "ThemeToggle/modules"
 	},
 
+	"ResourceModules": {
+		"ext.themes.simpleSwitcher": {
+			"packageFiles": [
+				"simpleSwitcher/main.js"
+			],
+			"styles": [
+				"simpleSwitcher/styles.less"
+			],
+			"targets": [ "desktop", "mobile" ]
+		}
+	},
+
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\Ark\\ThemeToggle\\": "includes/"
 	},
@@ -45,12 +57,17 @@
 	"config": {
 		"ThemeToggleDefault": {
 			"value": "auto",
-			"description": "Default theme. Valid values are 'auto', 'light', 'dark'.",
-			"public": true
+			"description": "Default theme. Valid values are 'auto', 'light', 'dark'."
 		},
 		"ThemeToggleSiteCssBundled": {
-			"value": [ "light" ],
-			"public": true
+			"value": [ "light" ]
+		},
+		"ThemeToggleSwitcherStyle": {
+			"value": "simple",
+			"description": ""
+		},
+		"ThemeToggleEnableForAnonymousUsers": {
+			"value": false
 		}
 	},
 

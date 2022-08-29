@@ -1,13 +1,13 @@
-window.extApplyThemePreference = function () {
-    var themeKey = 'skin-theme';
+var themeKey = 'skin-theme';
 
 
-    function getCurrentTheme() {
-        return window.localStorage.getItem( themeKey ) || THEMESITEDEFAULT;
-    }
+window.mwGetCurrentTheme = function () {
+    return window.localStorage.getItem( themeKey ) || THEMESITEDEFAULT;
+};
 
 
-    var targetTheme = getCurrentTheme(),
+window.mwApplyThemePreference = function () {
+    var targetTheme = mwGetCurrentTheme(),
         prefersDark = window.matchMedia( '(prefers-color-scheme: dark)' ),
         htmlNode = document.documentElement,
         linkNode = null;
@@ -15,7 +15,7 @@ window.extApplyThemePreference = function () {
 
 	function applyInternal() {
 		try {
-			targetTheme = getCurrentTheme();
+			targetTheme = mwGetCurrentTheme();
 
 			// Apply by changing class
 			if ( targetTheme !== null ) {
@@ -64,4 +64,4 @@ window.extApplyThemePreference = function () {
 };
 
 
-window.extApplyThemePreference();
+window.mwApplyThemePreference();

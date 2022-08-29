@@ -10,21 +10,36 @@ class Hooks implements
 	 * Injects the inline theme applying script to the document head
 	 */
 	public function onBeforePageDisplay( $out, $skin ): void {
-        global $wgLoadScript, $wgThemeToggleDefault, $wgThemeToggleSiteCssBundled;
+        global $wgLoadScript,
+            $wgThemeToggleDefault,
+            $wgThemeToggleSiteCssBundled,
+            $wgThemeToggleEnableForAnonymousUsers,
+            $wgThemeToggleSwitcherStyle;
 
+        if ( !$wgThemeToggleEnableForAnonymousUsers && $out->getUser()->isAnon() ) {
+            return;
+        }
+
+        // Inject the theme applying script into <head> to reduce latency
 		$nonce = $out->getCSP()->getNonce();
-
-		// modules/inline.js
-		$script = sprintf(
+		$out->addHeadItem( 'ext.themes.inline', sprintf(
 			'<script%s>(function(){var THEMELOAD=%s,THEMESITEDEFAULT=%s,THEMESITEBUNDLED=%s;%s})()</script>',
 			$nonce !== false ? sprintf( ' nonce="%s"', $nonce ) : '',
             json_encode( $wgLoadScript ),
             json_encode( $wgThemeToggleDefault ),
             json_encode( $wgThemeToggleSiteCssBundled ),
-			'window.extApplyThemePreference=function(){var e="skin-theme";function t(){return window.localStorage.getItem(e)||THEMESITEDEFAULT}var n=t(),l=window.matchMedia("(prefers-color-scheme: dark)"),a=document.documentElement,o=null;function c(){try{null!==(n=t())&&(a.className=a.className.replace(/ theme-[^\s]+/gi,""),a.classList.add("theme-"+n)),THEMESITEBUNDLED.indexOf(n)<0?(null==o&&(o=document.createElement("link"),document.head.appendChild(o)),o.rel="stylesheet",o.type="text/css",o.href=THEMELOAD+"?lang="+a.lang+"&modules=ext.theme."+n+"&only=styles"):null!=o&&(document.head.removeChild(o),o=null)}catch(e){}}function d(){n=l.matches?"dark":"light",window.localStorage.setItem(e,n),c(),window.localStorage.setItem(e,"auto")}"auto"===n?(d(),l.addEventListener("change",d)):(c(),l.removeEventListener("change",d))},window.extApplyThemePreference()'
-        );
+            // modules/inline.js
+			'var themeKey="skin-theme";window.mwGetCurrentTheme=function(){return window.localStorage.getItem(themeKey)||THEMESITEDEFAULT},window.mwApplyThemePreference=function(){var e=mwGetCurrentTheme(),t=window.matchMedia("(prefers-color-scheme: dark)"),n=document.documentElement,l=null;function m(){try{null!==(e=mwGetCurrentTheme())&&(n.className=n.className.replace(/ theme-[^\s]+/gi,""),n.classList.add("theme-"+e)),THEMESITEBUNDLED.indexOf(e)<0?(null==l&&(l=document.createElement("link"),document.head.appendChild(l)),l.rel="stylesheet",l.type="text/css",l.href=THEMELOAD+"?lang="+n.lang+"&modules=ext.theme."+e+"&only=styles"):null!=l&&(document.head.removeChild(l),l=null)}catch(e){}}function a(){e=t.matches?"dark":"light",window.localStorage.setItem(themeKey,e),m(),window.localStorage.setItem(themeKey,"auto")}"auto"===e?(a(),t.addEventListener("change",a)):(m(),t.removeEventListener("change",a))},window.mwApplyThemePreference()'
+        ) );
 
-		$out->addHeadItem( 'ext.theming.inline', $script );
+        // Inject the theme switcher as a ResourceLoader module
+        switch ( $wgThemeToggleSwitcherStyle ) {
+            case 'simple':
+                $out->addModules( [
+                    'ext.themes.simpleSwitcher'
+                ] );
+                break;
+        }
 	}
 
     private function registerThemeModule( ResourceLoader $resourceLoader, string $id ): void {
