@@ -36,6 +36,9 @@
 			"styles": [
 				"simpleSwitcher/styles.less"
 			],
+			"messages": [
+				"themetoggle-simple-switch"
+			],
 			"targets": [ "desktop", "mobile" ]
 		}
 	},
