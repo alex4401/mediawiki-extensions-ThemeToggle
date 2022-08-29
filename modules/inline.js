@@ -32,7 +32,7 @@ window.extApplyThemePreference = function () {
                 }
                 linkNode.rel = 'stylesheet';
                 linkNode.type = 'text/css';
-                linkNode.href = THEMELOAD+'?lang='+htmlNode.lang+'&modules=ext.theming.'+targetTheme+'&only=styles';
+                linkNode.href = THEMELOAD+'?lang='+htmlNode.lang+'&modules=ext.theme.'+targetTheme+'&only=styles';
             } else if ( linkNode != null ) {
                 document.head.removeChild( linkNode );
                 linkNode = null;

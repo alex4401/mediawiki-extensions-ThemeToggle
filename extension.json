@@ -1,12 +1,12 @@
 {
-	"name": "Theming",
+	"name": "Theme Toggle",
 	"version": "0.1.0",
 
 	"author": [
 		"alex4401"
 	],
-	"url": "https://gitlab.mglolenstine.xyz/alex4401/mediawiki-extension-theming",
-	"descriptionmsg": "theming-desc",
+	"url": "https://gitlab.mglolenstine.xyz/alex4401/mediawiki-extension-themetoggle",
+	"descriptionmsg": "themetoggle-desc",
 	"license-name": "GPL-2.0-or-later",
 	"type": "other",
 
@@ -18,23 +18,23 @@
 	},
 
 	"MessagesDirs": {
-		"Theming.class": [
+		"ThemeToggle.class": [
 			"i18n"
 		]
 	},
 
 	"ResourceFileModulePaths": {
 		"localBasePath": "modules",
-		"remoteExtPath": "Theming/modules"
+		"remoteExtPath": "ThemeToggle/modules"
 	},
 
 	"AutoloadNamespaces": {
-		"MediaWiki\\Extension\\Ark\\Theming\\": "includes/"
+		"MediaWiki\\Extension\\Ark\\ThemeToggle\\": "includes/"
 	},
 	
 	"HookHandlers": {
 		"Hooks": {
-			"class": "MediaWiki\\Extension\\Ark\\Theming\\Hooks"
+			"class": "MediaWiki\\Extension\\Ark\\ThemeToggle\\Hooks"
 		}
 	},
 	"Hooks": {
@@ -43,12 +43,12 @@
 	},
 
 	"config": {
-		"ThemingDefault": {
+		"ThemeToggleDefault": {
 			"value": "auto",
 			"description": "Default theme. Valid values are 'auto', 'light', 'dark'.",
 			"public": true
 		},
-		"ThemingSiteCssBundled": {
+		"ThemeToggleSiteCssBundled": {
 			"value": [ "light" ],
 			"public": true
 		}

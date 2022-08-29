@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extension\Ark\Theming;
+namespace MediaWiki\Extension\Ark\ThemeToggle;
 
 use ResourceLoaderContext;
 use ResourceLoaderModule;
