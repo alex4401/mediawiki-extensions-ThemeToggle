@@ -1,4 +1,6 @@
-var themeKey = 'skin-theme';
+var themeKey = 'skin-theme',
+    prefersDark = window.matchMedia( '(prefers-color-scheme: dark)' ),
+    linkNode = null;
 
 
 window.mwGetCurrentTheme = function () {
@@ -8,9 +10,7 @@ window.mwGetCurrentTheme = function () {
 
 window.mwApplyThemePreference = function () {
     var targetTheme = mwGetCurrentTheme(),
-        prefersDark = window.matchMedia( '(prefers-color-scheme: dark)' ),
-        htmlNode = document.documentElement,
-        linkNode = null;
+        htmlNode = document.documentElement;
 
 
 	function applyInternal() {
