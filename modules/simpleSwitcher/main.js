@@ -24,6 +24,8 @@ function cycleTheme() {
 
 
 function initialise() {
+    Shared.trySyncNewAccount();
+
 	$toggle = $('<span>')
 		.attr( 'title', mw.msg( 'themetoggle-simple-switch' ) )
 		.on( 'mousedown', cycleTheme );
