@@ -3,6 +3,7 @@ namespace MediaWiki\Extension\Ark\ThemeToggle;
 
 use ManualLogEntry;
 use ResourceLoader;
+use ResourceLoaderFileModule;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Page\ProperPageIdentity;
 use MediaWiki\Permissions\Authority;
@@ -105,10 +106,18 @@ class Hooks implements
         /* This is a stub, ideally there'd be a definitions page unless there's some more clever way */
         global $wgThemeToggleSiteCssBundled;
         
+        $messages = [];
+
         foreach ( ThemeDefinitions::get()->getIds() as $theme ) {
             if ( !in_array( $theme, $wgThemeToggleSiteCssBundled ) ) {
                 $this->registerThemeModule( $resourceLoader, $theme );
+                $messages[] = "theme-$theme";
             }
         }
+
+        $resourceLoader->register( 'ext.themes.siteMessages' . $id, [
+			'class' => ResourceLoaderFileModule::class,
+			'messages' => $messages
+		] );
 	}
 }
