@@ -1,8 +1,10 @@
 <?php
 namespace MediaWiki\Extension\Ark\ThemeToggle;
 
+use Config;
 use ManualLogEntry;
 use ResourceLoader;
+use ResourceLoaderContext;
 use ResourceLoaderFileModule;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Page\ProperPageIdentity;
@@ -120,4 +122,16 @@ class Hooks implements
 			'messages' => $messages
 		] );
 	}
+
+    public function getSiteConfigModuleContents( ResourceLoaderContext $context, Config $config ): array {
+        $defs = ThemeDefinitions::get();
+        $ids = $defs->getIds();
+        if ( $defs->isEligibleForAuto() ) {
+            $ids = [ 'auto' ] + $ids;
+        }
+
+        return [
+            'themes' => $ids
+        ];
+    }
 }

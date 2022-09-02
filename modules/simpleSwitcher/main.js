@@ -6,20 +6,17 @@
  * - https://temtem.wiki.gg
 */
 
-var Shared = require( '../shared.js' );
-var Config = {
-    themes: [ 'dark', 'light' ]
-};//require( './config.json' );
+var Shared = require( 'ext.themes.baseSwitcher' );
 var $wrapper, $toggle;
 
 
 function cycleTheme() {
-    var nextIndex = Config.themes.indexOf( mwGetCurrentTheme() ) + 1;
-    if ( nextIndex >= Config.themes.length ) {
+    var nextIndex = Shared.CONFIG.themes.indexOf( mwGetCurrentTheme() ) + 1;
+    if ( nextIndex >= Shared.CONFIG.themes.length ) {
         nextIndex = 0;
     }
 
-    Shared.setUserPreference( Config.themes[nextIndex] );
+    Shared.setUserPreference( Shared.CONFIG.themes[nextIndex] );
 }
 
 

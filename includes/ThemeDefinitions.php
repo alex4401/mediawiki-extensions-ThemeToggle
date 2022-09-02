@@ -17,6 +17,7 @@ class ThemeDefinitions {
 	const TITLE = 'Theme-definitions';
 
 	protected string $titlePrefix = 'MediaWiki:Theme-';
+	protected ?array $ids = null;
 
 	private static $instance = null;
 
@@ -29,6 +30,10 @@ class ThemeDefinitions {
 
 	public function getIds(): array {
 		return $this->load();
+	}
+
+	public function isEligibleForAuto(): bool {
+		return in_array( 'dark', $this->getIds() ) && in_array( 'light', $this->getIds() );
 	}
 
 	public function handlePageUpdate( LinkTarget $target ): void {
@@ -56,27 +61,32 @@ class ThemeDefinitions {
 	protected function load(): array {
 		// From back to front:
 		//
-		// 2. wan cache (e.g. memcached)
+		// 3. wan cache (e.g. memcached)
 		//    This improves end-user latency and reduces database load.
 		//    It is purged when the data changes.
 		//
-		// 1. server cache (e.g. APCu).
+		// 2. server cache (e.g. APCu).
 		//    Very short blind TTL, mainly to avoid high memcached I/O.
-		$wanCache = MediaWikiServices::getInstance()->getMainWANObjectCache();
-		$srvCache = ObjectCache::getLocalServerInstance( 'hash' );
-		$key = $this->makeDefinitionCacheKey( $wanCache );
-		// Between 7 and 15 seconds to avoid memcached/lockTSE stampede (T203786)
-		$srvCacheTtl = mt_rand( 7, 15 );
-		return $srvCache->getWithSetCallback( $key, $srvCacheTtl, function () use ( $wanCache, $key ) {
-				return $wanCache->getWithSetCallback( $key, self::CACHE_TTL, function ( $old, &$ttl, &$setOpts ) {
-						// Reduce caching of known-stale data (T157210)
-						$setOpts += Database::getCacheSetOptions( wfGetDB( DB_REPLICA ) );
-						return $this->fetchStructuredList();
-					}, [
-						// Avoid database stampede
-						'lockTSE' => 300,
-					] );
-		} );
+		//
+		// 1. process cache
+		if ( $this->ids === null ) {
+			$wanCache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+			$srvCache = ObjectCache::getLocalServerInstance( 'hash' );
+			$key = $this->makeDefinitionCacheKey( $wanCache );
+			// Between 7 and 15 seconds to avoid memcached/lockTSE stampede (T203786)
+			$srvCacheTtl = mt_rand( 7, 15 );
+			$this->ids = $srvCache->getWithSetCallback( $key, $srvCacheTtl, function () use ( $wanCache, $key ) {
+					return $wanCache->getWithSetCallback( $key, self::CACHE_TTL, function ( $old, &$ttl, &$setOpts ) {
+							// Reduce caching of known-stale data (T157210)
+							$setOpts += Database::getCacheSetOptions( wfGetDB( DB_REPLICA ) );
+							return $this->fetchStructuredList();
+						}, [
+							// Avoid database stampede
+							'lockTSE' => 300,
+						] );
+			} );
+		}
+		return $this->ids;
 	}
 
 	public function fetchStructuredList() {

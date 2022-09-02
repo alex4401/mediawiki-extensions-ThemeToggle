@@ -29,13 +29,26 @@
 	},
 
 	"ResourceModules": {
-		"ext.themes.simpleSwitcher": {
+		"ext.themes.baseSwitcher": {
 			"dependencies": [
 				"ext.themes.siteMessages"
 			],
 			"packageFiles": [
-				"simpleSwitcher/main.js",
-				"shared.js"
+				"shared.js",
+				{
+					"name": "config.json",
+					"callback": "MediaWiki\\Extension\\Ark\\ThemeToggle\\Hooks::getSiteConfigModuleContents"
+				}
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.themes.simpleSwitcher": {
+			"dependencies": [
+				"ext.themes.baseSwitcher"
+			],
+			"packageFiles": [
+				"simpleSwitcher/main.js"
 			],
 			"styles": [
 				"simpleSwitcher/styles.less"
