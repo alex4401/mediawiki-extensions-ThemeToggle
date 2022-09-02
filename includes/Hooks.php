@@ -22,9 +22,38 @@ class Hooks implements
         ThemeDefinitions::get()->handlePageUpdate( $wikiPage->getTitle() );
     }
     
-    public function onPageDeleteComplete(  $page, Authority $deleter, string $reason, int $pageID,
-        RevisionRecord $deletedRev, ManualLogEntry $logEntry, int $archivedRevisionCount ): void {
+    public function onPageDeleteComplete( $page, Authority $deleter, string $reason, int $pageID, RevisionRecord $deletedRev,
+        ManualLogEntry $logEntry, int $archivedRevisionCount ): void {
         ThemeDefinitions::get()->handlePageUpdate( TitleValue::newFromPage( $page ) );
+    }
+
+    private function getSwitcherModuleId(): ?string {
+        global $wgThemeToggleSwitcherStyle;
+        switch ( $wgThemeToggleSwitcherStyle ) {
+            case 'simple':
+                return 'ext.themes.simpleSwitcher';
+            case 'dropdown':
+                return 'ext.themes.dropdownSwitcher';
+        }
+        return null;
+    }
+
+    private function getSwitcherModuleDefinition(): array {
+        global $wgThemeToggleSwitcherStyle;
+        switch ( $wgThemeToggleSwitcherStyle ) {
+            case 'simple':
+                return [
+                    'packageFiles' => [ 'simpleSwitcher/main.js' ],
+                    'styles' => [ 'simpleSwitcher/styles.less' ],
+                    'messages' => [ 'themetoggle-simple-switch' ]
+                ];
+            case 'dropdown':
+                return [
+                    'packageFiles' => [ 'dropdownSwitcher/main.js' ],
+                    'styles' => [ 'dropdownSwitcher/styles.less' ],
+                    'messages' => [ 'themetoggle-dropdown-switch' ]
+                ];
+        }
     }
 
 	/**
@@ -66,12 +95,8 @@ class Hooks implements
         ) );
 
         // Inject the theme switcher as a ResourceLoader module
-        switch ( $wgThemeToggleSwitcherStyle ) {
-            case 'simple':
-                $out->addModules( [
-                    'ext.themes.simpleSwitcher'
-                ] );
-                break;
+        if ( $this->getSwitcherModuleId() !== null ) {
+            $out->addModules( [ 'ext.themes.switcher' ] );
         }
 	}
 
@@ -106,7 +131,8 @@ class Hooks implements
     
 	public function onResourceLoaderRegisterModules( ResourceLoader $resourceLoader ): void {
         /* This is a stub, ideally there'd be a definitions page unless there's some more clever way */
-        global $wgThemeToggleSiteCssBundled;
+        global $wgThemeToggleSiteCssBundled,
+            $wgThemeToggleSwitcherStyle;
         
         $messages = [];
 
@@ -117,7 +143,17 @@ class Hooks implements
             }
         }
 
-        $resourceLoader->register( 'ext.themes.siteMessages' . $id, [
+        if ( $this->getSwitcherModuleId() !== null ) {
+            $resourceLoader->register( 'ext.themes.switcher', [
+			    'class' => ResourceLoaderFileModule::class,
+		        'localBasePath' => 'extensions/ThemeToggle/modules',
+		        'remoteExtPath' => 'extensions/ThemeToggle/modules',
+                'dependencies' => [ 'ext.themes.baseSwitcher' ],
+                'targets' => [ 'desktop', 'mobile' ]
+		    ] + $this->getSwitcherModuleDefinition() );
+        }
+
+        $resourceLoader->register( 'ext.themes.siteMessages', [
 			'class' => ResourceLoaderFileModule::class,
 			'messages' => $messages
 		] );

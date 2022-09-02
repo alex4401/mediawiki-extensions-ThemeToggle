@@ -41,22 +41,6 @@
 				}
 			],
 			"targets": [ "desktop", "mobile" ]
-		},
-
-		"ext.themes.simpleSwitcher": {
-			"dependencies": [
-				"ext.themes.baseSwitcher"
-			],
-			"packageFiles": [
-				"simpleSwitcher/main.js"
-			],
-			"styles": [
-				"simpleSwitcher/styles.less"
-			],
-			"messages": [
-				"themetoggle-simple-switch"
-			],
-			"targets": [ "desktop", "mobile" ]
 		}
 	},
 
@@ -92,7 +76,7 @@
 			"description": ""
 		},
 		"ThemeToggleEnableForAnonymousUsers": {
-			"value": false
+			"value": true
 		}
 	},
 

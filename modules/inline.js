@@ -56,7 +56,6 @@ window.mwChangeDisplayedTheme = function ( target ) {
 		// Attach listener for future changes
 		prefersDark.addEventListener( 'change', detectInternal );
 	} else {
-        htmlNode.classList.remove( 'theme-auto' );
 		applyInternal( currentTheme );
         prefersDark.removeEventListener( 'change', detectInternal );
 	}
