@@ -11,11 +11,12 @@ window.mwGetCurrentTheme = function () {
 
 
 window.mwChangeDisplayedTheme = function ( target ) {
+    var htmlNode = document.documentElement;
+
     currentTheme = target;
 
 
 	function applyInternal( target ) {
-        var htmlNode = document.documentElement;
         currentThemeActual = target;
         
 		try {
@@ -51,9 +52,11 @@ window.mwChangeDisplayedTheme = function ( target ) {
 	// Detect preferred theme by prefers-color-scheme
 	if ( currentTheme === 'auto' ) {
         detectInternal();
+        htmlNode.classList.add( 'theme-auto' );
 		// Attach listener for future changes
 		prefersDark.addEventListener( 'change', detectInternal );
 	} else {
+        htmlNode.classList.remove( 'theme-auto' );
 		applyInternal( currentTheme );
         prefersDark.removeEventListener( 'change', detectInternal );
 	}
