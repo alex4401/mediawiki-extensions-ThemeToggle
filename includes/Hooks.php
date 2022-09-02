@@ -5,7 +5,9 @@ use ResourceLoader;
 
 class Hooks implements
     \MediaWiki\Hook\BeforePageDisplayHook,
-    \MediaWiki\ResourceLoader\Hook\ResourceLoaderRegisterModulesHook {
+    \MediaWiki\ResourceLoader\Hook\ResourceLoaderRegisterModulesHook,
+    \MediaWiki\Preferences\Hook\GetPreferencesHook,
+    \MediaWiki\User\Hook\UserGetDefaultOptionsHook {
 	/**
 	 * Injects the inline theme applying script to the document head
 	 */
@@ -42,6 +44,23 @@ class Hooks implements
         }
 	}
 
+	public function onUserGetDefaultOptions( &$defaultOptions ) {
+		$defaultOptions['skinTheme'] = 'auto';
+	}
+
+	public function onGetPreferences( $user, &$preferences ) {
+        $preferences['skinTheme'] = [
+            'label-message' => 'themetoggle-user-preference-label',
+            'type' => 'select',
+            'options' => [
+                'auto' => 'auto',
+                'light1' => 'light2'
+            ],
+            'section' => 'rendering/skin/skin-prefs',
+            'help-message' => 'prefs-help-variant',
+        ];
+	}
+
     private function registerThemeModule( ResourceLoader $resourceLoader, string $id ): void {
         $resourceLoader->register( 'ext.theme.' . $id, [
 			'class' => WikiThemeResourceLoaderModule::class,
@@ -52,7 +71,7 @@ class Hooks implements
 	public function onResourceLoaderRegisterModules( ResourceLoader $resourceLoader ): void {
         /* This is a stub, ideally there'd be a definitions page unless there's some more clever way */
         global $wgThemeToggleSiteCssBundled;
-
+        
         if ( !in_array( 'light', $wgThemeToggleSiteCssBundled ) ) {
             $this->registerThemeModule( $resourceLoader, 'light' );
         }

@@ -6,6 +6,7 @@
  * - https://temtem.wiki.gg
 */
 
+var Shared = require( '../shared.js' );
 var Config = {
     themes: [ 'dark', 'light' ]
 };//require( './config.json' );
@@ -18,8 +19,7 @@ function cycleTheme() {
         nextIndex = 0;
     }
 
-    localStorage.setItem( 'skin-theme', Config.themes[nextIndex] );
-    mwApplyThemePreference();
+    Shared.setUserPreference( Config.themes[nextIndex] );
 }
 
 

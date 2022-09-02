@@ -30,8 +30,12 @@
 
 	"ResourceModules": {
 		"ext.themes.simpleSwitcher": {
+			"dependencies": [
+				"ext.themes.siteMessages"
+			],
 			"packageFiles": [
-				"simpleSwitcher/main.js"
+				"simpleSwitcher/main.js",
+				"shared.js"
 			],
 			"styles": [
 				"simpleSwitcher/styles.less"
@@ -54,7 +58,9 @@
 	},
 	"Hooks": {
 		"BeforePageDisplay": "Hooks",
-		"ResourceLoaderRegisterModules": "Hooks"
+		"ResourceLoaderRegisterModules": "Hooks",
+		"GetPreferences": "Hooks",
+		"UserGetDefaultOptions": "Hooks"
 	},
 
 	"config": {
