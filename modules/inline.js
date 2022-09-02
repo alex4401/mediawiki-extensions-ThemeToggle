@@ -1,38 +1,40 @@
 var themeKey = 'skin-theme',
     prefersDark = window.matchMedia( '(prefers-color-scheme: dark)' ),
-    linkNode = null;
+    linkNode = null,
+    currentTheme = null,
+    currentThemeActual = null;
 
 
 window.mwGetCurrentTheme = function () {
-    return window.localStorage.getItem( themeKey ) || RLCONF.wgThemeToggleCurrent || RLCONF.wgThemeToggleDefault;
+    return currentTheme;
 };
 
 
-window.mwApplyThemePreference = function () {
-    var targetTheme = mwGetCurrentTheme(),
-        htmlNode = document.documentElement;
+window.mwChangeDisplayedTheme = function ( target ) {
+    currentTheme = target;
 
 
-	function applyInternal() {
+	function applyInternal( target ) {
+        var htmlNode = document.documentElement;
+        currentThemeActual = target;
+        
 		try {
-			targetTheme = mwGetCurrentTheme();
-
 			// Apply by changing class
-			if ( targetTheme !== null ) {
+			if ( currentThemeActual !== null ) {
 				// Remove all theme classes
                 htmlNode.className = htmlNode.className.replace( / theme-[^\s]+/ig, '' );
                 // Add new theme class
-				htmlNode.classList.add( 'theme-' + targetTheme );
+				htmlNode.classList.add( 'theme-' + currentThemeActual );
 			}
 
-            if ( RLCONF.wgThemeToggleSiteCssBundled.indexOf( targetTheme ) < 0 ) {
+            if ( RLCONF.wgThemeToggleSiteCssBundled.indexOf( currentThemeActual ) < 0 ) {
                 if ( linkNode == null ) {
                     linkNode = document.createElement( 'link' );
                     document.head.appendChild( linkNode );
                 }
                 linkNode.rel = 'stylesheet';
                 linkNode.type = 'text/css';
-                linkNode.href = THEMELOAD+'?lang='+htmlNode.lang+'&modules=ext.theme.'+targetTheme+'&only=styles';
+                linkNode.href = THEMELOAD+'?lang='+htmlNode.lang+'&modules=ext.theme.'+currentThemeActual+'&only=styles';
             } else if ( linkNode != null ) {
                 document.head.removeChild( linkNode );
                 linkNode = null;
@@ -42,26 +44,20 @@ window.mwApplyThemePreference = function () {
 
 
     function detectInternal() {
-		targetTheme = prefersDark.matches ? 'dark' : 'light';
-		// Set preference to the detected theme temporarily
-		window.localStorage.setItem( themeKey, targetTheme );
-        // Apply it
-		applyInternal();
-		// Reset preference back to auto
-		window.localStorage.setItem( themeKey, 'auto' );
+		applyInternal( prefersDark.matches ? 'dark' : 'light' );
     }
 
 
 	// Detect preferred theme by prefers-color-scheme
-	if ( targetTheme === 'auto' ) {
+	if ( currentTheme === 'auto' ) {
         detectInternal();
 		// Attach listener for future changes
 		prefersDark.addEventListener( 'change', detectInternal );
 	} else {
-		applyInternal();
+		applyInternal( currentTheme );
         prefersDark.removeEventListener( 'change', detectInternal );
 	}
 };
 
 
-window.mwApplyThemePreference();
+mwChangeDisplayedTheme( localStorage.getItem( themeKey ) || RLCONF.wgThemeToggleDefault );
