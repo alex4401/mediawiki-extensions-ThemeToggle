@@ -39,22 +39,18 @@ class Hooks implements
             return;
         }
 
+        $currentTheme = $wgThemeToggleDefault;
+        // Retrieve user's preference
+        if ( !$isAnonymous ) {
+            $currentTheme = MediaWikiServices::getInstance()->getUserOptionsLookup()
+                ->getOption( $out->getUser(), 'skinTheme', $wgThemeToggleDefault );
+        }
+
         // Expose configuration variables
         $out->addJsConfigVars( [
-            'wgThemeToggleDefault' => $wgThemeToggleDefault,
+            'wgThemeToggleDefault' => $currentTheme,
             'wgThemeToggleSiteCssBundled' => $wgThemeToggleSiteCssBundled
         ] );
-
-        // Expose user's account-wide preference
-        if ( !$isAnonymous ) {
-            $prefValue = MediaWikiServices::getInstance()->getUserOptionsLookup()
-                ->getOption( $out->getUser(), 'skinTheme', null );
-            if ( $prefValue !== null ) {
-                $out->addJsConfigVars( [
-                    'wgThemeToggleCurrent' => $prefValue
-                ] );
-            }
-        }
 
         // Inject the theme applying script into <head> to reduce latency
 		$nonce = $out->getCSP()->getNonce();
