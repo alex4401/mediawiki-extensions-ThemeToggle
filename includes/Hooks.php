@@ -126,8 +126,9 @@ class Hooks implements
     public function getSiteConfigModuleContents( ResourceLoaderContext $context, Config $config ): array {
         $defs = ThemeDefinitions::get();
         $ids = $defs->getIds();
+        
         if ( $defs->isEligibleForAuto() ) {
-            $ids = [ 'auto' ] + $ids;
+            array_unshift( $ids, 'auto' );
         }
 
         return [
