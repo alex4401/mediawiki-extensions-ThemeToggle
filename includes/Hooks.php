@@ -167,9 +167,9 @@ class Hooks implements
         $messages = [];
 
         foreach ( ThemeDefinitions::get()->getIds() as $theme ) {
+            $messages[] = "theme-$theme";
             if ( !in_array( $theme, $wgThemeToggleSiteCssBundled ) ) {
                 $this->registerThemeModule( $resourceLoader, $theme );
-                $messages[] = "theme-$theme";
             }
         }
 
