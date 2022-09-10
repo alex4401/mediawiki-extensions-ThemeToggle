@@ -42,7 +42,7 @@ class ThemeDefinitions {
 
 	public function handlePageUpdate( LinkTarget $target ): void {
 		if ( $target->getNamespace() === NS_MEDIAWIKI && $target->getText() == self::TITLE ) {
-			$this->purgeDefinitionCache();
+			$this->purgeCache();
 		}
 	}
 
