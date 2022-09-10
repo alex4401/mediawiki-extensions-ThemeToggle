@@ -33,6 +33,10 @@ class ThemeDefinitions {
 	}
 
 	public function isEligibleForAuto(): bool {
+		global $wgThemeToggleDisableAutoDetection;
+		if ( $wgThemeToggleDisableAutoDetection ) {
+			return false;
+		}
 		return in_array( 'dark', $this->getIds() ) && in_array( 'light', $this->getIds() );
 	}
 

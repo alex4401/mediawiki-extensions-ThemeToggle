@@ -18,6 +18,7 @@ class Hooks implements
     \MediaWiki\ResourceLoader\Hook\ResourceLoaderRegisterModulesHook,
     \MediaWiki\Preferences\Hook\GetPreferencesHook,
     \MediaWiki\User\Hook\UserGetDefaultOptionsHook {
+
     public function onPageSaveComplete( $wikiPage, $userIdentity, $summary, $flags, $revisionRecord, $editResult ): void {
         ThemeDefinitions::get()->handlePageUpdate( $wikiPage->getTitle() );
     }
@@ -30,6 +31,9 @@ class Hooks implements
     private function getSwitcherModuleId(): ?string {
         global $wgThemeToggleSwitcherStyle;
         switch ( $wgThemeToggleSwitcherStyle ) {
+            case 'auto':
+                return ( count( ThemeDefinitions::get()->getIds() ) <= 2 ) ? 'ext.themes.simpleSwitcher'
+                    : 'ext.themes.dropdownSwitcher';
             case 'simple':
                 return 'ext.themes.simpleSwitcher';
             case 'dropdown':
@@ -38,22 +42,45 @@ class Hooks implements
         return null;
     }
 
-    private function getSwitcherModuleDefinition(): array {
-        global $wgThemeToggleSwitcherStyle;
-        switch ( $wgThemeToggleSwitcherStyle ) {
-            case 'simple':
+    private function getSwitcherModuleDefinition( string $id ): array {
+        switch ( $id ) {
+            case 'ext.themes.simpleSwitcher':
                 return [
                     'packageFiles' => [ 'simpleSwitcher/main.js' ],
                     'styles' => [ 'simpleSwitcher/styles.less' ],
                     'messages' => [ 'themetoggle-simple-switch' ]
                 ];
-            case 'dropdown':
+            case 'ext.themes.dropdownSwitcher':
                 return [
                     'packageFiles' => [ 'dropdownSwitcher/main.js' ],
                     'styles' => [ 'dropdownSwitcher/styles.less' ],
                     'messages' => [ 'themetoggle-dropdown-switch' ]
                 ];
         }
+    }
+
+    /**
+     * Returns the script to be added into the document head.
+     * 
+     * As themes can be managed via MediaWiki:Theme-definitions, do NOT use dark or light to decide if the auto-supporting
+     * payload is best. This should be manually controlled because of cache constraints.
+     */
+    private function getCoreJsToInject(): string {
+        global $wgThemeToggleDisableAutoDetection;
+        if ( $wgThemeToggleDisableAutoDetection ) {
+            return InlineJsConstants::NO_AUTO;
+        }
+        return InlineJsConstants::WITH_AUTO;
+    }
+
+    public function getSiteConfigModuleContents( ResourceLoaderContext $context, Config $config ): array {
+        $defs = ThemeDefinitions::get();
+        $ids = $defs->getIds();
+
+        return [
+            'themes' => $ids,
+            'supportsAuto' => $defs->isEligibleForAuto(),
+        ];
     }
 
 	/**
@@ -91,7 +118,7 @@ class Hooks implements
 			$nonce !== false ? sprintf( ' nonce="%s"', $nonce ) : '',
             json_encode( $wgLoadScript ),
             // modules/inline.js
-			'var themeKey="skin-theme",prefersDark=window.matchMedia("(prefers-color-scheme: dark)"),linkNode=null,currentTheme=null,currentThemeActual=null;window.mwGetCurrentTheme=function(){return currentTheme},window.mwChangeDisplayedTheme=function(e){var t=document.documentElement;function n(e){currentThemeActual=e;try{null!==currentThemeActual&&(t.className=t.className.replace(/ theme-[^\s]+/gi,""),t.classList.add("theme-"+currentThemeActual)),RLCONF.wgThemeToggleSiteCssBundled.indexOf(currentThemeActual)<0?(null==linkNode&&(linkNode=document.createElement("link"),document.head.appendChild(linkNode)),linkNode.rel="stylesheet",linkNode.type="text/css",linkNode.href=THEMELOAD+"?lang="+t.lang+"&modules=ext.theme."+currentThemeActual+"&only=styles"):null!=linkNode&&(document.head.removeChild(linkNode),linkNode=null)}catch(e){}}function l(){n(prefersDark.matches?"dark":"light")}"auto"===(currentTheme=e)?(l(),t.classList.add("theme-auto"),prefersDark.addEventListener("change",l)):(t.classList.remove("theme-auto"),n(currentTheme),prefersDark.removeEventListener("change",l))},mwChangeDisplayedTheme(localStorage.getItem(themeKey)||RLCONF.wgThemeToggleDefault)'
+			self::getCoreJsToInject()
         ) );
 
         // Inject the theme switcher as a ResourceLoader module
@@ -150,7 +177,7 @@ class Hooks implements
 		        'remoteExtPath' => 'extensions/ThemeToggle/modules',
                 'dependencies' => [ 'ext.themes.baseSwitcher' ],
                 'targets' => [ 'desktop', 'mobile' ]
-		    ] + $this->getSwitcherModuleDefinition() );
+		    ] + $this->getSwitcherModuleDefinition( $this->getSwitcherModuleId() ) );
         }
 
         $resourceLoader->register( 'ext.themes.siteMessages', [
@@ -158,17 +185,4 @@ class Hooks implements
 			'messages' => $messages
 		] );
 	}
-
-    public function getSiteConfigModuleContents( ResourceLoaderContext $context, Config $config ): array {
-        $defs = ThemeDefinitions::get();
-        $ids = $defs->getIds();
-        
-        if ( $defs->isEligibleForAuto() ) {
-            array_unshift( $ids, 'auto' );
-        }
-
-        return [
-            'themes' => $ids
-        ];
-    }
 }

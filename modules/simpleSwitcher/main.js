@@ -1,6 +1,8 @@
 /*
  * Simple state-cycling theme toggle
  *
+ * This is really only ideal for two states. System/auto is ignored by default.
+ *
  * Originally written for the official ARK Wiki https://ark.wiki.gg, later with contributions added back by:
  * - https://undermine.wiki.gg
  * - https://temtem.wiki.gg
