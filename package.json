@@ -1,0 +1,7 @@
+{
+  "name": "mediawiki-extension-themetoggle",
+  "private": true,
+  "devDependencies": {
+    "uglify-js": "^3.17.0"
+  }
+}
