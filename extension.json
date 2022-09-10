@@ -71,9 +71,15 @@
 			"value": [],
 			"description": "The default theme (or fallback if auto) should be specified here at minimum."
 		},
-		"ThemeToggleDisableAutoDetection": false,
-		"ThemeToggleSwitcherStyle": "auto",
-		"ThemeToggleEnableForAnonymousUsers": true
+		"ThemeToggleDisableAutoDetection": {
+			"value": false
+		},
+		"ThemeToggleSwitcherStyle": {
+			"value": "auto"
+		},
+		"ThemeToggleEnableForAnonymousUsers": {
+			"value": true
+		}
 	},
 
 	"manifest_version": 2
