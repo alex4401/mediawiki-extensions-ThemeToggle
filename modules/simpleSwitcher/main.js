@@ -13,7 +13,7 @@ var $wrapper, $toggle;
 
 
 function cycleTheme() {
-    var nextIndex = Shared.CONFIG.themes.indexOf( mwGetCurrentTheme() ) + 1;
+    var nextIndex = Shared.CONFIG.themes.indexOf( MwSkinTheme.getCurrent() ) + 1;
     if ( nextIndex >= Shared.CONFIG.themes.length ) {
         nextIndex = 0;
     }

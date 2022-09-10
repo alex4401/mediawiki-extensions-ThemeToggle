@@ -29,7 +29,6 @@ module.exports.trySyncNewAccount = function () {
 
 
 module.exports.setUserPreference = function ( value ) {
-    console.log(value);
     if ( mw.config.get( 'wgUserName' ) !== null ) {
         // Registered user: save the theme server-side
         _setAccountPreference( value );
@@ -38,5 +37,5 @@ module.exports.setUserPreference = function ( value ) {
         localStorage.setItem( module.exports.LOCAL_PREF_NAME, value );
     }
 
-    mwChangeDisplayedTheme( value );
+    MwSkinTheme.set( value );
 };

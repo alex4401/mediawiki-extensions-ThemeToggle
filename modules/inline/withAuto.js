@@ -6,7 +6,7 @@ var themeKey = 'skin-theme',
 
 
 window.MwSkinTheme = {
-    getCurrentTheme: function () {
+    getCurrent: function () {
         return currentTheme;
     },
     
