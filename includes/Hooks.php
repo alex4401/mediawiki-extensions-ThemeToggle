@@ -133,11 +133,14 @@ class Hooks implements
 	}
 
 	public function onGetPreferences( $user, &$preferences ) {
-        $themeOptions = [
-            wfMessage( 'theme-auto-preference-description' )->text() => 'auto'
-        ];
+        $defs = ThemeDefinitions::get();
+        $themeOptions = [];
 
-        foreach ( ThemeDefinitions::get()->getIds() as $theme ) {
+        if ( $defs->isEligibleForAuto() ) {
+            $themeOptions[wfMessage( 'theme-auto-preference-description' )->text()] = 'auto';
+        }
+
+        foreach ( $defs->getIds() as $theme ) {
             $themeOptions[ wfMessage( "theme-$theme" )->text() ] = $theme;
         }
 
