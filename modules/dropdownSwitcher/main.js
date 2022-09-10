@@ -1,30 +1,37 @@
 /*
- * Dropdown-based theme toggle (basically simple switcher but adapted to more themes)
+ * Dropdown-based theme toggle
 */
 
 var Shared = require( 'ext.themes.baseSwitcher' );
-var $wrapper, $toggle;
-
-
-function cycleTheme() {
-    var nextIndex = Shared.CONFIG.themes.indexOf( mwGetCurrentTheme() ) + 1;
-    if ( nextIndex >= Shared.CONFIG.themes.length ) {
-        nextIndex = 0;
-    }
-
-    Shared.setUserPreference( Shared.CONFIG.themes[nextIndex] );
-}
+var $wrapper, $label, $list;
 
 
 function initialise() {
     Shared.trySyncNewAccount();
 
-	$toggle = $('<span>')
-		.attr( 'title', mw.msg( 'themetoggle-simple-switch' ) )
-		.on( 'mousedown', cycleTheme );
-    $wrapper = $( '<li id="p-themes" class="mw-list-item">' )
-        .append( $toggle )
-        .prependTo( $( '#p-personal > .vector-menu-content > ul' ) );
+	$label = $( '<span>' )
+		.text( mw.msg( 'theme-' + MwSkinTheme.getCurrent() ) );
+    $list = $( '<ul class="vector-menu-content-list menu">' );
+    $wrapper = $( '<li id="p-themes" class="mw-list-item vector-menu vector-menu-dropdown vector-menu-dropdown-noicon">' )
+        .append( $( '<input type="checkbox" class="vector-menu-checkbox">' )
+            .attr( 'title', mw.msg( 'themetoggle-dropdown-switcher' ) ) )
+        .append( $( '<h3 class="vector-menu-heading"><span class="vector-menu-checkbox-expanded">expanded</span>' +
+            '<span class="vector-menu-checkbox-collapsed">collapsed</span></h3></h3>' )
+            .prepend( $label ) )
+        .append( $( '<div class="vector-menu-content">' )
+            .append( $list ) )
+        .prependTo( '#p-personal > .vector-menu-content > ul' );
+    
+    Shared.CONFIG.themes.forEach( function ( themeId ) {
+        $( '<li class="mw-list-item" id="p-themes-item-'+themeId+'">' )
+            .append( $( '<a href="#">' + mw.msg( 'theme-' + themeId ) + '</a>' ) )
+            .on( 'click', function ( event ) {
+                event.preventDefault();
+                Shared.setUserPreference( themeId );
+                $label.text( mw.msg( 'theme-' + themeId ) );
+            } )
+            .appendTo($list);
+    } );
 }
 
 

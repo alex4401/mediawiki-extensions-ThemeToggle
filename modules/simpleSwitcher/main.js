@@ -25,7 +25,7 @@ function cycleTheme() {
 function initialise() {
     Shared.trySyncNewAccount();
 
-	$toggle = $('<span>')
+	$toggle = $( '<span>' )
 		.attr( 'title', mw.msg( 'themetoggle-simple-switch' ) )
 		.on( 'mousedown', cycleTheme );
     $wrapper = $( '<li id="p-themes" class="mw-list-item">' )
