@@ -4,7 +4,7 @@ var themeKey = 'skin-theme',
 
 
 window.mwGetCurrentTheme = function () {
-    return window.localStorage.getItem( themeKey ) || THEMESITEDEFAULT;
+    return window.localStorage.getItem( themeKey ) || RLCONF.wgThemeToggleCurrent || RLCONF.wgThemeToggleDefault;
 };
 
 
@@ -25,7 +25,7 @@ window.mwApplyThemePreference = function () {
 				htmlNode.classList.add( 'theme-' + targetTheme );
 			}
 
-            if ( THEMESITEBUNDLED.indexOf( targetTheme ) < 0 ) {
+            if ( RLCONF.wgThemeToggleSiteCssBundled.indexOf( targetTheme ) < 0 ) {
                 if ( linkNode == null ) {
                     linkNode = document.createElement( 'link' );
                     document.head.appendChild( linkNode );

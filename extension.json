@@ -57,6 +57,8 @@
 		}
 	},
 	"Hooks": {
+		"PageDeleteComplete": "Hooks",
+		"PageSaveComplete": "Hooks",
 		"BeforePageDisplay": "Hooks",
 		"ResourceLoaderRegisterModules": "Hooks",
 		"GetPreferences": "Hooks",
@@ -69,7 +71,8 @@
 			"description": "Default theme. Valid values are 'auto', 'light', 'dark'."
 		},
 		"ThemeToggleSiteCssBundled": {
-			"value": [ "light" ]
+			"value": [],
+			"description": "The default theme (or fallback if auto) should be specified here at minimum."
 		},
 		"ThemeToggleSwitcherStyle": {
 			"value": "simple",

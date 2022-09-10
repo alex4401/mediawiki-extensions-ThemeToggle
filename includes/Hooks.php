@@ -1,13 +1,29 @@
 <?php
 namespace MediaWiki\Extension\Ark\ThemeToggle;
 
+use ManualLogEntry;
 use ResourceLoader;
+use MediaWiki\MediaWikiServices;
+use MediaWiki\Page\ProperPageIdentity;
+use MediaWiki\Permissions\Authority;
+use MediaWiki\Revision\RevisionRecord;
 
 class Hooks implements
+    \MediaWiki\Page\Hook\PageDeleteCompleteHook,
+    \MediaWiki\Storage\Hook\PageSaveCompleteHook,
     \MediaWiki\Hook\BeforePageDisplayHook,
     \MediaWiki\ResourceLoader\Hook\ResourceLoaderRegisterModulesHook,
     \MediaWiki\Preferences\Hook\GetPreferencesHook,
     \MediaWiki\User\Hook\UserGetDefaultOptionsHook {
+    public function onPageSaveComplete( $wikiPage, $userIdentity, $summary, $flags, $revisionRecord, $editResult ): void {
+        ThemeDefinitions::get()->handlePageUpdate( $wikiPage->getTitle() );
+    }
+    
+    public function onPageDeleteComplete(  $page, Authority $deleter, string $reason, int $pageID,
+        RevisionRecord $deletedRev, ManualLogEntry $logEntry, int $archivedRevisionCount ): void {
+        ThemeDefinitions::get()->handlePageUpdate( TitleValue::newFromPage( $page ) );
+    }
+
 	/**
 	 * Injects the inline theme applying script to the document head
 	 */
@@ -18,20 +34,36 @@ class Hooks implements
             $wgThemeToggleEnableForAnonymousUsers,
             $wgThemeToggleSwitcherStyle;
 
-        if ( !$wgThemeToggleEnableForAnonymousUsers && $out->getUser()->isAnon() ) {
+        $isAnonymous = $out->getUser()->isAnon();
+        if ( !$wgThemeToggleEnableForAnonymousUsers && $isAnonymous ) {
             return;
+        }
+
+        // Expose configuration variables
+        $out->addJsConfigVars( [
+            'wgThemeToggleDefault' => $wgThemeToggleDefault,
+            'wgThemeToggleSiteCssBundled' => $wgThemeToggleSiteCssBundled
+        ] );
+
+        // Expose user's account-wide preference
+        if ( !$isAnonymous ) {
+            $prefValue = MediaWikiServices::getInstance()->getUserOptionsLookup()
+                ->getOption( $out->getUser(), 'skinTheme', null );
+            if ( $prefValue !== null ) {
+                $out->addJsConfigVars( [
+                    'wgThemeToggleCurrent' => $prefValue
+                ] );
+            }
         }
 
         // Inject the theme applying script into <head> to reduce latency
 		$nonce = $out->getCSP()->getNonce();
 		$out->addHeadItem( 'ext.themes.inline', sprintf(
-			'<script%s>(function(){var THEMELOAD=%s,THEMESITEDEFAULT=%s,THEMESITEBUNDLED=%s;%s})()</script>',
+			'<script%s>(function(){var THEMELOAD=%s;%s})()</script>',
 			$nonce !== false ? sprintf( ' nonce="%s"', $nonce ) : '',
             json_encode( $wgLoadScript ),
-            json_encode( $wgThemeToggleDefault ),
-            json_encode( $wgThemeToggleSiteCssBundled ),
             // modules/inline.js
-			'var themeKey="skin-theme",prefersDark=window.matchMedia("(prefers-color-scheme: dark)"),linkNode=null;window.mwGetCurrentTheme=function(){return window.localStorage.getItem(themeKey)||THEMESITEDEFAULT},window.mwApplyThemePreference=function(){function a(){try{c=mwGetCurrentTheme(),null!==c&&(d.className=d.className.replace(/ theme-[^\s]+/ig,""),d.classList.add("theme-"+c)),0>THEMESITEBUNDLED.indexOf(c)?(null==linkNode&&(linkNode=document.createElement("link"),document.head.appendChild(linkNode)),linkNode.rel="stylesheet",linkNode.type="text/css",linkNode.href=THEMELOAD+"?lang="+d.lang+"&modules=ext.theme."+c+"&only=styles"):null!=linkNode&&(document.head.removeChild(linkNode),linkNode=null)}catch(a){}}function b(){c=prefersDark.matches?"dark":"light",window.localStorage.setItem(themeKey,c),a(),window.localStorage.setItem(themeKey,"auto")}var c=mwGetCurrentTheme(),d=document.documentElement;"auto"===c?(b(),prefersDark.addEventListener("change",b)):(a(),prefersDark.removeEventListener("change",b))},window.mwApplyThemePreference()'
+			'var themeKey="skin-theme",prefersDark=window.matchMedia("(prefers-color-scheme: dark)"),linkNode=null;window.mwGetCurrentTheme=function(){return window.localStorage.getItem(themeKey)||RLCONF.wgThemeToggleCurrent||RLCONF.wgThemeToggleDefault},window.mwApplyThemePreference=function(){var e=mwGetCurrentTheme(),n=document.documentElement;function t(){try{null!==(e=mwGetCurrentTheme())&&(n.className=n.className.replace(/ theme-[^\s]+/gi,""),n.classList.add("theme-"+e)),RLCONF.wgThemeToggleSiteCssBundled.indexOf(e)<0?(null==linkNode&&(linkNode=document.createElement("link"),document.head.appendChild(linkNode)),linkNode.rel="stylesheet",linkNode.type="text/css",linkNode.href=THEMELOAD+"?lang="+n.lang+"&modules=ext.theme."+e+"&only=styles"):null!=linkNode&&(document.head.removeChild(linkNode),linkNode=null)}catch(e){}}function l(){e=prefersDark.matches?"dark":"light",window.localStorage.setItem(themeKey,e),t(),window.localStorage.setItem(themeKey,"auto")}"auto"===e?(l(),prefersDark.addEventListener("change",l)):(t(),prefersDark.removeEventListener("change",l))},window.mwApplyThemePreference()'
         ) );
 
         // Inject the theme switcher as a ResourceLoader module
@@ -45,19 +77,24 @@ class Hooks implements
 	}
 
 	public function onUserGetDefaultOptions( &$defaultOptions ) {
-		$defaultOptions['skinTheme'] = 'auto';
+        global $wgThemeToggleDefault;
+		$defaultOptions['skinTheme'] = $wgThemeToggleDefault;
 	}
 
 	public function onGetPreferences( $user, &$preferences ) {
+        $themeOptions = [
+            wfMessage( 'theme-auto-preference-description' )->text() => 'auto'
+        ];
+
+        foreach ( ThemeDefinitions::get()->getIds() as $theme ) {
+            $themeOptions[ wfMessage( "theme-$theme" )->text() ] = $theme;
+        }
+
         $preferences['skinTheme'] = [
             'label-message' => 'themetoggle-user-preference-label',
             'type' => 'select',
-            'options' => [
-                'auto' => 'auto',
-                'light1' => 'light2'
-            ],
-            'section' => 'rendering/skin/skin-prefs',
-            'help-message' => 'prefs-help-variant',
+            'options' => $themeOptions,
+            'section' => 'rendering/skin/skin-prefs'
         ];
 	}
 
@@ -72,12 +109,10 @@ class Hooks implements
         /* This is a stub, ideally there'd be a definitions page unless there's some more clever way */
         global $wgThemeToggleSiteCssBundled;
         
-        if ( !in_array( 'light', $wgThemeToggleSiteCssBundled ) ) {
-            $this->registerThemeModule( $resourceLoader, 'light' );
-        }
-        
-        if ( !in_array( 'dark', $wgThemeToggleSiteCssBundled ) ) {
-            $this->registerThemeModule( $resourceLoader, 'dark' );
+        foreach ( ThemeDefinitions::get()->getIds() as $theme ) {
+            if ( !in_array( $theme, $wgThemeToggleSiteCssBundled ) ) {
+                $this->registerThemeModule( $resourceLoader, $theme );
+            }
         }
 	}
 }
