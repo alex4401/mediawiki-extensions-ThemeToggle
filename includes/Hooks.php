@@ -88,6 +88,7 @@ class Hooks implements
 	 */
 	public function onBeforePageDisplay( $out, $skin ): void {
         global $wgLoadScript,
+            $wgScriptPath,
             $wgThemeToggleDefault,
             $wgThemeToggleSiteCssBundled,
             $wgThemeToggleEnableForAnonymousUsers,
@@ -113,13 +114,27 @@ class Hooks implements
 
         // Inject the theme applying script into <head> to reduce latency
 		$nonce = $out->getCSP()->getNonce();
-		$out->addHeadItem( 'ext.themes.inline', sprintf(
-			'<script%s>(function(){var THEMELOAD=%s;%s})()</script>',
-			$nonce !== false ? sprintf( ' nonce="%s"', $nonce ) : '',
-            json_encode( $wgLoadScript ),
-            // modules/inline.js
-			self::getCoreJsToInject()
-        ) );
+        // HACK: SANDBOX EXPERIMENT
+        if ( array_key_exists( 'asynctt', $_GET ) ) {
+    		$out->addHeadItem( 'ext.themes.inline', sprintf(
+	    		'<script%s>THEMELOAD=%s</script>',
+		    	$nonce !== false ? sprintf( ' nonce="%s"', $nonce ) : '',
+                json_encode( $wgLoadScript )
+            ) );
+    		$out->addHeadItem( 'ext.themes.async', sprintf(
+	    		'<script%s async src="%s/extensions/ThemeToggle/modules/inline/withAuto.js"></script>',
+		    	$nonce !== false ? sprintf( ' nonce="%s"', $nonce ) : '',
+                $wgScriptPath
+            ) );
+        } else {
+    		$out->addHeadItem( 'ext.themes.inline', sprintf(
+	    		'<script%s>(function(){var THEMELOAD=%s;%s})()</script>',
+		    	$nonce !== false ? sprintf( ' nonce="%s"', $nonce ) : '',
+                json_encode( $wgLoadScript ),
+                // modules/inline.js
+			    self::getCoreJsToInject()
+            ) );
+        }
 
         // Inject the theme switcher as a ResourceLoader module
         if ( $this->getSwitcherModuleId() !== null ) {
