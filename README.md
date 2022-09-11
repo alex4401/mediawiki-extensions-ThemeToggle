@@ -36,4 +36,5 @@ Manual installation:
 * * * `simple`: an icon-based switcher that cycles through themes.
 * * * `dropdown`: a dropdown-based switcher.
 * * * `auto`: simple if one or two themes, dropdown if more.
+* * * `none`: no switcher.
 * * No cache purge required.
