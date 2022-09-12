@@ -1,33 +1,52 @@
 body #p-personal li#p-themes {
-    all: unset;
     border-right: 1px solid #333;
     padding: 0 .5em;
     margin-right: 0;
     position: relative;
-    background: inherit;
+    background: transparent;
     list-style: none;
-}
-#p-themes .vector-menu-heading {
-    all: unset;
-    color: #fff;
-}
-#p-themes ul {
-    flex-direction: column;
-    padding: 0.5em 2px 0.1em;
-    align-items: flex-start;
-    gap: 0.25em;
-}
-#p-themes .vector-menu-content {
-    background: #000538;
-    top: 100%;
-}
-#p-themes li {
-    width: 100%;
-    border-radius: 6px;
-}
-#p-themes li a {
-    padding: 0.25em 0.5em;
-}
-#p-themes li:hover {
-    background: #fff3;
+
+    &:hover {
+        background: #0b1040;
+    }
+
+    .vector-menu-heading {
+        color: #fff;
+        font-size: inherit;
+        padding-top: 0.5em;
+        margin-bottom: 0.3em;
+
+        &::after {
+            top: 5px;
+            filter: invert(1);
+        }
+    }
+
+    .vector-menu-content {
+        top: 100%;
+        border-radius: 0 0 6px 6px;
+        background: inherit;
+        border-color: #3c3e40;
+    }
+
+    ul {
+        flex-direction: column;
+        padding: 0.5em 0.3em 0.4em;
+        align-items: flex-start;
+        gap: 0.25em;
+
+        li {
+            width: 100%;
+            border-radius: 4px;
+            
+            &:hover {
+                background: #fff3;
+            }
+
+            a {
+                padding: 0.25em 0.5em;
+                text-decoration: none;
+            }
+        }
+    }
 }
