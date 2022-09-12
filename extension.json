@@ -79,6 +79,9 @@
 		},
 		"ThemeToggleEnableForAnonymousUsers": {
 			"value": true
+		},
+		"ThemeTogglePreferenceGroup": {
+			"value": null
 		}
 	},
 

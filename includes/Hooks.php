@@ -6,6 +6,7 @@ use ManualLogEntry;
 use ResourceLoader;
 use ResourceLoaderContext;
 use ResourceLoaderFileModule;
+use WikiMap;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Page\ProperPageIdentity;
 use MediaWiki\Permissions\Authority;
@@ -142,9 +143,18 @@ class Hooks implements
         }
 	}
 
+    public static function getPreferenceGroupName(): string {
+        global $wgThemeTogglePreferenceGroup;
+        return $wgThemeTogglePreferenceGroup ?? WikiMap::getCurrentWikiId();
+    }
+
+    public static function getThemePreferenceName(): string {
+        return 'skinTheme-' . self::getPreferenceGroupName();
+    }
+
 	public function onUserGetDefaultOptions( &$defaultOptions ) {
         global $wgThemeToggleDefault;
-		$defaultOptions['skinTheme'] = $wgThemeToggleDefault;
+		$defaultOptions[self::getThemePreferenceName()] = $wgThemeToggleDefault;
 	}
 
 	public function onGetPreferences( $user, &$preferences ) {
@@ -159,7 +169,7 @@ class Hooks implements
             $themeOptions[ wfMessage( "theme-$theme" )->text() ] = $theme;
         }
 
-        $preferences['skinTheme'] = [
+        $preferences[self::getThemePreferenceName()] = [
             'label-message' => 'themetoggle-user-preference-label',
             'type' => 'select',
             'options' => $themeOptions,
