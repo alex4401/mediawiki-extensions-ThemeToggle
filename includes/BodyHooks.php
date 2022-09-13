@@ -77,7 +77,7 @@ class BodyHooks implements
     private static function getThemeLoadEndpointUri( OutputPage $outputPage ): string {
         $out = ExtensionConfig::getLoadScript() . '?lang=' . $outputPage->getLanguage()->getCode();
         if ( ResourceLoader::inDebugMode() ) {
-            $rlEndpoint .= '&debug=1';
+            $out .= '&debug=1';
         }
         return $out;
     }
