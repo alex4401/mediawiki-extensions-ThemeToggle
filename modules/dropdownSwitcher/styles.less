@@ -3,18 +3,17 @@ body #p-personal li#p-themes {
     padding: 0 .5em;
     margin-right: 0;
     position: relative;
-    background: transparent;
     list-style: none;
 
-    &:hover {
+    &:hover,
+    &:active {
         background: #0b1040;
     }
 
     .vector-menu-heading {
         color: #fff;
         font-size: inherit;
-        padding-top: 0.5em;
-        padding-left: 18px;
+        padding: 0.5em 1.8em 0.17em 18px;
         margin-bottom: 0.3em;
 
         &::before {
@@ -36,8 +35,8 @@ body #p-personal li#p-themes {
     .vector-menu-content {
         top: 100%;
         border-radius: 0 0 6px 6px;
-        background: inherit;
         border-color: #3c3e40;
+        background: #0b1040;
     }
 
     ul {
