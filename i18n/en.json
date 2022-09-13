@@ -16,5 +16,6 @@
     "theme-dark": "Dark",
     "theme-light": "Light",
 
-    "themetoggle-simple-switch": "Click to toggle the theme"
+    "themetoggle-simple-switch": "Click to toggle the theme",
+    "themetoggle-dropdown-switch": "Click to select a theme"
 }
