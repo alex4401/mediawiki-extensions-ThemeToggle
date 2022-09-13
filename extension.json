@@ -93,7 +93,7 @@
 			"value": null
 		},
 		"ThemeToggleAsyncCoreJsDelivery": {
-			"value": false
+			"value": true
 		},
 		"ThemeToggleLoadScriptOverride": {
 			"value": null
