@@ -39,3 +39,12 @@ module.exports.setUserPreference = function ( value ) {
 
     MwSkinTheme.set( value );
 };
+
+
+module.exports.whenCoreLoaded = function ( callback, context ) {
+    if ( MwSkinTheme ) {
+        callback.apply( context );
+    } else {
+        setTimeout( module.exports.whenCoreLoaded.bind( null, callback, context ), 20 );
+    }
+};

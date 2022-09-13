@@ -34,4 +34,6 @@ function initialise() {
 }
 
 
-$( initialise );
+Shared.whenCoreLoaded( function () {
+    $( initialise );
+} );
