@@ -14,7 +14,18 @@ body #p-personal li#p-themes {
         color: #fff;
         font-size: inherit;
         padding-top: 0.5em;
+        padding-left: 18px;
         margin-bottom: 0.3em;
+
+        &::before {
+            content: '';
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            background: var(--theme-icon) left center / 16px 16px no-repeat;
+            top: 8px;
+            left: 0px;
+        }
 
         &::after {
             top: 5px;
