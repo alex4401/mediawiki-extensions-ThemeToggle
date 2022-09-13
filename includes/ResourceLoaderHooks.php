@@ -27,7 +27,7 @@ class ResourceLoaderHooks implements
 
     private function registerThemeModule( ResourceLoader $resourceLoader, string $id ): void {
         $resourceLoader->register( 'ext.theme.' . $id, [
-			'class' => WikiThemeResourceLoaderModule::class,
+			'class' => ResourceLoaderWikiThemeModule::class,
 			'id' => $id
 		] );
     }
