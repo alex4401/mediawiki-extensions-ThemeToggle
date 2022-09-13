@@ -36,15 +36,6 @@ class ResourceLoaderHooks implements
         /* This is a stub, ideally there'd be a definitions page unless there's some more clever way */
         global $wgThemeToggleSiteCssBundled,
             $wgThemeToggleSwitcherStyle;
-        
-        $messages = [];
-
-        foreach ( ThemeDefinitions::get()->getIds() as $theme ) {
-            $messages[] = "theme-$theme";
-            if ( !in_array( $theme, $wgThemeToggleSiteCssBundled ) ) {
-                $this->registerThemeModule( $resourceLoader, $theme );
-            }
-        }
 
         $resourceLoader->register( 'ext.themes.apply', [
             'class' => ResourceLoaderFileModule::class,
@@ -61,6 +52,19 @@ class ResourceLoaderHooks implements
                 'dependencies' => [ 'ext.themes.baseSwitcher' ],
                 'targets' => [ 'desktop', 'mobile' ]
 		    ] + self::getSwitcherModuleDefinition( ModuleHelper::getSwitcherModuleId() ) );
+        }
+
+        $messages = [];
+
+        if ( ThemeDefinitions::get()->isEligibleForAuto() ) {
+            $messages[] = 'theme-auto';
+        }
+
+        foreach ( ThemeDefinitions::get()->getIds() as $theme ) {
+            $messages[] = "theme-$theme";
+            if ( !in_array( $theme, $wgThemeToggleSiteCssBundled ) ) {
+                $this->registerThemeModule( $resourceLoader, $theme );
+            }
         }
 
         $resourceLoader->register( 'ext.themes.siteMessages', [
