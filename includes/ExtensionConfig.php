@@ -15,4 +15,9 @@ class ExtensionConfig {
         }
         return $wgLoadScript;
     }
+
+    public static function getPreferenceGroupName(): ?string {
+        global $wgThemeTogglePreferenceGroup;
+        return $wgThemeTogglePreferenceGroup;
+    }
 }

@@ -6,6 +6,18 @@ var Shared = require( 'ext.themes.baseSwitcher' );
 var $wrapper, $label, $list;
 
 
+function addTheme( themeId ) {
+    $( '<li class="mw-list-item" id="p-themes-item-'+themeId+'">' )
+        .append( $( '<a href="#">' + mw.msg( 'theme-' + themeId ) + '</a>' ) )
+        .on( 'click', function ( event ) {
+            event.preventDefault();
+            Shared.setUserPreference( themeId );
+            $label.text( mw.msg( 'theme-' + themeId ) );
+        } )
+        .appendTo( $list );
+}
+
+
 function initialise() {
     Shared.trySyncNewAccount();
 
@@ -22,16 +34,11 @@ function initialise() {
             .append( $list ) )
         .prependTo( '#p-personal > .vector-menu-content > ul' );
     
-    Shared.CONFIG.themes.forEach( function ( themeId ) {
-        $( '<li class="mw-list-item" id="p-themes-item-'+themeId+'">' )
-            .append( $( '<a href="#">' + mw.msg( 'theme-' + themeId ) + '</a>' ) )
-            .on( 'click', function ( event ) {
-                event.preventDefault();
-                Shared.setUserPreference( themeId );
-                $label.text( mw.msg( 'theme-' + themeId ) );
-            } )
-            .appendTo($list);
-    } );
+    if ( Shared.CONFIG.supportsAuto ) {
+        addTheme( 'auto' );
+    }
+
+    Shared.CONFIG.themes.forEach( addTheme );
 }
 
 

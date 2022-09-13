@@ -37,6 +37,11 @@ class BodyHooks implements
             'wgThemeToggleDefault' => $currentTheme,
             'wgThemeToggleSiteCssBundled' => $wgThemeToggleSiteCssBundled
         ] );
+        if ( !$isAnonymous && ExtensionConfig::getPreferenceGroupName() !== null ) {
+            $out->addJsConfigVars( [
+                'wgThemeTogglePrefGroup' => ExtensionConfig::getPreferenceGroupName()
+            ] );
+        }
 
         // Inject the theme applying script into <head> to reduce latency
         $rlEndpoint = self::getThemeLoadEndpointUri( $out );
