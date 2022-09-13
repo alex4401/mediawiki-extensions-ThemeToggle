@@ -2,6 +2,7 @@
 namespace MediaWiki\Extension\Ark\ThemeToggle;
 
 use ManualLogEntry;
+use TitleValue;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Revision\RevisionRecord;
 
