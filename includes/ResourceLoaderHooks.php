@@ -2,12 +2,15 @@
 namespace MediaWiki\Extension\Ark\ThemeToggle;
 
 use Config;
+use ExtensionRegistry;
 use ResourceLoader;
 use ResourceLoaderContext;
 use ResourceLoaderFileModule;
 
 class ResourceLoaderHooks implements
     \MediaWiki\ResourceLoader\Hook\ResourceLoaderRegisterModulesHook {
+    private static ?bool $isWikiGG = null;
+    
     public static function getSwitcherModuleDefinition( string $id ): array {
         switch ( $id ) {
             case 'ext.themes.simpleSwitcher':
@@ -19,7 +22,7 @@ class ResourceLoaderHooks implements
             case 'ext.themes.dropdownSwitcher':
                 return [
                     'packageFiles' => [ 'dropdownSwitcher/main.js' ],
-                    'styles' => [ 'dropdownSwitcher/styles.less' ],
+                    'styles' => [ 'dropdownSwitcher/' . ( self::isWikiGG() ? 'styles-wikigg.less' : 'styles-generic.less' ) ],
                     'messages' => [ 'themetoggle-dropdown-switch' ]
                 ];
         }
@@ -81,5 +84,14 @@ class ResourceLoaderHooks implements
             'themes' => $ids,
             'supportsAuto' => $defs->isEligibleForAuto(),
         ];
+    }
+
+    public static function isWikiGG(): bool {
+        if ( self::$isWikiGG === null ) {
+            // HACK: Kind of a hack, but these extensions are always present on wiki.gg wikis as they're internal
+            $registry = ExtensionRegistry::getInstance();
+            self::$isWikiGG = $registry->isLoaded( 'WikiBase' ) && $registry->isLoaded( 'WikiHooks' );
+        }
+        return self::$isWikiGG;
     }
 }
