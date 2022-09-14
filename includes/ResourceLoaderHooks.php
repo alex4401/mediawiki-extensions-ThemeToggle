@@ -41,7 +41,7 @@ class ResourceLoaderHooks implements
             'class' => ResourceLoaderFileModule::class,
             'localBasePath' => 'extensions/ThemeToggle/modules/inline',
             'targets' => [ 'desktop', 'mobile' ],
-            'scripts' => [ ModuleHelper::getCoreJsNameToInject() . '.js' ]
+            'scripts' => [ ModuleHelper::getCoreJsNameToServe() . '.js' ]
         ] );
 
         if ( ModuleHelper::getSwitcherModuleId() !== null ) {

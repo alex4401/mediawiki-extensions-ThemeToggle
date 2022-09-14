@@ -21,9 +21,9 @@ class ModuleHelper {
         return null;
     }
 
-    public static function getCoreJsNameToInject(): string {
+    public static function getCoreJsNameToServe(): string {
         global $wgThemeToggleDisableAutoDetection;
-        if ( $wgThemeToggleDisableAutoDetection ) {
+        if ( $wgThemeToggleDisableAutoDetection || !ThemeDefinitions::get()->isEligibleForAuto() ) {
             return 'noAuto';
         }
         return 'withAuto';
