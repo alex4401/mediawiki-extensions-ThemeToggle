@@ -6,7 +6,7 @@ use ResourceLoaderContext;
 use ResourceLoaderModule;
 use ResourceLoaderWikiModule;
 
-class WikiThemeResourceLoaderModule extends ResourceLoaderWikiModule {
+class ResourceLoaderWikiThemeModule extends ResourceLoaderWikiModule {
 	public function __construct( array $options ) {
 		$this->id = $options['id'];
 	}

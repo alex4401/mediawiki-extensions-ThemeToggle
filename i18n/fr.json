@@ -1,0 +1,15 @@
+{
+    "@metadata": {
+        "authors": [
+            "Chatmaigre888"
+        ]
+    },
+    "theme-auto": "Automatique (système)",
+    "theme-dark": "Sombre",
+    "theme-auto-preference-description": "Suit les préférences système pour déterminer si l'on utilise le thème clair ou sombre",
+    "theme-light": "Clair",
+    "themetoggle-simple-switch": "Cliquez pour changer de thème",
+    "themetoggle-dropdown-switch": "Cliquez pour choisir un thème",
+    "themetoggle-user-preference-label": "Thème",
+    "themetoggle-desc": "Permet au site de créer des thèmes locaux. Prévu pour les configurations avec un système de cache agressif, où une solution basée sur les cookies pourrait empoisonner le cache."
+}

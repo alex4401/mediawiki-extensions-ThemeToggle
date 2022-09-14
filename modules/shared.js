@@ -1,4 +1,4 @@
-module.exports.REMOTE_PREF_NAME = 'skinTheme';
+module.exports.REMOTE_PREF_NAME = 'skinTheme-' + ( mw.config.get( 'wgThemeTogglePrefGroup' ) || mw.config.get( 'wgWikiID' ) );
 module.exports.LOCAL_PREF_NAME = 'skin-theme';
 module.exports.CONFIG = require( './config.json' );
 
@@ -38,4 +38,13 @@ module.exports.setUserPreference = function ( value ) {
     }
 
     MwSkinTheme.set( value );
+};
+
+
+module.exports.whenCoreLoaded = function ( callback, context ) {
+    if ( MwSkinTheme ) {
+        callback.apply( context );
+    } else {
+        setTimeout( module.exports.whenCoreLoaded.bind( null, callback, context ), 20 );
+    }
 };

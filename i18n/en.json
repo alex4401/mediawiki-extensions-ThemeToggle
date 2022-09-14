@@ -4,17 +4,13 @@
             "alex4401"
         ]
     },
-
-    "themetoggle-desc": "Allows the site to create local themes. Tuned for setups with aggressive caching, where a cookie-based solution might pollute the cache.",
-
-	"theme-definitions": "* light\n* dark",
-
+    "themetoggle-desc": "Allows the site to create local themes. Tuned for setups with aggressive caching, where a cookie-based solution might poison the cache.",
+    "theme-definitions": "* light\n* dark",
     "themetoggle-user-preference-label": "Theme",
-
     "theme-auto": "Automatic (system)",
     "theme-auto-preference-description": "Follow system preference to determine whether light or dark theme should be used",
     "theme-dark": "Dark",
     "theme-light": "Light",
-
-    "themetoggle-simple-switch": "Click to toggle the theme"
+    "themetoggle-simple-switch": "Click to toggle the theme",
+    "themetoggle-dropdown-switch": "Click to select a theme"
 }

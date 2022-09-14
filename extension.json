@@ -1,6 +1,6 @@
 {
 	"name": "Theme Toggle",
-	"version": "0.1.2",
+	"version": "0.2.0",
 
 	"author": [
 		"alex4401"
@@ -37,7 +37,7 @@
 				"shared.js",
 				{
 					"name": "config.json",
-					"callback": "MediaWiki\\Extension\\Ark\\ThemeToggle\\Hooks::getSiteConfigModuleContents"
+					"callback": "MediaWiki\\Extension\\Ark\\ThemeToggle\\ResourceLoaderHooks::getSiteConfigModuleContents"
 				}
 			],
 			"targets": [ "desktop", "mobile" ]
@@ -49,17 +49,26 @@
 	},
 	
 	"HookHandlers": {
-		"Hooks": {
-			"class": "MediaWiki\\Extension\\Ark\\ThemeToggle\\Hooks"
+		"ArticleHooks": {
+			"class": "MediaWiki\\Extension\\Ark\\ThemeToggle\\ArticleHooks"
+		},
+		"BodyHooks": {
+			"class": "MediaWiki\\Extension\\Ark\\ThemeToggle\\BodyHooks"
+		},
+		"PreferenceHooks": {
+			"class": "MediaWiki\\Extension\\Ark\\ThemeToggle\\PreferenceHooks"
+		},
+		"ResourceLoaderHooks": {
+			"class": "MediaWiki\\Extension\\Ark\\ThemeToggle\\ResourceLoaderHooks"
 		}
 	},
 	"Hooks": {
-		"PageDeleteComplete": "Hooks",
-		"PageSaveComplete": "Hooks",
-		"BeforePageDisplay": "Hooks",
-		"ResourceLoaderRegisterModules": "Hooks",
-		"GetPreferences": "Hooks",
-		"UserGetDefaultOptions": "Hooks"
+		"PageDeleteComplete": "ArticleHooks",
+		"PageSaveComplete": "ArticleHooks",
+		"BeforePageDisplay": "BodyHooks",
+		"ResourceLoaderRegisterModules": "ResourceLoaderHooks",
+		"GetPreferences": "PreferenceHooks",
+		"UserGetDefaultOptions": "PreferenceHooks"
 	},
 
 	"config": {
@@ -79,6 +88,15 @@
 		},
 		"ThemeToggleEnableForAnonymousUsers": {
 			"value": true
+		},
+		"ThemeTogglePreferenceGroup": {
+			"value": null
+		},
+		"ThemeToggleAsyncCoreJsDelivery": {
+			"value": true
+		},
+		"ThemeToggleLoadScriptOverride": {
+			"value": null
 		}
 	},
 

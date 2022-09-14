@@ -1,0 +1,15 @@
+{
+    "@metadata": {
+        "authors": [
+            "Bellbox"
+        ]
+    },
+    "themetoggle-user-preference-label": "ธีม",
+    "theme-auto": "อัตโนมัติ (ซิงค์กับอุปกรณ์)",
+    "theme-auto-preference-description": "ปฏิบัติตามการตั้งค่าของระบบว่าควรใช้โหมดสีอ่อน (Light) หรือ สีเข้ม (Dark)",
+    "theme-dark": "โหมดสีเข้ม",
+    "theme-light": "โหมดสีอ่อน",
+    "themetoggle-simple-switch": "คลิกเพื่อสลับธีม",
+    "themetoggle-dropdown-switch": "คลิกเพื่อเลือกธีม",
+    "themetoggle-desc": "อนุญาตให้สร้างธีมแบบ Local ปรับแต่งสำหรับการตั้งค่าด้วยการแคชเชิงรุก โดยที่โซลูชันที่ใช้คุกกี้อาจทำให้แคชเสียหายได้"
+}

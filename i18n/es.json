@@ -1,0 +1,15 @@
+{
+    "@metadata": {
+        "authors": [
+            "Mirageionova"
+        ]
+    },
+    "themetoggle-desc": "Permite a la página web crear temas locales. Se adapta a configuraciones de caché exigente, donde una solución basada en cookies podría envenenar la caché.",
+    "themetoggle-user-preference-label": "Tema",
+    "theme-auto": "Automático (sistema)",
+    "theme-auto-preference-description": "Seguir las preferencias del sistema para determinar la elección entre un tema claro u oscuro",
+    "theme-dark": "Oscuro",
+    "theme-light": "Claro",
+    "themetoggle-simple-switch": "Haz clic para activar el tema",
+    "themetoggle-dropdown-switch": "Haz clic para elegir un tema"
+}
