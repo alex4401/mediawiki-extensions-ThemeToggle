@@ -42,7 +42,7 @@ module.exports.setUserPreference = function ( value ) {
 
 
 module.exports.whenCoreLoaded = function ( callback, context ) {
-    if ( MwSkinTheme ) {
+    if ( 'MwSkinTheme' in window ) {
         callback.apply( context );
     } else {
         setTimeout( module.exports.whenCoreLoaded.bind( null, callback, context ), 20 );
