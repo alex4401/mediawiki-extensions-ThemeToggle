@@ -75,7 +75,8 @@ class ResourceLoaderHooks implements
     public function getSiteConfigModuleContents( ResourceLoaderContext $context, Config $config ): array {
         $defs = ThemeDefinitions::get();
         return [
-            'themes' => array_keys( $defs->getAll() ),
+            'themes' => array_keys( array_filter( $defs->getAll(), fn( $themeInfo, $themeId )
+                => ( count( $themeInfo->getRequiredUserRights() ) <= 0 ), ARRAY_FILTER_USE_BOTH ) ),
             'supportsAuto' => $defs->isEligibleForAuto(),
         ];
     }
