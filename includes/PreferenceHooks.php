@@ -29,8 +29,10 @@ class PreferenceHooks implements
             $themeOptions[wfMessage( 'theme-auto-preference-description' )->text()] = 'auto';
         }
 
-        foreach ( $defs->getIds() as $theme ) {
-            $themeOptions[wfMessage( "theme-$theme" )->text()] = $theme;
+        foreach ( $defs->getAll() as $themeId => $themeInfo ) {
+            if ( $themeInfo->isUserAllowedToUse( $user ) ) {
+                $themeOptions[wfMessage( $themeInfo->getMessageId() )->text()] = $themeId;
+            }
         }
 
         $preferences[self::getThemePreferenceName()] = [
