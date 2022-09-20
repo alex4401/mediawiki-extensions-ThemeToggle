@@ -47,6 +47,10 @@
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\Ark\\ThemeToggle\\": "includes/"
 	},
+
+	"SpecialPages": {
+		"ThemeUsage": "MediaWiki\\Extension\\Ark\\ThemeToggle\\SpecialThemeUsage"
+	},
 	
 	"HookHandlers": {
 		"ArticleHooks": {
