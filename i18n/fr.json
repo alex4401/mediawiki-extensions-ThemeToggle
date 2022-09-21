@@ -11,5 +11,10 @@
     "themetoggle-simple-switch": "Cliquez pour changer de thème",
     "themetoggle-dropdown-switch": "Cliquez pour choisir un thème",
     "themetoggle-user-preference-label": "Thème",
-    "themetoggle-desc": "Permet au site de créer des thèmes locaux. Prévu pour les configurations avec un système de cache agressif, où une solution basée sur les cookies pourrait empoisonner le cache."
+    "themetoggle-desc": "Permet au site de créer des thèmes locaux. Prévu pour les configurations avec un système de cache agressif, où une solution basée sur les cookies pourrait empoisonner le cache.",
+    "themeusage-noresults": "Pas d'utilisateurs sans préférences de thème pas par défaut trouvé.",
+    "themeusage": "Statistiques d'utilisation du thème",
+    "themeusage-theme": "Thème",
+    "themeusage-usercount": "Nombre d'utilisateurs",
+    "themeusage-activeusers": "Utilisateurs actifs"
 }
