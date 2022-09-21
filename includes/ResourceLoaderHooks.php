@@ -27,13 +27,6 @@ class ResourceLoaderHooks implements
                 ];
         }
     }
-
-    private function registerThemeModule( ResourceLoader $resourceLoader, string $id ): void {
-        $resourceLoader->register( 'ext.theme.' . $id, [
-			'class' => ResourceLoaderWikiThemeModule::class,
-			'id' => $id
-		] );
-    }
     
 	public function onResourceLoaderRegisterModules( ResourceLoader $resourceLoader ): void {
         /* This is a stub, ideally there'd be a definitions page unless there's some more clever way */
@@ -63,10 +56,13 @@ class ResourceLoaderHooks implements
             $messages[] = 'theme-auto';
         }
 
-        foreach ( ThemeDefinitions::get()->getIds() as $theme ) {
-            $messages[] = "theme-$theme";
-            if ( !in_array( $theme, $wgThemeToggleSiteCssBundled ) ) {
-                $this->registerThemeModule( $resourceLoader, $theme );
+        foreach ( ThemeDefinitions::get()->getAll() as $themeId => $themeInfo ) {
+            $messages[] = $themeInfo->getMessageId();
+            if ( !in_array( $themeId, $wgThemeToggleSiteCssBundled ) ) {
+                $resourceLoader->register( 'ext.theme.' . $themeId, [
+                    'class' => ResourceLoaderWikiThemeModule::class,
+                    'id' => $themeId
+                ] );
             }
         }
 
@@ -78,10 +74,9 @@ class ResourceLoaderHooks implements
 
     public function getSiteConfigModuleContents( ResourceLoaderContext $context, Config $config ): array {
         $defs = ThemeDefinitions::get();
-        $ids = $defs->getIds();
-
         return [
-            'themes' => $ids,
+            'themes' => array_keys( array_filter( $defs->getAll(), fn( $themeInfo, $themeId )
+                => ( count( $themeInfo->getRequiredUserRights() ) <= 0 ), ARRAY_FILTER_USE_BOTH ) ),
             'supportsAuto' => $defs->isEligibleForAuto(),
         ];
     }

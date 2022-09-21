@@ -11,5 +11,10 @@
     "theme-dark": "Oscuro",
     "theme-light": "Claro",
     "themetoggle-simple-switch": "Haz clic para activar el tema",
-    "themetoggle-dropdown-switch": "Haz clic para elegir un tema"
+    "themetoggle-dropdown-switch": "Haz clic para elegir un tema",
+    "themeusage-usercount": "Número de usuarios",
+    "themeusage-noresults": "No se han encontrado usuarios usando temas no predeterminados.",
+    "themeusage": "Estadísticas de uso del tema",
+    "themeusage-theme": "Tema",
+    "themeusage-activeusers": "Usuarios activos"
 }

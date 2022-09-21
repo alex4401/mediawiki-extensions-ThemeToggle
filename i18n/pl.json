@@ -11,5 +11,10 @@
     "theme-light": "Jasny",
     "themetoggle-simple-switch": "Kliknij, by zmienić motyw",
     "themetoggle-dropdown-switch": "Kliknij, by wybrać motyw",
-    "themetoggle-desc": "Pozwala stronie na tworzenie własnych motywów kolorystycznych. Dostosowane do instalacji wykorzystujących agresywne buforowanie, gdzie rozwiązanie oparte na cookies mogłoby zatruć pamięć podręczną."
+    "themetoggle-desc": "Pozwala stronie na tworzenie własnych motywów kolorystycznych. Dostosowane do instalacji wykorzystujących agresywne buforowanie, gdzie rozwiązanie oparte na cookies mogłoby zatruć pamięć podręczną.",
+    "themeusage": "Statystyki użycia motywów",
+    "themeusage-theme": "Motyw",
+    "themeusage-usercount": "Liczba użytkowników",
+    "themeusage-activeusers": "Aktywni użytkownicy",
+    "themeusage-noresults": "Nie znaleziono użytkowników z preferencjami motywu innymi niż domyślne."
 }

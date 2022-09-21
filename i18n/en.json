@@ -12,5 +12,10 @@
     "theme-dark": "Dark",
     "theme-light": "Light",
     "themetoggle-simple-switch": "Click to toggle the theme",
-    "themetoggle-dropdown-switch": "Click to select a theme"
+    "themetoggle-dropdown-switch": "Click to select a theme",
+    "themeusage": "Theme usage statistics",
+    "themeusage-theme": "Theme",
+    "themeusage-usercount": "Number of users",
+    "themeusage-noresults": "No users with non-default theme preferences found.",
+    "themeusage-activeusers": "Active users"
 }
