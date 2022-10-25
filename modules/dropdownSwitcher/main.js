@@ -27,8 +27,7 @@ function initialise() {
     $wrapper = $( '<li id="p-themes" class="mw-list-item vector-menu vector-menu-dropdown vector-menu-dropdown-noicon">' )
         .append( $( '<input type="checkbox" class="vector-menu-checkbox">' )
             .attr( 'title', mw.msg( 'themetoggle-dropdown-switch' ) ) )
-        .append( $( '<h3 class="vector-menu-heading"><span class="vector-menu-checkbox-expanded">expanded</span>' +
-            '<span class="vector-menu-checkbox-collapsed">collapsed</span></h3></h3>' )
+        .append( $( '<h3 class="vector-menu-heading">' )
             .prepend( $label ) )
         .append( $( '<div class="vector-menu-content">' )
             .append( $list ) )
