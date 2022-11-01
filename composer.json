@@ -1,0 +1,35 @@
+{
+	"name": "mediawiki/themetoggle",
+	"description": "Allows the site to create local themes. Tuned for setups with aggressive caching, where a cookie-based solution might poison the cache.",
+	"type": "mediawiki-extension",
+	"keywords": [
+		"MediaWiki"
+	],
+	"homepage": "https://gitlab.mglolenstine.xyz/alex4401/mediawiki-extension-themetoggle",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "alex4401",
+            "email": "rylatgl@gmail.com"
+		}
+	],
+	"require-dev": {
+		"mediawiki/mediawiki-codesniffer": "39.0.0",
+		"mediawiki/mediawiki-phan-config": "0.12.0",
+		"mediawiki/minus-x": "1.1.1",
+		"php-parallel-lint/php-console-highlighter": "1.0.0",
+		"php-parallel-lint/php-parallel-lint": "1.3.2"
+	},
+	"scripts": {
+		"test": [
+			"parallel-lint . --exclude vendor --exclude node_modules",
+			"minus-x check .",
+			"@phpcs"
+		],
+		"fix": [
+			"minus-x fix ."
+		],
+		"phpcs": "phpcs -sp",
+		"phan": "phan -d . --long-progress-bar"
+	}
+}

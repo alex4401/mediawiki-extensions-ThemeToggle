@@ -3,14 +3,15 @@ namespace MediaWiki\Extension\Ark\ThemeToggle;
 
 use Config;
 use ExtensionRegistry;
-use ResourceLoader;
-use ResourceLoaderContext;
-use ResourceLoaderFileModule;
+use MediaWiki\ResourceLoader\Context;
+use MediaWiki\ResourceLoader\FileModule;
+use MediaWiki\ResourceLoader\ResourceLoader;
 
 class ResourceLoaderHooks implements
-    \MediaWiki\ResourceLoader\Hook\ResourceLoaderRegisterModulesHook {
+    \MediaWiki\ResourceLoader\Hook\ResourceLoaderRegisterModulesHook
+{
     private static ?bool $isWikiGG = null;
-    
+
     public static function getSwitcherModuleDefinition( string $id ): array {
         switch ( $id ) {
             case 'ext.themes.simpleSwitcher':
@@ -27,14 +28,13 @@ class ResourceLoaderHooks implements
                 ];
         }
     }
-    
-	public function onResourceLoaderRegisterModules( ResourceLoader $resourceLoader ): void {
+
+    public function onResourceLoaderRegisterModules( ResourceLoader $resourceLoader ): void {
         /* This is a stub, ideally there'd be a definitions page unless there's some more clever way */
-        global $wgThemeToggleSiteCssBundled,
-            $wgThemeToggleSwitcherStyle;
+        global $wgThemeToggleSiteCssBundled;
 
         $resourceLoader->register( 'ext.themes.apply', [
-            'class' => ResourceLoaderFileModule::class,
+            'class' => FileModule::class,
             'localBasePath' => 'extensions/ThemeToggle/modules/inline',
             'targets' => [ 'desktop', 'mobile' ],
             'scripts' => [ ModuleHelper::getCoreJsNameToServe() . '.js' ]
@@ -42,12 +42,12 @@ class ResourceLoaderHooks implements
 
         if ( ModuleHelper::getSwitcherModuleId() !== null ) {
             $resourceLoader->register( 'ext.themes.switcher', [
-			    'class' => ResourceLoaderFileModule::class,
-		        'localBasePath' => 'extensions/ThemeToggle/modules',
-		        'remoteExtPath' => 'extensions/ThemeToggle/modules',
+                'class' => FileModule::class,
+                'localBasePath' => 'extensions/ThemeToggle/modules',
+                'remoteExtPath' => 'extensions/ThemeToggle/modules',
                 'dependencies' => [ 'ext.themes.baseSwitcher' ],
                 'targets' => [ 'desktop', 'mobile' ]
-		    ] + self::getSwitcherModuleDefinition( ModuleHelper::getSwitcherModuleId() ) );
+            ] + self::getSwitcherModuleDefinition( ModuleHelper::getSwitcherModuleId() ) );
         }
 
         $messages = [];
@@ -67,12 +67,12 @@ class ResourceLoaderHooks implements
         }
 
         $resourceLoader->register( 'ext.themes.siteMessages', [
-			'class' => ResourceLoaderFileModule::class,
-			'messages' => $messages
-		] );
-	}
+            'class' => FileModule::class,
+            'messages' => $messages
+        ] );
+    }
 
-    public function getSiteConfigModuleContents( ResourceLoaderContext $context, Config $config ): array {
+    public function getSiteConfigModuleContents( Context $context, Config $config ): array {
         $defs = ThemeDefinitions::get();
         return [
             'themes' => array_keys( array_filter( $defs->getAll(), fn( $themeInfo, $themeId )

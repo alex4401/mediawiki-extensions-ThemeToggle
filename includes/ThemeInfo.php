@@ -1,6 +1,7 @@
 <?php
 namespace MediaWiki\Extension\Ark\ThemeToggle;
 
+use InvalidArgumentException;
 use MediaWiki\Permissions\Authority;
 
 class ThemeInfo {
@@ -8,16 +9,16 @@ class ThemeInfo {
     private array $rights = [];
 
     public function __construct( array $info ) {
-		foreach ( $info as $option => $params ) {
-			switch ( $option ) {
+        foreach ( $info as $option => $params ) {
+            switch ( $option ) {
                 case 'id':
                 case 'rights':
-					$this->{$option} = $params;
-					break;
-				default:
-					throw new InvalidArgumentException( "Unrecognized '$option' parameter" );
-			}
-		}
+                    $this->{$option} = $params;
+                    break;
+                default:
+                    throw new InvalidArgumentException( "Unrecognized '$option' parameter" );
+            }
+        }
     }
 
     public function getId(): string {
@@ -33,9 +34,9 @@ class ThemeInfo {
     }
 
     public function isUserAllowedToUse( Authority $user ): bool {
-		if ( count( $this->rights ) ) {
-			return $user->isAllowedAll( ...$this->rights );
-		}
-		return true;
+        if ( count( $this->rights ) ) {
+            return $user->isAllowedAll( ...$this->rights );
+        }
+        return true;
     }
 }

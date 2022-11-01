@@ -3,117 +3,112 @@
 namespace MediaWiki\Extension\Ark\ThemeToggle;
 
 use Html;
-use OutputPage;
 use QueryPage;
-use Skin;
-use stdClass;
-use Wikimedia\Rdbms\IDatabase;
-use Wikimedia\Rdbms\IResultWrapper;
 
 class SpecialThemeUsage extends QueryPage {
-	public function __construct( $name = 'ThemeUsage' ) {
-		parent::__construct( $name );
-		$this->limit = 1000;
-		$this->shownavigation = false;
-	}
+    public function __construct( $name = 'ThemeUsage' ) {
+        parent::__construct( $name );
+        $this->limit = 1000;
+        $this->shownavigation = false;
+    }
 
-	public function isExpensive() {
-		return true;
-	}
+    public function isExpensive() {
+        return true;
+    }
 
-	public function getQueryInfo() {
-		return [
-			'tables' => [ 'user_properties', 'user', 'querycachetwo' ],
-			'fields' => [
-				'title' => 'up_value',
-				'value' => 'COUNT( user_id )',
-				// Need to pick fields existing in the querycache table so that the results are cachable
-				'namespace' => 'COUNT( qcc_title )'
-			],
-			'conds' => [
-				'up_property' => PreferenceHooks::getThemePreferenceName()
-			],
-			'options' => [
-				'GROUP BY' => [ 'up_value' ]
-			],
-			'join_conds' => [
-				'user' => [
-					'LEFT JOIN', [
-						'up_user = user_id'
-					]
-				],
-				'querycachetwo' => [
-					'LEFT JOIN', [
-						'user_name = qcc_title',
-						'qcc_type = "activeusers"',
-						'up_value = 1'
-					]
-				]
-			]
-		];
-	}
+    public function getQueryInfo() {
+        return [
+            'tables' => [ 'user_properties', 'user', 'querycachetwo' ],
+            'fields' => [
+                'title' => 'up_value',
+                'value' => 'COUNT( user_id )',
+                // Need to pick fields existing in the querycache table so that the results are cachable
+                'namespace' => 'COUNT( qcc_title )'
+            ],
+            'conds' => [
+                'up_property' => PreferenceHooks::getThemePreferenceName()
+            ],
+            'options' => [
+                'GROUP BY' => [ 'up_value' ]
+            ],
+            'join_conds' => [
+                'user' => [
+                    'LEFT JOIN', [
+                        'up_user = user_id'
+                    ]
+                ],
+                'querycachetwo' => [
+                    'LEFT JOIN', [
+                        'user_name = qcc_title',
+                        'qcc_type = "activeusers"',
+                        'up_value = 1'
+                    ]
+                ]
+            ]
+        ];
+    }
 
-	public function getOrderFields() {
-		return [ 'value' ];
-	}
+    public function getOrderFields() {
+        return [ 'value' ];
+    }
 
-	protected function outputTableStart() {
-		$html = Html::openElement( 'table', [ 'class' => [ 'sortable', 'wikitable' ] ] );
-		$html .= Html::openElement( 'thead', [] );
-		$html .= Html::openElement( 'tr', [] );
-		$headers = [ 'themeusage-theme', 'themeusage-usercount', 'themeusage-activeusers' ];
-		foreach ( $headers as $h ) {
-			if ( $h === 'themeusage-theme' ) {
-				$html .= Html::element( 'th', [], $this->msg( $h )->text() );
-			} else {
-				$html .= Html::element( 'th', [ 'data-sort-type' => 'number' ], $this->msg( $h )->text() );
-			}
-		}
-		$html .= Html::closeElement( 'tr' );
-		$html .= Html::closeElement( 'thead' );
-		$html .= Html::openElement( 'tbody', [] );
-		$this->getOutput()->addHTML( $html );
+    protected function outputTableStart() {
+        $html = Html::openElement( 'table', [ 'class' => [ 'sortable', 'wikitable' ] ] );
+        $html .= Html::openElement( 'thead', [] );
+        $html .= Html::openElement( 'tr', [] );
+        $headers = [ 'themeusage-theme', 'themeusage-usercount', 'themeusage-activeusers' ];
+        foreach ( $headers as $h ) {
+            if ( $h === 'themeusage-theme' ) {
+                $html .= Html::element( 'th', [], $this->msg( $h )->text() );
+            } else {
+                $html .= Html::element( 'th', [ 'data-sort-type' => 'number' ], $this->msg( $h )->text() );
+            }
+        }
+        $html .= Html::closeElement( 'tr' );
+        $html .= Html::closeElement( 'thead' );
+        $html .= Html::openElement( 'tbody', [] );
+        $this->getOutput()->addHTML( $html );
 
-		$this->getOutput()->addModuleStyles( 'jquery.tablesorter.styles' );
-		$this->getOutput()->addModules( 'jquery.tablesorter' );
-	}
+        $this->getOutput()->addModuleStyles( 'jquery.tablesorter.styles' );
+        $this->getOutput()->addModules( 'jquery.tablesorter' );
+    }
 
-	protected function outputTableEnd() {
-		$this->getOutput()->addHTML( Html::closeElement( 'tbody' ) . Html::closeElement( 'table' ) );
-	}
+    protected function outputTableEnd() {
+        $this->getOutput()->addHTML( Html::closeElement( 'tbody' ) . Html::closeElement( 'table' ) );
+    }
 
-	public function formatResult( $skin, $result ) {
-		$themeId = $result->title;
-		$userCount = $this->getLanguage()->formatNum( $result->value );
-		if ( $themeId ) {
-			$html = Html::openElement( 'tr', [] );
-			$html .= Html::element( 'td', [], $themeId );
-			$html .= Html::element( 'td', [], $userCount );
-			$html .= Html::element( 'td', [], $this->getLanguage()->formatNum( $result->namespace ) );
-			$html .= Html::closeElement( 'tr' );
-			return $html;
-		}
-		return false;
-	}
+    public function formatResult( $skin, $result ) {
+        $themeId = $result->title;
+        $userCount = $this->getLanguage()->formatNum( $result->value );
+        if ( $themeId ) {
+            $html = Html::openElement( 'tr', [] );
+            $html .= Html::element( 'td', [], $themeId );
+            $html .= Html::element( 'td', [], $userCount );
+            $html .= Html::element( 'td', [], $this->getLanguage()->formatNum( $result->namespace ) );
+            $html .= Html::closeElement( 'tr' );
+            return $html;
+        }
+        return false;
+    }
 
-	protected function outputResults( $out, $skin, $dbr, $res, $num, $offset ) {
-		if ( $num > 0 ) {
-			$this->outputTableStart();
-			foreach ( $res as $row ) {
-				$line = $this->formatResult( $skin, $row );
-				if ( $line ) {
-					$out->addHTML( $line );
-				}
-			}
-			$this->outputTableEnd();
-		} else {
-			$out->addHtml(
-				$this->msg( 'themeusage-noresults' )->parseAsBlock()
-			);
-		}
-	}
+    protected function outputResults( $out, $skin, $dbr, $res, $num, $offset ) {
+        if ( $num > 0 ) {
+            $this->outputTableStart();
+            foreach ( $res as $row ) {
+                $line = $this->formatResult( $skin, $row );
+                if ( $line ) {
+                    $out->addHTML( $line );
+                }
+            }
+            $this->outputTableEnd();
+        } else {
+            $out->addHtml(
+                $this->msg( 'themeusage-noresults' )->parseAsBlock()
+            );
+        }
+    }
 
-	protected function getGroupName() {
-		return 'wiki';
-	}
+    protected function getGroupName() {
+        return 'wiki';
+    }
 }

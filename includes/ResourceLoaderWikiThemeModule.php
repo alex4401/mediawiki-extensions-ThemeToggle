@@ -2,39 +2,41 @@
 
 namespace MediaWiki\Extension\Ark\ThemeToggle;
 
-use ResourceLoaderContext;
-use ResourceLoaderModule;
-use ResourceLoaderWikiModule;
+use MediaWiki\ResourceLoader\Context;
+use MediaWiki\ResourceLoader\Module;
+use MediaWiki\ResourceLoader\WikiModule;
 
-class ResourceLoaderWikiThemeModule extends ResourceLoaderWikiModule {
-	public function __construct( array $options ) {
-		$this->id = $options['id'];
-	}
+class ResourceLoaderWikiThemeModule extends WikiModule {
+    private string $id;
 
-	private function getThemeName(): string {
-		return $this->id;
-	}
+    public function __construct( array $options ) {
+        $this->id = $options['id'];
+    }
 
-	protected function getPages( ResourceLoaderContext $context ) {
-		$theme = $this->getThemeName();
-		return [
-			"MediaWiki:Theme-$theme.css" => [ 'type' => 'style' ]
-		];
-	}
+    private function getThemeName(): string {
+        return $this->id;
+    }
 
-	public function isPackaged(): bool {
-		return false;
-	}
+    protected function getPages( Context $context ) {
+        $theme = $this->getThemeName();
+        return [
+            "MediaWiki:Theme-$theme.css" => [ 'type' => 'style' ]
+        ];
+    }
 
-	public function getType() {
-		return ResourceLoaderModule::LOAD_STYLES;
-	}
+    public function isPackaged(): bool {
+        return false;
+    }
 
-	public function getTargets() {
-		return [ 'desktop', 'mobile' ];
-	}
+    public function getType() {
+        return Module::LOAD_STYLES;
+    }
 
-	public function getGroup() {
-		return 'site';
-	}
+    public function getTargets() {
+        return [ 'desktop', 'mobile' ];
+    }
+
+    public function getGroup() {
+        return 'site';
+    }
 }

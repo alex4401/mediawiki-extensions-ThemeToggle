@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset>
+    <rule ref="./vendor/mediawiki/mediawiki-codesniffer/MediaWiki" />
+    <file>.</file>
+    <arg name="extensions" value="php"/>
+    <arg name="encoding" value="UTF-8"/>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/out/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <rule ref="MediaWiki">
+        <exclude name="Generic.WhiteSpace.DisallowSpaceIndent" />
+    </rule>
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="tabIndent" value="false"/>
+        </properties>
+    </rule>
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent" />
+	<rule ref="Generic.Files.LineLength">
+		<properties>
+			<property name="lineLimit" value="129" />
+			<property name="absoluteLineLimit" value="9999" />
+		</properties>
+	</rule>
+</ruleset>

@@ -5,7 +5,8 @@ use WikiMap;
 
 class PreferenceHooks implements
     \MediaWiki\Preferences\Hook\GetPreferencesHook,
-    \MediaWiki\User\Hook\UserGetDefaultOptionsHook {
+    \MediaWiki\User\Hook\UserGetDefaultOptionsHook
+{
 
     public static function getPreferenceGroupName(): string {
         global $wgThemeTogglePreferenceGroup;
@@ -16,12 +17,12 @@ class PreferenceHooks implements
         return 'skinTheme-' . self::getPreferenceGroupName();
     }
 
-	public function onUserGetDefaultOptions( &$defaultOptions ) {
+    public function onUserGetDefaultOptions( &$defaultOptions ) {
         global $wgThemeToggleDefault;
-		$defaultOptions[self::getThemePreferenceName()] = $wgThemeToggleDefault;
-	}
+        $defaultOptions[self::getThemePreferenceName()] = $wgThemeToggleDefault;
+    }
 
-	public function onGetPreferences( $user, &$preferences ) {
+    public function onGetPreferences( $user, &$preferences ) {
         $defs = ThemeDefinitions::get();
         $themeOptions = [];
 
@@ -41,5 +42,5 @@ class PreferenceHooks implements
             'options' => $themeOptions,
             'section' => 'rendering/skin/skin-prefs'
         ];
-	}
+    }
 }
