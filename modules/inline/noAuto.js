@@ -16,7 +16,7 @@
             currentTheme = target;
 
 
-            function applyInternal( target ) {
+            function applyInternal() {
                 try {
                     // Apply by changing class
                     if ( currentTheme !== null ) {
@@ -46,7 +46,7 @@
             }
         
         
-            applyInternal( currentTheme );
+            applyInternal();
         }
     };
 
