@@ -14,9 +14,9 @@
             var htmlNode = document.documentElement;
         
             currentTheme = target;
-        
-        
-            function applyInternal( target ) {            
+
+
+            function applyInternal( target ) {
                 try {
                     // Apply by changing class
                     if ( currentTheme !== null ) {
@@ -33,7 +33,7 @@
                         }
                         linkNode.rel = 'stylesheet';
                         linkNode.type = 'text/css';
-                        linkNode.href = rc+'&modules=ext.theme.'+currentThemeActual+'&only=styles';
+                        linkNode.href = rc+'&modules=ext.theme.'+currentTheme+'&only=styles';
                     } else if ( linkNode != null ) {
                         document.head.removeChild( linkNode );
                         linkNode = null;
