@@ -77,6 +77,7 @@ class ResourceLoaderHooks implements
             'themes' => array_keys( array_filter( $defs->getAll(), fn( $themeInfo, $themeId )
                 => ( count( $themeInfo->getRequiredUserRights() ) <= 0 ), ARRAY_FILTER_USE_BOTH ) ),
             'supportsAuto' => $defs->isEligibleForAuto(),
+            'preferenceGroup' => ExtensionConfig::getPreferenceGroupName()
         ];
     }
 

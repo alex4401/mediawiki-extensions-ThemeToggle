@@ -1,6 +1,6 @@
-module.exports.REMOTE_PREF_NAME = 'skinTheme-' + ( mw.config.get( 'wgThemeTogglePrefGroup' ) || mw.config.get( 'wgWikiID' ) );
-module.exports.LOCAL_PREF_NAME = 'skin-theme';
 module.exports.CONFIG = require( './config.json' );
+module.exports.LOCAL_PREF_NAME = 'skin-theme';
+module.exports.REMOTE_PREF_NAME = 'skinTheme-' + ( module.exports.CONFIG.preferenceGroup || mw.config.get( 'wgWikiID' ) );
 
 
 var _setAccountPreference = function ( value ) {
