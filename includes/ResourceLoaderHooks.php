@@ -34,9 +34,8 @@ class ResourceLoaderHooks implements
             $wgThemeToggleSwitcherStyle;
 
         $resourceLoader->register( 'ext.themes.apply', [
-            'class' => ResourceLoaderFileModule::class,
+            'class' => ThemeApplyModule::class,
             'localBasePath' => 'extensions/ThemeToggle/modules/inline',
-            'targets' => [ 'desktop', 'mobile' ],
             'scripts' => [ ModuleHelper::getCoreJsNameToServe() . '.js' ]
         ] );
 
