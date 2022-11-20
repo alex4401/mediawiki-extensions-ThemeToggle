@@ -34,6 +34,7 @@ class BodyHooks implements
             'wgThemeToggleSiteCssBundled' => $defs->getBundledThemeIds()
         ] );
         if ( !$isAnonymous && ExtensionConfig::getPreferenceGroupName() !== null ) {
+            // @deprecated v0.3.1:v0.4.0
             $out->addJsConfigVars( [
                 'wgThemeTogglePrefGroup' => ExtensionConfig::getPreferenceGroupName()
             ] );
