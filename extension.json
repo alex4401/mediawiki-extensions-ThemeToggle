@@ -96,9 +96,6 @@
 		"ThemeTogglePreferenceGroup": {
 			"value": null
 		},
-		"ThemeToggleAsyncCoreJsDelivery": {
-			"value": true
-		},
 		"ThemeToggleLoadScriptOverride": {
 			"value": null
 		}
