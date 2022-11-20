@@ -77,8 +77,7 @@
 
 	"config": {
 		"ThemeToggleDefault": {
-			"value": "auto",
-			"description": "Default theme. Valid values are 'auto', 'light', 'dark'."
+			"value": null
 		},
 		"ThemeToggleSiteCssBundled": {
 			"value": [],
