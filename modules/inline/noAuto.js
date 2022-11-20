@@ -1,8 +1,7 @@
 ( function () {
     var themeKey = 'skin-theme',
         linkNode = null,
-        currentTheme = null,
-        rc = THEMELOAD;
+        currentTheme = null;
 
 
     window.MwSkinTheme = {
@@ -14,9 +13,9 @@
             var htmlNode = document.documentElement;
         
             currentTheme = target;
-        
-        
-            function applyInternal( target ) {            
+
+
+            function applyInternal() {
                 try {
                     // Apply by changing class
                     if ( currentTheme !== null ) {
@@ -26,23 +25,27 @@
                         htmlNode.classList.add( 'theme-' + currentTheme );
                     }
                 
-                    if ( RLCONF.wgThemeToggleSiteCssBundled.indexOf( currentTheme ) < 0 ) {
+                    if ( VARS.SiteBundledCss.indexOf( currentTheme ) < 0 ) {
                         if ( linkNode == null ) {
                             linkNode = document.createElement( 'link' );
                             document.head.appendChild( linkNode );
                         }
                         linkNode.rel = 'stylesheet';
                         linkNode.type = 'text/css';
-                        linkNode.href = rc+'&modules=ext.theme.'+currentThemeActual+'&only=styles';
+                        linkNode.href = VARS.ResourceLoaderEndpoint+'&modules=ext.theme.'+currentTheme+'&only=styles';
                     } else if ( linkNode != null ) {
                         document.head.removeChild( linkNode );
                         linkNode = null;
                     }
-                } catch ( e ) { }
+                } catch ( ex ) {
+                    setTimeout( function () {
+                        throw ex;
+                    }, 0 );
+                }
             }
         
         
-            applyInternal( currentTheme );
+            applyInternal();
         }
     };
 

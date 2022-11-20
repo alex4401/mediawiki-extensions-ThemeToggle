@@ -12,32 +12,29 @@ class BodyHooks implements
 	 * Injects the inline theme applying script to the document head
 	 */
 	public function onBeforePageDisplay( $out, $skin ): void {
-        global $wgLoadScript,
-            $wgScriptPath,
-            $wgThemeToggleDefault,
-            $wgThemeToggleSiteCssBundled,
-            $wgThemeToggleEnableForAnonymousUsers,
-            $wgThemeToggleSwitcherStyle,
-            $wgThemeToggleAsyncCoreJsDelivery;
+        global $wgThemeToggleEnableForAnonymousUsers;
 
         $isAnonymous = $out->getUser()->isAnon();
         if ( !$wgThemeToggleEnableForAnonymousUsers && $isAnonymous ) {
             return;
         }
 
-        $currentTheme = $wgThemeToggleDefault;
+        $defs = ThemeDefinitions::get();
+        $currentTheme = $defs->getDefaultThemeId();
         // Retrieve user's preference
         if ( !$isAnonymous ) {
             $currentTheme = MediaWikiServices::getInstance()->getUserOptionsLookup()
-                ->getOption( $out->getUser(), PreferenceHooks::getThemePreferenceName(), $wgThemeToggleDefault );
+                ->getOption( $out->getUser(), PreferenceHooks::getThemePreferenceName(), $currentTheme );
         }
 
         // Expose configuration variables
         $out->addJsConfigVars( [
             'wgThemeToggleDefault' => $currentTheme,
-            'wgThemeToggleSiteCssBundled' => $wgThemeToggleSiteCssBundled
+            // @deprecated v0.3.1:v0.4.0
+            'wgThemeToggleSiteCssBundled' => $defs->getBundledThemeIds()
         ] );
         if ( !$isAnonymous && ExtensionConfig::getPreferenceGroupName() !== null ) {
+            // @deprecated v0.3.1:v0.4.0
             $out->addJsConfigVars( [
                 'wgThemeTogglePrefGroup' => ExtensionConfig::getPreferenceGroupName()
             ] );
@@ -45,18 +42,8 @@ class BodyHooks implements
 
         // Inject the theme applying script into <head> to reduce latency
         $rlEndpoint = self::getThemeLoadEndpointUri( $out );
-        $rlEndpointJson = json_encode( $rlEndpoint, JSON_UNESCAPED_SLASHES );
-        if ( ExtensionConfig::useAsyncJsDelivery() ) {
-    		self::injectScriptTag( $out, 'ext.themes.loadEndpointVar', "THEMELOAD=$rlEndpointJson" );
-    		self::injectScriptTag( $out, 'ext.themes.apply', '', "async src=\"$rlEndpoint&modules=ext.themes.apply"
-                . '&only=scripts&raw=1"');
-        } else {
-    		self::injectScriptTag( $out, 'ext.themes.apply', sprintf(
-                '(function(){var THEMELOAD=%s;%s})()',
-                $rlEndpointJson,
-                ModuleHelper::getCoreJsToInject()
-            ) );
-        }
+    	self::injectScriptTag( $out, 'ext.themes.apply', '', "async src=\"$rlEndpoint&modules=ext.themes.apply"
+            . '&only=scripts&raw=1"');
 
         // Inject the theme switcher as a ResourceLoader module
         if ( ModuleHelper::getSwitcherModuleId() !== null ) {

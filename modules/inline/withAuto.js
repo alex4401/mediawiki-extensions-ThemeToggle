@@ -3,8 +3,7 @@
         prefersDark = window.matchMedia( '(prefers-color-scheme: dark)' ),
         linkNode = null,
         currentTheme = null,
-        currentThemeActual = null,
-        rc = THEMELOAD;
+        currentThemeActual = null;
 
 
     window.MwSkinTheme = {
@@ -30,19 +29,23 @@
         				htmlNode.classList.add( 'theme-' + currentThemeActual );
         			}
 
-                    if ( RLCONF.wgThemeToggleSiteCssBundled.indexOf( currentThemeActual ) < 0 ) {
+                    if ( VARS.SiteCssBundled.indexOf( currentThemeActual ) < 0 ) {
                         if ( linkNode == null ) {
                             linkNode = document.createElement( 'link' );
                             document.head.appendChild( linkNode );
                         }
                         linkNode.rel = 'stylesheet';
                         linkNode.type = 'text/css';
-                        linkNode.href = rc+'&modules=ext.theme.'+currentThemeActual+'&only=styles';
+                        linkNode.href = VARS.ResourceLoaderEndpoint+'&modules=ext.theme.'+currentThemeActual+'&only=styles';
                     } else if ( linkNode != null ) {
                         document.head.removeChild( linkNode );
                         linkNode = null;
                     }
-        		} catch ( e ) { }
+        		} catch ( ex ) {
+                    setTimeout( function () {
+                        throw ex;
+                    }, 0 );
+                }
         	}
 
 
