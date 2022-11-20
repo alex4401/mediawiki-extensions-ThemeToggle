@@ -152,23 +152,25 @@ class ThemeDefinitions {
 			'id' => trim( str_replace( ' ', '_', $match[1] ) )
 		];
 
-		$options = trim( $match[2], ' []' );
-		foreach ( preg_split( '/\s*\|\s*/', $options, -1, PREG_SPLIT_NO_EMPTY ) as $option ) {
-			$arr = preg_split( '/\s*=\s*/', $option, 2 );
-			$option = $arr[0];
-			if ( isset( $arr[1] ) ) {
-				$params = explode( ',', $arr[1] );
-				$params = array_map( 'trim', $params );
-			} else {
-				$params = [];
-			}
+        if ( isset( $match[2] ) ) {
+    		$options = trim( $match[2], ' []' );
+    		foreach ( preg_split( '/\s*\|\s*/', $options, -1, PREG_SPLIT_NO_EMPTY ) as $option ) {
+    			$arr = preg_split( '/\s*=\s*/', $option, 2 );
+    			$option = $arr[0];
+    			if ( isset( $arr[1] ) ) {
+    				$params = explode( ',', $arr[1] );
+    				$params = array_map( 'trim', $params );
+    			} else {
+    				$params = [];
+    			}
 
-			switch ( $option ) {
-				case 'rights':
-					$info['rights'] = $params;
-					break;
-			}
-		}
+    			switch ( $option ) {
+    				case 'rights':
+    					$info['rights'] = $params;
+    					break;
+    			}
+    		}
+        }
 
 		return new ThemeInfo( $info );
 	}
