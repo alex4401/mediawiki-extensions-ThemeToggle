@@ -12,7 +12,7 @@ use WANObjectCache;
 use Wikimedia\Rdbms\Database;
 
 class ThemeDefinitions {
-	const CACHE_GENERATION = 2;
+	const CACHE_GENERATION = 3;
 	const CACHE_TTL = 24*60*60;
 	const TITLE = 'Theme-definitions';
 
@@ -46,6 +46,46 @@ class ThemeDefinitions {
 		}
 		$this->load();
 		return in_array( 'dark', $this->getIds() ) && in_array( 'light', $this->getIds() );
+	}
+
+	public function getDefaultThemeId(): string {
+		$this->load();
+
+        // Return the config variable if non-null and found in definitions
+        global $wgThemeToggleDefault;
+        if ( $wgThemeToggleDefault !== null && in_array( $wgThemeToggleDefault, $this->ids ) ) {
+            return $wgThemeToggleDefault;
+        }
+
+        // Search for the first theme with the `default` flag
+        $default = null;
+        foreach ( $this->infos as $id => $info ) {
+            if ( $info->isDefault() ) {
+                $default = $id;
+                break;
+            }
+        }
+
+        if ( $default !== null ) {
+            return $default;
+        }
+
+        // If none found and dark and light themes are defined, return auto
+        if ( self::isEligibleForAuto() ) {
+            return 'auto';
+        }
+
+        // Otherwise return the first defined theme
+        return $this->ids[0];
+	}
+
+	public function getBundledThemeIds(): array {
+		$this->load();
+
+        global $wgThemeToggleSiteCssBundled;
+        return array_merge( array_keys( array_filter( $this->infos, static function ( $info ) {
+            return $info->isBundled();
+        } ) ), $wgThemeToggleSiteCssBundled );
 	}
 
 	public function handlePageUpdate( LinkTarget $target ): void {
@@ -168,6 +208,12 @@ class ThemeDefinitions {
     				case 'rights':
     					$info['rights'] = $params;
     					break;
+                    case 'default':
+                        $info['default'] = true;
+                        break;
+                    case 'bundled':
+                        $info['bundled'] = true;
+                        break;
     			}
     		}
         }
