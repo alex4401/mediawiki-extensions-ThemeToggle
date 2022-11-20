@@ -45,8 +45,6 @@ class BodyHooks implements
 
         // Inject the theme applying script into <head> to reduce latency
         $rlEndpoint = self::getThemeLoadEndpointUri( $out );
-        $rlEndpointJson = json_encode( $rlEndpoint, JSON_UNESCAPED_SLASHES );
-    	self::injectScriptTag( $out, 'ext.themes.loadEndpointVar', "THEMELOAD=$rlEndpointJson" );
     	self::injectScriptTag( $out, 'ext.themes.apply', '', "async src=\"$rlEndpoint&modules=ext.themes.apply"
             . '&only=scripts&raw=1"');
 
