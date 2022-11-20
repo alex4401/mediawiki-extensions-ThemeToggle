@@ -38,7 +38,11 @@
                         document.head.removeChild( linkNode );
                         linkNode = null;
                     }
-                } catch ( e ) { }
+                } catch ( ex ) {
+                    setTimeout( function () {
+                        throw ex;
+                    }, 0 );
+                }
             }
         
         
