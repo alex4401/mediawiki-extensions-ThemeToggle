@@ -174,6 +174,17 @@ class ThemeDefinitions {
             }
         }
 
+        if ( empty( $themes ) ) {
+            // This should match default Theme-definitions message
+            $themes = [
+                'none' => new ThemeInfo( [
+                    'id' => 'none',
+                    'default' => true,
+                    'bundled' => true
+                ] )
+            ];
+        }
+
         return $themes;
     }
 
