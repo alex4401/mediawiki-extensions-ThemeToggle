@@ -11,21 +11,20 @@ class ThemeApplyModule extends FileModule {
     public function getScript( Context $context ): string {
         $script = parent::getScript( $context );
 
-        global $wgThemeToggleDefault,
-            $wgThemeToggleSiteCssBundled;
-
         $user = $context->getUserObj();
-        $currentTheme = $wgThemeToggleDefault;
+        $defs = ThemeDefinitions::get();
+
+        $currentTheme = $defs->getDefaultThemeId();
         // Retrieve user's preference
         if ( !$user->isAnon() ) {
             $currentTheme = MediaWikiServices::getInstance()->getUserOptionsLookup()
-                ->getOption( $user, PreferenceHooks::getThemePreferenceName(), $wgThemeToggleDefault );
+                ->getOption( $user, PreferenceHooks::getThemePreferenceName(), $currentTheme );
         }
 
         // Perform replacements
         $pairs = [
             'VARS.Default' => $context->encodeJson( $currentTheme ),
-            'VARS.SiteBundledCss' => $context->encodeJson( $wgThemeToggleSiteCssBundled ),
+            'VARS.SiteBundledCss' => $context->encodeJson( $defs->getBundledThemeIds() ),
             'VARS.ResourceLoaderEndpoint' => $context->encodeJson( $this->getThemeLoadEndpointUri( $context ) ),
         ];
         $script = strtr( $script, $pairs );

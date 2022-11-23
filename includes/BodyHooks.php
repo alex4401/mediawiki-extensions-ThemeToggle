@@ -12,27 +12,26 @@ class BodyHooks implements
      * Injects the inline theme applying script to the document head
      */
     public function onBeforePageDisplay( $out, $skin ): void {
-        global $wgThemeToggleDefault,
-            $wgThemeToggleSiteCssBundled,
-            $wgThemeToggleEnableForAnonymousUsers;
+        global $wgThemeToggleEnableForAnonymousUsers;
 
         $isAnonymous = $out->getUser()->isAnon();
         if ( !$wgThemeToggleEnableForAnonymousUsers && $isAnonymous ) {
             return;
         }
 
-        $currentTheme = $wgThemeToggleDefault;
+        $defs = ThemeDefinitions::get();
+        $currentTheme = $defs->getDefaultThemeId();
         // Retrieve user's preference
         if ( !$isAnonymous ) {
             $currentTheme = MediaWikiServices::getInstance()->getUserOptionsLookup()
-                ->getOption( $out->getUser(), PreferenceHooks::getThemePreferenceName(), $wgThemeToggleDefault );
+                ->getOption( $out->getUser(), PreferenceHooks::getThemePreferenceName(), $currentTheme );
         }
 
         // Expose configuration variables
         $out->addJsConfigVars( [
             'wgThemeToggleDefault' => $currentTheme,
             // @deprecated v0.3.1:v0.4.0
-            'wgThemeToggleSiteCssBundled' => $wgThemeToggleSiteCssBundled
+            'wgThemeToggleSiteCssBundled' => $defs->getBundledThemeIds()
         ] );
         if ( !$isAnonymous && ExtensionConfig::getPreferenceGroupName() !== null ) {
             $out->addJsConfigVars( [

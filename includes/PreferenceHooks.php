@@ -18,8 +18,7 @@ class PreferenceHooks implements
     }
 
     public function onUserGetDefaultOptions( &$defaultOptions ) {
-        global $wgThemeToggleDefault;
-        $defaultOptions[self::getThemePreferenceName()] = $wgThemeToggleDefault;
+        $defaultOptions[self::getThemePreferenceName()] = ThemeDefinitions::get()->getDefaultThemeId();
     }
 
     public function onGetPreferences( $user, &$preferences ) {
