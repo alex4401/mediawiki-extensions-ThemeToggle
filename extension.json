@@ -7,7 +7,7 @@
 	],
 	"url": "https://gitlab.mglolenstine.xyz/alex4401/mediawiki-extension-themetoggle",
 	"descriptionmsg": "themetoggle-desc",
-	"license-name": "GPL-2.0-or-later",
+	"license-name": "GPL-3.0-or-later",
 	"type": "other",
 
 	"requires": {
