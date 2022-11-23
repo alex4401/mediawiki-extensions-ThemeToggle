@@ -34,9 +34,8 @@ class ResourceLoaderHooks implements
         global $wgThemeToggleSiteCssBundled;
 
         $resourceLoader->register( 'ext.themes.apply', [
-            'class' => FileModule::class,
+            'class' => ThemeApplyModule::class,
             'localBasePath' => 'extensions/ThemeToggle/modules/inline',
-            'targets' => [ 'desktop', 'mobile' ],
             'scripts' => [ ModuleHelper::getCoreJsNameToServe() . '.js' ]
         ] );
 
