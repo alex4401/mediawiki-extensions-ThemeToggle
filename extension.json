@@ -75,27 +75,28 @@
 		"UserGetDefaultOptions": "PreferenceHooks"
 	},
 
+	"config_prefix": "wgThemeToggle",
 	"config": {
-		"ThemeToggleDefault": {
+		"Default": {
 			"value": null
 		},
-		"ThemeToggleSiteCssBundled": {
+		"SiteCssBundled": {
 			"value": [],
 			"description": "The default theme (or fallback if auto) should be specified here at minimum."
 		},
-		"ThemeToggleDisableAutoDetection": {
+		"DisableAutoDetection": {
 			"value": false
 		},
-		"ThemeToggleSwitcherStyle": {
+		"SwitcherStyle": {
 			"value": "auto"
 		},
-		"ThemeToggleEnableForAnonymousUsers": {
+		"EnableForAnonymousUsers": {
 			"value": true
 		},
-		"ThemeTogglePreferenceGroup": {
+		"PreferenceGroup": {
 			"value": null
 		},
-		"ThemeToggleLoadScriptOverride": {
+		"LoadScriptOverride": {
 			"value": null
 		}
 	},
