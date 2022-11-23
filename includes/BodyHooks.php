@@ -28,13 +28,21 @@ class BodyHooks implements
         }
 
         // Expose configuration variables
+        if ( !$isAnonymous ) {
+            $out->addJsConfigVars( [
+                'wgCurrentTheme' => $currentTheme
+            ] );
+
+        }
         $out->addJsConfigVars( [
+            'wgThemeToggleCurrent' => $currentTheme,
+            // @deprecated v0.3.1:v0.5.0
             'wgThemeToggleDefault' => $currentTheme,
-            // @deprecated v0.3.1:v0.4.0
+            // @deprecated v0.3.1:v0.5.0
             'wgThemeToggleSiteCssBundled' => $defs->getBundledThemeIds()
         ] );
         if ( !$isAnonymous && ExtensionConfig::getPreferenceGroupName() !== null ) {
-            // @deprecated v0.3.1:v0.4.0
+            // @deprecated v0.3.1:v0.5.0
             $out->addJsConfigVars( [
                 'wgThemeTogglePrefGroup' => ExtensionConfig::getPreferenceGroupName()
             ] );
