@@ -1,13 +1,13 @@
 {
 	"name": "Theme Toggle",
-	"version": "0.3.1",
+	"version": "0.3.2",
 
 	"author": [
 		"alex4401"
 	],
 	"url": "https://gitlab.mglolenstine.xyz/alex4401/mediawiki-extension-themetoggle",
 	"descriptionmsg": "themetoggle-desc",
-	"license-name": "GPL-2.0-or-later",
+	"license-name": "GPL-3.0-or-later",
 	"type": "other",
 
 	"requires": {
@@ -75,27 +75,28 @@
 		"UserGetDefaultOptions": "PreferenceHooks"
 	},
 
+	"config_prefix": "wgThemeToggle",
 	"config": {
-		"ThemeToggleDefault": {
+		"Default": {
 			"value": null
 		},
-		"ThemeToggleSiteCssBundled": {
+		"SiteCssBundled": {
 			"value": [],
 			"description": "The default theme (or fallback if auto) should be specified here at minimum."
 		},
-		"ThemeToggleDisableAutoDetection": {
+		"DisableAutoDetection": {
 			"value": false
 		},
-		"ThemeToggleSwitcherStyle": {
+		"SwitcherStyle": {
 			"value": "auto"
 		},
-		"ThemeToggleEnableForAnonymousUsers": {
+		"EnableForAnonymousUsers": {
 			"value": true
 		},
-		"ThemeTogglePreferenceGroup": {
+		"PreferenceGroup": {
 			"value": null
 		},
-		"ThemeToggleLoadScriptOverride": {
+		"LoadScriptOverride": {
 			"value": null
 		}
 	},
