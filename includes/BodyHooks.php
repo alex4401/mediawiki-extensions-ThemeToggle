@@ -42,17 +42,9 @@ class BodyHooks implements
         // Inject the theme applying script into <head> to reduce latency
         $rlEndpoint = self::getThemeLoadEndpointUri( $out );
         $rlEndpointJson = json_encode( $rlEndpoint, JSON_UNESCAPED_SLASHES );
-        if ( ExtensionConfig::useAsyncJsDelivery() ) {
-            self::injectScriptTag( $out, 'ext.themes.loadEndpointVar', "THEMELOAD=$rlEndpointJson" );
-            self::injectScriptTag( $out, 'ext.themes.apply', '', "async src=\"$rlEndpoint&modules=ext.themes.apply"
-                . '&only=scripts&raw=1"' );
-        } else {
-            self::injectScriptTag( $out, 'ext.themes.apply', sprintf(
-                '(function(){var THEMELOAD=%s;%s})()',
-                $rlEndpointJson,
-                ModuleHelper::getCoreJsToInject()
-            ) );
-        }
+        self::injectScriptTag( $out, 'ext.themes.loadEndpointVar', "THEMELOAD=$rlEndpointJson" );
+        self::injectScriptTag( $out, 'ext.themes.apply', '', "async src=\"$rlEndpoint&modules=ext.themes.apply&only=scripts"
+            . '&raw=1"' );
 
         // Inject the theme switcher as a ResourceLoader module
         if ( ModuleHelper::getSwitcherModuleId() !== null ) {
