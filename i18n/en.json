@@ -18,5 +18,7 @@
     "themeusage-theme": "Theme",
     "themeusage-usercount": "Number of users",
     "themeusage-noresults": "No users with non-default theme preferences found.",
-    "themeusage-activeusers": "Active users"
+    "themeusage-activeusers": "Active users",
+    "themeusage-unknown-theme": "Unknown",
+    "themeusage-unknown-theme-tooltip": "These users have an unknown theme set as their preference, possibly because the theme has since been removed. They will see the default theme instead."
 }
