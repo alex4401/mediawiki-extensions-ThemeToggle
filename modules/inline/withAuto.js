@@ -29,7 +29,7 @@
         				htmlNode.classList.add( 'theme-' + currentThemeActual );
         			}
 
-                    if ( VARS.SiteCssBundled.indexOf( currentThemeActual ) < 0 ) {
+                    if ( VARS.SiteBundledCss.indexOf( currentThemeActual ) < 0 ) {
                         if ( linkNode == null ) {
                             linkNode = document.createElement( 'link' );
                             document.head.appendChild( linkNode );
