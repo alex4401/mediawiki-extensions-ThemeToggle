@@ -50,5 +50,5 @@
     };
 
 
-    MwSkinTheme.set( localStorage.getItem( themeKey ) || RLCONF.wgThemeToggleDefault );
+    MwSkinTheme.set( localStorage.getItem( themeKey ) || RLCONF.wgCurrentTheme || VARS.Default );
 } )();
