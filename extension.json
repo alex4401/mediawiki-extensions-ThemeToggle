@@ -37,7 +37,7 @@
 				"shared.js",
 				{
 					"name": "config.json",
-					"callback": "MediaWiki\\Extension\\Ark\\ThemeToggle\\ResourceLoaderHooks::getSiteConfigModuleContents"
+					"callback": "MediaWiki\\Extension\\ThemeToggle\\ResourceLoaderHooks::getSiteConfigModuleContents"
 				}
 			],
 			"targets": [ "desktop", "mobile" ]
@@ -45,25 +45,25 @@
 	},
 
 	"AutoloadNamespaces": {
-		"MediaWiki\\Extension\\Ark\\ThemeToggle\\": "includes/"
+		"MediaWiki\\Extension\\ThemeToggle\\": "includes/"
 	},
 
 	"SpecialPages": {
-		"ThemeUsage": "MediaWiki\\Extension\\Ark\\ThemeToggle\\SpecialThemeUsage"
+		"ThemeUsage": "MediaWiki\\Extension\\ThemeToggle\\SpecialThemeUsage"
 	},
 	
 	"HookHandlers": {
 		"ArticleHooks": {
-			"class": "MediaWiki\\Extension\\Ark\\ThemeToggle\\ArticleHooks"
+			"class": "MediaWiki\\Extension\\ThemeToggle\\ArticleHooks"
 		},
 		"BodyHooks": {
-			"class": "MediaWiki\\Extension\\Ark\\ThemeToggle\\BodyHooks"
+			"class": "MediaWiki\\Extension\\ThemeToggle\\BodyHooks"
 		},
 		"PreferenceHooks": {
-			"class": "MediaWiki\\Extension\\Ark\\ThemeToggle\\PreferenceHooks"
+			"class": "MediaWiki\\Extension\\ThemeToggle\\PreferenceHooks"
 		},
 		"ResourceLoaderHooks": {
-			"class": "MediaWiki\\Extension\\Ark\\ThemeToggle\\ResourceLoaderHooks"
+			"class": "MediaWiki\\Extension\\ThemeToggle\\ResourceLoaderHooks"
 		}
 	},
 	"Hooks": {

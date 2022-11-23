@@ -1,5 +1,5 @@
 <?php
-namespace MediaWiki\Extension\Ark\ThemeToggle;
+namespace MediaWiki\Extension\ThemeToggle;
 
 class ExtensionConfig {
     public static function getLoadScript(): string {

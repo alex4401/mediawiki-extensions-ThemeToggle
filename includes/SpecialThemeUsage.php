@@ -1,6 +1,6 @@
 <?php
 /* Based on Extension:Gadgets' SpecialGadgetUsage.php */
-namespace MediaWiki\Extension\Ark\ThemeToggle;
+namespace MediaWiki\Extension\ThemeToggle;
 
 use Html;
 use QueryPage;

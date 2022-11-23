@@ -1,5 +1,5 @@
 <?php
-namespace MediaWiki\Extension\Ark\ThemeToggle;
+namespace MediaWiki\Extension\ThemeToggle;
 
 class ModuleHelper {
     public static function getSwitcherModuleId(): ?string {

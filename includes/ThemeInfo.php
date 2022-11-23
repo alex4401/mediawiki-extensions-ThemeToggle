@@ -1,5 +1,5 @@
 <?php
-namespace MediaWiki\Extension\Ark\ThemeToggle;
+namespace MediaWiki\Extension\ThemeToggle;
 
 use InvalidArgumentException;
 use MediaWiki\Permissions\Authority;

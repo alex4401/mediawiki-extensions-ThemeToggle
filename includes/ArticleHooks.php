@@ -1,5 +1,5 @@
 <?php
-namespace MediaWiki\Extension\Ark\ThemeToggle;
+namespace MediaWiki\Extension\ThemeToggle;
 
 use ManualLogEntry;
 use MediaWiki\Permissions\Authority;
