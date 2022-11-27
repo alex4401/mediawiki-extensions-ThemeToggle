@@ -9,7 +9,7 @@
 */
 
 var Shared = require( 'ext.themes.baseSwitcher' );
-var $wrapper, $toggle;
+var $toggle;
 
 
 function cycleTheme() {
@@ -18,18 +18,19 @@ function cycleTheme() {
         nextIndex = 0;
     }
 
-    Shared.setUserPreference( Shared.CONFIG.themes[nextIndex] );
+    Shared.setUserPreference( Shared.CONFIG.themes[ nextIndex ] );
 }
 
 
 function initialise() {
     Shared.trySyncNewAccount();
 
-	$toggle = $( '<span>' )
-		.attr( 'title', mw.msg( 'themetoggle-simple-switch' ) )
-		.on( 'mousedown', cycleTheme );
-    $wrapper = $( '<li id="p-themes" class="mw-list-item">' )
+    $toggle = $( '<span>' )
+        .attr( 'title', mw.msg( 'themetoggle-simple-switch' ) )
+        .on( 'mousedown', cycleTheme );
+    $( '<li id="p-themes" class="mw-list-item">' )
         .append( $toggle )
+        // eslint-disable-next-line no-jquery/no-global-selector
         .prependTo( $( '#p-personal > .vector-menu-content > ul' ) );
 }
 

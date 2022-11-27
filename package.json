@@ -1,7 +1,9 @@
 {
-  "name": "mediawiki-extension-themetoggle",
-  "private": true,
-  "devDependencies": {
-    "uglify-js": "^3.17.0"
-  }
+    "private": true,
+    "scripts": {
+        "lint:js": "eslint --cache --max-warnings 0 ."
+    },
+    "devDependencies": {
+        "eslint-config-wikimedia": "0.23.0"
+    }
 }

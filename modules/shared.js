@@ -4,7 +4,7 @@ module.exports.REMOTE_PREF_NAME = 'skinTheme-' + ( module.exports.CONFIG.prefere
 
 
 var _setAccountPreference = function ( value ) {
-    mw.loader.using( 'mediawiki.api' ).then( function() {
+    mw.loader.using( 'mediawiki.api' ).then( function () {
         var api = new mw.Api();
         api.post( {
             action: 'options',
@@ -14,7 +14,7 @@ var _setAccountPreference = function ( value ) {
             token: mw.user.tokens.get( 'csrfToken' )
         } );
     } );
-}
+};
 
 
 module.exports.trySyncNewAccount = function () {

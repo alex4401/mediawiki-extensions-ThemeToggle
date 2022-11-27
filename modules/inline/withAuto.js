@@ -1,3 +1,6 @@
+/* eslint-disable mediawiki/class-doc */
+
+
 ( function () {
     var themeKey = 'skin-theme',
         prefersDark = window.matchMedia( '(prefers-color-scheme: dark)' ),
@@ -11,14 +14,15 @@
             return currentTheme;
         },
 
+
         set: function ( target ) {
             var htmlNode = document.documentElement;
 
             currentTheme = target;
 
 
-            function applyInternal( target ) {
-                currentThemeActual = target;
+            function applyInternal( actualTarget ) {
+                currentThemeActual = actualTarget;
 
                 try {
                     // Apply by changing class
@@ -30,14 +34,15 @@
                     }
 
                     if ( VARS.SiteBundledCss.indexOf( currentThemeActual ) < 0 ) {
-                        if ( linkNode == null ) {
+                        if ( linkNode === null ) {
                             linkNode = document.createElement( 'link' );
                             document.head.appendChild( linkNode );
                         }
                         linkNode.rel = 'stylesheet';
                         linkNode.type = 'text/css';
-                        linkNode.href = VARS.ResourceLoaderEndpoint+'&modules=ext.theme.'+currentThemeActual+'&only=styles';
-                    } else if ( linkNode != null ) {
+                        linkNode.href = VARS.ResourceLoaderEndpoint + '&modules=ext.theme.' + currentThemeActual
+                            + '&only=styles';
+                    } else if ( linkNode !== null ) {
                         document.head.removeChild( linkNode );
                         linkNode = null;
                     }
@@ -70,4 +75,4 @@
 
 
     MwSkinTheme.set( localStorage.getItem( themeKey ) || RLCONF.wgCurrentTheme || VARS.Default );
-} )();
+}() );
