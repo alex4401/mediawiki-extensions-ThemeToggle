@@ -59,7 +59,7 @@ class SpecialThemeUsage extends QueryPage {
         $html = Html::openElement( 'table', [ 'class' => [ 'sortable', 'wikitable' ] ] );
         $html .= Html::openElement( 'thead', [] );
         $html .= Html::openElement( 'tr', [] );
-        $headers = [ 'themeusage-theme', 'themeusage-usercount', 'themeusage-activeusers' ];
+        $headers = [ 'themeusage-theme', 'themeusage-usercount' ]; //, 'themeusage-activeusers' ];
         foreach ( $headers as $h ) {
             if ( $h === 'themeusage-theme' ) {
                 $html .= Html::element( 'th', [], $this->msg( $h )->text() );
@@ -93,7 +93,7 @@ class SpecialThemeUsage extends QueryPage {
             $html = Html::openElement( 'tr', [] );
             $html .= Html::element( 'td', [], $themeId );
             $html .= Html::element( 'td', [], $userCount );
-            $html .= Html::element( 'td', [], $this->getLanguage()->formatNum( $result->namespace ) );
+            // $html .= Html::element( 'td', [], $this->getLanguage()->formatNum( $result->namespace ) );
             $html .= Html::closeElement( 'tr' );
             return $html;
         }
@@ -118,7 +118,7 @@ class SpecialThemeUsage extends QueryPage {
             ], $this->msg( 'themeusage-unknown-theme' ) );
             $unknownRow .= Html::closeElement( 'td' );
             $unknownRow .= Html::element( 'td', [], $this->getLanguage()->formatNum( $this->invalidCount ) );
-            $unknownRow .= Html::element( 'td', [], $this->getLanguage()->formatNum( $this->invalidActiveCount ) );
+            // $unknownRow .= Html::element( 'td', [], $this->getLanguage()->formatNum( $this->invalidActiveCount ) );
             $unknownRow .= Html::closeElement( 'tr' );
             $out->addHTML( $unknownRow );
 
