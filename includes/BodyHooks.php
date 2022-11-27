@@ -20,17 +20,22 @@ class BodyHooks implements
         }
 
         $defs = ThemeDefinitions::get();
-        $currentTheme = $defs->getDefaultThemeId();
+        $currentTheme = $defaultTheme = $defs->getDefaultThemeId();
         // Retrieve user's preference
         if ( !$isAnonymous ) {
             $currentTheme = MediaWikiServices::getInstance()->getUserOptionsLookup()
-                ->getOption( $out->getUser(), PreferenceHooks::getThemePreferenceName(), $currentTheme );
+                ->getOption( $out->getUser(), PreferenceHooks::getThemePreferenceName(), $defaultTheme );
         }
 
         // Expose configuration variables
         $out->addJsConfigVars( [
-            'wgThemeToggleDefault' => $currentTheme
+            'wgDefaultTheme' => $defaultTheme
         ] );
+        if ( !$isAnonymous ) {
+            $out->addJsConfigVars( [
+                'wgCurrentTheme' => $currentTheme
+            ] );
+        }
 
         // Inject the theme applying script into <head> to reduce latency
         $rlEndpoint = self::getThemeLoadEndpointUri( $out );
