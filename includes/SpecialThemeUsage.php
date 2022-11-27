@@ -6,6 +6,9 @@ use Html;
 use QueryPage;
 
 class SpecialThemeUsage extends QueryPage {
+    private int $invalidCount = 0;
+    private int $invalidActiveCount = 0;
+
     public function __construct( $name = 'ThemeUsage' ) {
         parent::__construct( $name );
         $this->limit = 1000;
@@ -81,6 +84,12 @@ class SpecialThemeUsage extends QueryPage {
         $themeId = $result->title;
         $userCount = $this->getLanguage()->formatNum( $result->value );
         if ( $themeId ) {
+            if ( !in_array( $themeId, ThemeDefinitions::get()->getIds() ) ) {
+                $this->invalidCount += $result->value;
+                $this->invalidActiveCount += $result->namespace;
+                return false;
+            }
+
             $html = Html::openElement( 'tr', [] );
             $html .= Html::element( 'td', [], $themeId );
             $html .= Html::element( 'td', [], $userCount );
@@ -100,6 +109,19 @@ class SpecialThemeUsage extends QueryPage {
                     $out->addHTML( $line );
                 }
             }
+
+            $unknownRow = Html::openElement( 'tr', [] );
+            $unknownRow .= Html::openElement( 'td', [] );
+            $unknownRow .= Html::element( 'span', [
+                'style' => 'border-bottom: 2px dotted #666; font-style: italic',
+                'title' => $this->msg( 'themeusage-unknown-theme-tooltip' )
+            ], $this->msg( 'themeusage-unknown-theme' ) );
+            $unknownRow .= Html::closeElement( 'td' );
+            $unknownRow .= Html::element( 'td', [], $this->getLanguage()->formatNum( $this->invalidCount ) );
+            $unknownRow .= Html::element( 'td', [], $this->getLanguage()->formatNum( $this->invalidActiveCount ) );
+            $unknownRow .= Html::closeElement( 'tr' );
+            $out->addHTML( $unknownRow );
+
             $this->outputTableEnd();
         } else {
             $out->addHtml(
