@@ -15,4 +15,9 @@ class ExtensionConfig {
         global $wgThemeTogglePreferenceGroup;
         return $wgThemeTogglePreferenceGroup;
     }
+
+    public static function isDeadCodeEliminationExperimentEnabled(): bool {
+        global $wgThemeToggleDeadCodeEliminationExperiment;
+        return $wgThemeToggleDeadCodeEliminationExperiment;
+    }
 }

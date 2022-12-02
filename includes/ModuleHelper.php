@@ -17,6 +17,10 @@ class ModuleHelper {
     }
 
     public static function getCoreJsNameToServe(): string {
+        if ( ExtensionConfig::isDeadCodeEliminationExperimentEnabled() ) {
+            return 'merged';
+        }
+
         global $wgThemeToggleDisableAutoDetection;
         if ( $wgThemeToggleDisableAutoDetection || !ThemeDefinitions::get()->isEligibleForAuto() ) {
             return 'noAuto';
