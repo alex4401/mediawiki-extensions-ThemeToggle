@@ -100,7 +100,7 @@
 			"value": null
 		},
 		"DeadCodeEliminationExperiment": {
-			"value": false
+			"value": true
 		}
 	},
 
