@@ -23,7 +23,7 @@ function cycleTheme() {
 
 
 function initialise() {
-    Shared.trySyncNewAccount();
+    Shared.prepare();
 
     $toggle = $( '<span>' )
         .attr( 'title', mw.msg( 'themetoggle-simple-switch' ) )

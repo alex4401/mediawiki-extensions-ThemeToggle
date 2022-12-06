@@ -21,7 +21,7 @@ function addTheme( themeId ) {
 
 
 function initialise() {
-    Shared.trySyncNewAccount();
+    Shared.prepare();
 
     $label = $( '<span class="vector-menu-heading-label">' )
         // eslint-disable-next-line mediawiki/msg-doc

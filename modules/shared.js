@@ -1,9 +1,20 @@
+/**
+ * @typedef {Object} SwitcherConfig
+ * @prop {string?} preferenceGroup
+ * @prop {boolean} supportsAuto
+ * @prop {string[]} themes
+ * @prop {string} defaultTheme
+*/
+
+/** @type {SwitcherConfig} */
 module.exports.CONFIG = require( './config.json' );
+/** @type {string} */
 module.exports.LOCAL_PREF_NAME = 'skin-theme';
+/** @type {string} */
 module.exports.REMOTE_PREF_NAME = 'skinTheme-' + ( module.exports.CONFIG.preferenceGroup || mw.config.get( 'wgWikiID' ) );
 
 
-var _setAccountPreference = function ( value ) {
+function _setAccountPreference( value ) {
     mw.loader.using( 'mediawiki.api' ).then( function () {
         var api = new mw.Api();
         api.post( {
@@ -14,6 +25,19 @@ var _setAccountPreference = function ( value ) {
             token: mw.user.tokens.get( 'csrfToken' )
         } );
     } );
+};
+
+
+/**
+ * Checks whether local preference points to a valid theme, and if not, erases it and requests the default theme to be
+ * set.
+ */
+module.exports.trySanitisePreference = function () {
+    if ( mw.config.get( 'wgUserName' ) === null
+        && this.CONFIG.themes.indexOf( localStorage.getItem( module.exports.LOCAL_PREF_NAME ) < 0 ) ) {
+        localStorage.removeItem( module.exports.LOCAL_PREF_NAME );
+        MwSkinTheme.set( module.exports.CONFIG.defaultTheme );
+    }
 };
 
 
@@ -47,4 +71,10 @@ module.exports.whenCoreLoaded = function ( callback, context ) {
     } else {
         setTimeout( module.exports.whenCoreLoaded.bind( null, callback, context ), 20 );
     }
+};
+
+
+module.exports.prepare = function () {
+    module.exports.trySanitisePreference();
+    module.exports.trySyncNewAccount();
 };
