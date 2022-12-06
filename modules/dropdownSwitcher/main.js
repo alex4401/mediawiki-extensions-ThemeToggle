@@ -3,7 +3,7 @@
 */
 
 var Shared = require( 'ext.themes.baseSwitcher' );
-var $label, $list;
+var $container, $label, $list;
 
 
 function addTheme( themeId ) {
@@ -27,7 +27,7 @@ function initialise() {
         // eslint-disable-next-line mediawiki/msg-doc
         .text( mw.msg( 'theme-' + MwSkinTheme.getCurrent() ) );
     $list = $( '<ul class="vector-menu-content-list menu">' );
-    $( '<li id="p-themes" class="mw-list-item vector-menu vector-menu-dropdown vector-menu-dropdown-noicon">' )
+    $container = $( '<li id="p-themes" class="mw-list-item vector-menu vector-menu-dropdown vector-menu-dropdown-noicon">' )
         .append( $( '<input id="p-themes-checkbox" type="checkbox" class="vector-menu-checkbox" role="button" '
             + 'aria-haspopup="true" aria-labelledby="p-themes-label">' )
             .attr( 'title', mw.msg( 'themetoggle-dropdown-switch' ) ) )
@@ -41,6 +41,8 @@ function initialise() {
         addTheme( 'auto' );
     }
     Shared.CONFIG.themes.forEach( addTheme );
+
+    mw.hook( 'ext.themes.dropdownSwitcherReady' ).fire( $container );
 }
 
 
