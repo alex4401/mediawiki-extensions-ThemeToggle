@@ -19,7 +19,7 @@ class BodyHooks implements
             return;
         }
 
-        $defs = ThemeDefinitions::get();
+        $defs = ThemeAndFeatureRegistry::get();
         $currentTheme = $defaultTheme = $defs->getDefaultThemeId();
         // Retrieve user's preference
         if ( !$isAnonymous ) {

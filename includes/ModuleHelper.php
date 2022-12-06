@@ -6,7 +6,7 @@ class ModuleHelper {
         global $wgThemeToggleSwitcherStyle;
         switch ( $wgThemeToggleSwitcherStyle ) {
             case 'auto':
-                return ( count( ThemeDefinitions::get()->getIds() ) <= 2 ) ? 'ext.themes.simpleSwitcher'
+                return ( count( ThemeAndFeatureRegistry::get()->getIds() ) <= 2 ) ? 'ext.themes.simpleSwitcher'
                     : 'ext.themes.dropdownSwitcher';
             case 'simple':
                 return 'ext.themes.simpleSwitcher';
@@ -22,7 +22,7 @@ class ModuleHelper {
         }
 
         global $wgThemeToggleDisableAutoDetection;
-        if ( $wgThemeToggleDisableAutoDetection || !ThemeDefinitions::get()->isEligibleForAuto() ) {
+        if ( $wgThemeToggleDisableAutoDetection || !ThemeAndFeatureRegistry::get()->isEligibleForAuto() ) {
             return 'noAuto';
         }
         return 'withAuto';

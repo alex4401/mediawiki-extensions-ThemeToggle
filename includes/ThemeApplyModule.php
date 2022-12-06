@@ -12,7 +12,7 @@ class ThemeApplyModule extends FileModule {
         $script = parent::getScript( $context );
 
         $user = $context->getUserObj();
-        $defs = ThemeDefinitions::get();
+        $defs = ThemeAndFeatureRegistry::get();
 
         $currentTheme = $defs->getDefaultThemeId();
         // Retrieve user's preference

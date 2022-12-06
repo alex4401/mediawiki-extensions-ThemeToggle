@@ -18,11 +18,11 @@ class PreferenceHooks implements
     }
 
     public function onUserGetDefaultOptions( &$defaultOptions ) {
-        $defaultOptions[self::getThemePreferenceName()] = ThemeDefinitions::get()->getDefaultThemeId();
+        $defaultOptions[self::getThemePreferenceName()] = ThemeAndFeatureRegistry::get()->getDefaultThemeId();
     }
 
     public function onGetPreferences( $user, &$preferences ) {
-        $defs = ThemeDefinitions::get();
+        $defs = ThemeAndFeatureRegistry::get();
         $themeOptions = [];
 
         if ( $defs->isEligibleForAuto() ) {

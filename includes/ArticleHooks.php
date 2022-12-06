@@ -12,11 +12,11 @@ class ArticleHooks implements
 {
 
     public function onPageSaveComplete( $wikiPage, $userIdentity, $summary, $flags, $revisionRecord, $editResult ): void {
-        ThemeDefinitions::get()->handlePageUpdate( $wikiPage->getTitle() );
+        ThemeAndFeatureRegistry::get()->handlePageUpdate( $wikiPage->getTitle() );
     }
 
     public function onPageDeleteComplete( $page, Authority $deleter, string $reason, int $pageID, RevisionRecord $deletedRev,
         ManualLogEntry $logEntry, int $archivedRevisionCount ): void {
-        ThemeDefinitions::get()->handlePageUpdate( TitleValue::newFromPage( $page ) );
+        ThemeAndFeatureRegistry::get()->handlePageUpdate( TitleValue::newFromPage( $page ) );
     }
 }

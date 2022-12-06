@@ -10,7 +10,7 @@ use Title;
 use WANObjectCache;
 use Wikimedia\Rdbms\Database;
 
-class ThemeDefinitions {
+class ThemeAndFeatureRegistry {
     public const CACHE_GENERATION = 3;
     public const CACHE_TTL = 24 * 60 * 60;
     public const TITLE = 'Theme-definitions';
@@ -23,7 +23,7 @@ class ThemeDefinitions {
 
     public static function get() {
         if ( self::$instance === null ) {
-            self::$instance = new ThemeDefinitions();
+            self::$instance = new ThemeAndFeatureRegistry();
         }
         return self::$instance;
     }

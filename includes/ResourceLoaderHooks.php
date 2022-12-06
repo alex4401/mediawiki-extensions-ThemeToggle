@@ -51,11 +51,11 @@ class ResourceLoaderHooks implements
 
         $messages = [];
 
-        if ( ThemeDefinitions::get()->isEligibleForAuto() ) {
+        if ( ThemeAndFeatureRegistry::get()->isEligibleForAuto() ) {
             $messages[] = 'theme-auto';
         }
 
-        foreach ( ThemeDefinitions::get()->getAll() as $themeId => $themeInfo ) {
+        foreach ( ThemeAndFeatureRegistry::get()->getAll() as $themeId => $themeInfo ) {
             $messages[] = $themeInfo->getMessageId();
             if ( !in_array( $themeId, $wgThemeToggleSiteCssBundled ) ) {
                 $resourceLoader->register( 'ext.theme.' . $themeId, [
@@ -72,7 +72,7 @@ class ResourceLoaderHooks implements
     }
 
     public function getSiteConfigModuleContents( Context $context, Config $config ): array {
-        $defs = ThemeDefinitions::get();
+        $defs = ThemeAndFeatureRegistry::get();
         return [
             'themes' => array_keys( array_filter( $defs->getAll(), fn( $themeInfo, $themeId )
                 => ( count( $themeInfo->getRequiredUserRights() ) <= 0 ), ARRAY_FILTER_USE_BOTH ) ),

@@ -84,7 +84,7 @@ class SpecialThemeUsage extends QueryPage {
         $themeId = $result->title;
         $userCount = $this->getLanguage()->formatNum( $result->value );
         if ( $themeId ) {
-            if ( !in_array( $themeId, ThemeDefinitions::get()->getIds() ) ) {
+            if ( !in_array( $themeId, ThemeAndFeatureRegistry::get()->getIds() ) ) {
                 $this->invalidCount += $result->value;
                 $this->invalidActiveCount += $result->namespace;
                 return false;
