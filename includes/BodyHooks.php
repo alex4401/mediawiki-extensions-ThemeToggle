@@ -28,9 +28,6 @@ class BodyHooks implements
         }
 
         // Expose configuration variables
-        $out->addJsConfigVars( [
-            'wgDefaultTheme' => $defaultTheme
-        ] );
         if ( !$isAnonymous ) {
             $out->addJsConfigVars( [
                 'wgCurrentTheme' => $currentTheme
