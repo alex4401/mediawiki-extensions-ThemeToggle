@@ -150,7 +150,7 @@ class ThemeAndFeatureRegistry {
             || !$revision->getContent( SlotRecord::MAIN )
             || $revision->getContent( SlotRecord::MAIN )->isEmpty()
         ) {
-            $text = wfMessage( self::TITLE )->plain();
+            $text = wfMessage( self::TITLE )->inLanguage( 'en' )->plain();
         } else {
             $content = $revision->getContent( SlotRecord::MAIN );
             $text = ( $content instanceof TextContent ) ? $content->getText() : '';
