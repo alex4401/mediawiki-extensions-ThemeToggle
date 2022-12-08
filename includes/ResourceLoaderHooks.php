@@ -44,7 +44,7 @@ class ResourceLoaderHooks implements
                 'class' => FileModule::class,
                 'localBasePath' => 'extensions/ThemeToggle/modules',
                 'remoteExtPath' => 'extensions/ThemeToggle/modules',
-                'dependencies' => [ 'ext.themes.baseSwitcher' ],
+                'dependencies' => [ 'ext.themes.jsapi' ],
                 'targets' => [ 'desktop', 'mobile' ]
             ] + self::getSwitcherModuleDefinition( ModuleHelper::getSwitcherModuleId() ) );
         }

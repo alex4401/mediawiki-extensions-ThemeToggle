@@ -2,7 +2,7 @@
  * Dropdown-based theme toggle
 */
 
-var Shared = require( 'ext.themes.baseSwitcher' );
+var Shared = require( 'ext.themes.jsapi' );
 var $container, $label, $list;
 
 

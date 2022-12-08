@@ -29,7 +29,7 @@
 	},
 
 	"ResourceModules": {
-		"ext.themes.baseSwitcher": {
+		"ext.themes.jsapi": {
 			"dependencies": [
 				"ext.themes.siteMessages"
 			],
