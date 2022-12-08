@@ -27,7 +27,11 @@ function initialise() {
 
     $toggle = $( '<span>' )
         .attr( 'title', mw.msg( 'themetoggle-simple-switch' ) )
-        .on( 'mousedown', cycleTheme );
+        .on( 'mousedown', function ( event ) {
+            if ( event.which === 1 || event.button === 0 ) {
+                cycleTheme();
+            }
+        } );
     $( '<li id="p-themes" class="mw-list-item">' )
         .append( $toggle )
         // eslint-disable-next-line no-jquery/no-global-selector
