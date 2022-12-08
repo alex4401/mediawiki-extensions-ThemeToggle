@@ -27,9 +27,11 @@ class BodyHooks implements
                 'wgCurrentTheme' => $currentTheme
             ] );
         }
-        
+
         // Preload the CSS class
-        $out->addHtmlClasses( [ "theme-$currentTheme" ] );
+        if ( $currentTheme !== 'auto' ) {
+            $out->addHtmlClasses( [ "theme-$currentTheme" ] );
+        }
 
         // Inject the theme applying script into <head> to reduce latency
         $rlEndpoint = self::getThemeLoadEndpointUri( $out );
