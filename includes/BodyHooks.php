@@ -1,7 +1,6 @@
 <?php
 namespace MediaWiki\Extension\ThemeToggle;
 
-use MediaWiki\MediaWikiServices;
 use MediaWiki\ResourceLoader\ResourceLoader;
 use OutputPage;
 
@@ -20,18 +19,16 @@ class BodyHooks implements
         }
 
         $defs = ThemeAndFeatureRegistry::get();
-        $currentTheme = $defaultTheme = $defs->getDefaultThemeId();
-        // Retrieve user's preference
-        if ( !$isAnonymous ) {
-            $currentTheme = MediaWikiServices::getInstance()->getUserOptionsLookup()
-                ->getOption( $out->getUser(), PreferenceHooks::getThemePreferenceName(), $defaultTheme );
-        }
+        $currentTheme = $defs->getForUser( $out->getUser() );
 
         // Expose configuration variables
         if ( !$isAnonymous ) {
             $out->addJsConfigVars( [
                 'wgCurrentTheme' => $currentTheme
             ] );
+
+            // Preload the CSS class
+            $out->addHtmlClasses( [ "theme-$currentTheme" ] );
         }
 
         // Inject the theme applying script into <head> to reduce latency

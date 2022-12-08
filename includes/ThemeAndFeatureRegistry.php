@@ -7,6 +7,7 @@ use MediaWiki\Revision\SlotRecord;
 use ObjectCache;
 use TextContent;
 use Title;
+use User;
 use WANObjectCache;
 use Wikimedia\Rdbms\Database;
 use InvalidArgumentException;
@@ -77,6 +78,16 @@ class ThemeAndFeatureRegistry {
 
         // Otherwise return the first defined theme
         return $this->ids[0];
+    }
+
+    public function getForUser( User $user ) {
+        $result = $this->getDefaultThemeId();
+        // Retrieve user's preference
+        if ( !$user->isAnon() ) {
+            $result = MediaWikiServices::getInstance()->getUserOptionsLookup()
+                ->getOption( $user, PreferenceHooks::getThemePreferenceName(), $result );
+        }
+        return $result;
     }
 
     public function getBundledThemeIds(): array {
