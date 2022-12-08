@@ -1,0 +1,23 @@
+{
+    "@metadata": {
+        "authors": [
+            "Magiczocker"
+        ]
+    },
+    "themeusage-unknown-theme-tooltip": "Diese Benutzer haben ein unbekanntes Thema als ihren Einstellungen festgelegt, möglicherweise weil das Thema inzwischen entfernt wurde. Sie sehen stattdessen das Standardthema.",
+    "theme-auto-preference-description": "Folgt den Systemeinstellungen, um zu bestimmen, ob das helle oder dunkle Thema verwendet werden soll",
+    "themetoggle-desc": "Ermöglicht es der Webseite, lokale Themen zu erstellen. Abgestimmt für Einrichtungen mit aggressivem Caching, wo eine Cookie-basierte Lösung den Cache vergiften könnte.",
+    "themeusage-noresults": "Keine Benutzer mit nicht standardmäßigen Themeneinstellungen gefunden.",
+    "themeusage-unknown-theme": "Unbekannt",
+    "themeusage-activeusers": "Aktive Benutzer",
+    "themeusage-usercount": "Anzahl der Benutzer",
+    "themeusage-theme": "Thema",
+    "themeusage": "Statistiken zur Themennutzung",
+    "themetoggle-dropdown-switch": "Klicken, um ein Thema auszuwählen",
+    "themetoggle-simple-switch": "Klicken, um das Thema umzuschalten",
+    "theme-light": "Hell",
+    "theme-dark": "Dunkel",
+    "theme-auto": "Automatisch (System)",
+    "theme-none": "Kein",
+    "themetoggle-user-preference-label": "Thema"
+}

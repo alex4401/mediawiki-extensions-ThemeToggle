@@ -27,7 +27,11 @@ function initialise() {
 
 	$toggle = $( '<span>' )
 		.attr( 'title', mw.msg( 'themetoggle-simple-switch' ) )
-		.on( 'mousedown', cycleTheme );
+		.on( 'mousedown', function ( event ) {
+            if ( event.which === 1 ) {
+                cycleTheme();
+            }
+        } );
     $wrapper = $( '<li id="p-themes" class="mw-list-item">' )
         .append( $toggle )
         .prependTo( $( '#p-personal > .vector-menu-content > ul' ) );

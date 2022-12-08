@@ -16,5 +16,8 @@
     "themeusage-noresults": "No se han encontrado usuarios usando temas no predeterminados.",
     "themeusage": "Estadísticas de uso del tema",
     "themeusage-theme": "Tema",
-    "themeusage-activeusers": "Usuarios activos"
+    "themeusage-activeusers": "Usuarios activos",
+    "theme-none": "Ninguno",
+    "themeusage-unknown-theme-tooltip": "Estos usuarios no tienen un tema establecido como tema preferente, probablemente debido a que el tema se ha eliminado desde entonces. En su defecto, los usuarios verán el tema por defecto.",
+    "themeusage-unknown-theme": "Desconocido"
 }
