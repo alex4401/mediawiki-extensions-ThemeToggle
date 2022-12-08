@@ -16,5 +16,8 @@
     "themeusage": "Statistiques d'utilisation du thème",
     "themeusage-theme": "Thème",
     "themeusage-usercount": "Nombre d'utilisateurs",
-    "themeusage-activeusers": "Utilisateurs actifs"
+    "themeusage-activeusers": "Utilisateurs actifs",
+    "themeusage-unknown-theme-tooltip": "Ces utilisateurs ont un thème inconnu choisi dans leurs préférences, peut-être parce que le thème a été supprimé depuis. Ils verront le thème par défaut à la place.",
+    "theme-none": "Aucun",
+    "themeusage-unknown-theme": "Inconnu"
 }
