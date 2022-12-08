@@ -14,10 +14,10 @@ class ResourceLoaderHooks implements
 
     public static function getSwitcherModuleDefinition( string $id ): array {
         switch ( $id ) {
-            case 'ext.themes.simpleSwitcher':
+            case 'ext.themes.dayNightSwitcher':
                 return [
-                    'packageFiles' => [ 'simpleSwitcher/main.js' ],
-                    'styles' => [ 'simpleSwitcher/styles.less' ],
+                    'packageFiles' => [ 'dayNightSwitcher/main.js' ],
+                    'styles' => [ 'dayNightSwitcher/styles.less' ],
                     'messages' => [ 'themetoggle-simple-switch' ]
                 ];
             case 'ext.themes.dropdownSwitcher':

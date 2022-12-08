@@ -6,10 +6,11 @@ class ModuleHelper {
         global $wgThemeToggleSwitcherStyle;
         switch ( $wgThemeToggleSwitcherStyle ) {
             case 'auto':
-                return ( count( ThemeAndFeatureRegistry::get()->getIds() ) <= 2 ) ? 'ext.themes.simpleSwitcher'
+                return ( count( ThemeAndFeatureRegistry::get()->getIds() ) <= 2 ) ? 'ext.themes.dayNightSwitcher'
                     : 'ext.themes.dropdownSwitcher';
+            case 'dayNight':
             case 'simple':
-                return 'ext.themes.simpleSwitcher';
+                return 'ext.themes.dayNightSwitcher';
             case 'dropdown':
                 return 'ext.themes.dropdownSwitcher';
         }
