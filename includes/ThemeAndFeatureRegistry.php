@@ -9,6 +9,7 @@ use TextContent;
 use Title;
 use WANObjectCache;
 use Wikimedia\Rdbms\Database;
+use InvalidArgumentException;
 
 class ThemeAndFeatureRegistry {
     public const CACHE_GENERATION = 3;
@@ -146,10 +147,10 @@ class ThemeAndFeatureRegistry {
             ->getRevisionLookup()
             ->getRevisionByTitle( Title::makeTitle( NS_MEDIAWIKI, self::TITLE ) );
         $text = null;
-        if ( !$revision
-            || !$revision->getContent( SlotRecord::MAIN )
-            || $revision->getContent( SlotRecord::MAIN )->isEmpty()
-        ) {
+        $useMessageFallback = !$revision || !$revision->getContent( SlotRecord::MAIN )
+            || $revision->getContent( SlotRecord::MAIN )->isEmpty();
+
+        if ( $useMessageFallback ) {
             $text = wfMessage( self::TITLE )->inLanguage( 'en' )->plain();
         } else {
             $content = $revision->getContent( SlotRecord::MAIN );
@@ -157,7 +158,6 @@ class ThemeAndFeatureRegistry {
         }
 
         $themes = $this->listFromDefinition( $text );
-
         return $themes;
     }
 
@@ -168,9 +168,13 @@ class ThemeAndFeatureRegistry {
         $themes = [];
 
         foreach ( $lines as $line ) {
-            $themeInfo = $this->newFromText( $line );
-            if ( $themeInfo ) {
-                $themes[$themeInfo->getId()] = $themeInfo;
+            try {
+                $themeInfo = $this->newFromText( $line );
+                if ( $themeInfo ) {
+                    $themes[$themeInfo->getId()] = $themeInfo;
+                }
+            } catch ( InvalidArgumentException $ex ) {
+                continue;
             }
         }
 
