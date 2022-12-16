@@ -1,10 +1,10 @@
 /**
  * @typedef {Object} SwitcherConfig
- * @prop {string?} preferenceGroup
- * @prop {boolean} supportsAuto
- * @prop {string[]} themes
- * @prop {string} defaultTheme
-*/
+ * @property {string?} preferenceGroup
+ * @property {boolean} supportsAuto
+ * @property {string[]} themes
+ * @property {string} defaultTheme
+ */
 
 /** @type {SwitcherConfig} */
 module.exports.CONFIG = require( './config.json' );
@@ -34,7 +34,7 @@ function _setAccountPreference( value ) {
  */
 module.exports.trySanitisePreference = function () {
     if ( mw.config.get( 'wgUserName' ) === null
-        && this.CONFIG.themes.indexOf( localStorage.getItem( module.exports.LOCAL_PREF_NAME ) < 0 ) ) {
+        && this.CONFIG.themes.indexOf( localStorage.getItem( module.exports.LOCAL_PREF_NAME ) ) < 0 ) {
         localStorage.removeItem( module.exports.LOCAL_PREF_NAME );
         MwSkinTheme.set( module.exports.CONFIG.defaultTheme );
     }
