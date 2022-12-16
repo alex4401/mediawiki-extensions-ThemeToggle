@@ -14,6 +14,8 @@
     "theme-light": "Light",
     "themetoggle-simple-switch": "Click to toggle the theme",
     "themetoggle-dropdown-switch": "Click to select a theme",
+    "themetoggle-dropdown-section-themes": "Themes",
+    "themetoggle-dropdown-section-features": "Other",
     "themeusage": "Theme usage statistics",
     "themeusage-theme": "Theme",
     "themeusage-usercount": "Number of users",

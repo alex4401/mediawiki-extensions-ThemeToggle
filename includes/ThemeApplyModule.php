@@ -27,7 +27,8 @@ class ThemeApplyModule extends FileModule {
             'VARS.Default' => $context->encodeJson( $currentTheme ),
             'VARS.SiteBundledCss' => $context->encodeJson( $defs->getBundledThemeIds() ),
             'VARS.ResourceLoaderEndpoint' => $context->encodeJson( $this->getThemeLoadEndpointUri( $context ) ),
-            'VARS.WithPCSSupport' => !$wgThemeToggleDisableAutoDetection && $defs->isEligibleForAuto() ? 1 : 0
+            'VARS.WithPCSSupport' => !$wgThemeToggleDisableAutoDetection && $defs->isEligibleForAuto() ? 1 : 0,
+            'VARS.WithFeatureSupport' => false
         ];
         $script = strtr( $script, $pairs );
 

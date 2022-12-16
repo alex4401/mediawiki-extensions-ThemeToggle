@@ -4,12 +4,15 @@
  * @property {boolean} supportsAuto
  * @property {string[]} themes
  * @property {string} defaultTheme
+ * @property {string[]} features
  */
 
 /** @type {SwitcherConfig} */
 module.exports.CONFIG = require( './config.json' );
 /** @type {string} */
 module.exports.LOCAL_PREF_NAME = 'skin-theme';
+/** @type {string} */
+module.exports.LOCAL_FEATURES_PREF_NAME = 'skin-theme-features';
 /** @type {string} */
 module.exports.REMOTE_PREF_NAME = 'skinTheme-' + ( module.exports.CONFIG.preferenceGroup || mw.config.get( 'wgWikiID' ) );
 
@@ -62,6 +65,23 @@ module.exports.setUserPreference = function ( value ) {
     }
 
     MwSkinTheme.set( value );
+};
+
+
+module.exports.toggleFeature = function ( id ) {
+    if ( module.exports.CONFIG.features.indexOf( id ) < 0 ) {
+        return;
+    }
+
+    var features = JSON.parse( localStorage.getItem( module.exports.LOCAL_FEATURES_PREF_NAME ) || '[]' ),
+        arrayIndex = features.indexOf( id );
+    if ( arrayIndex < 0 ) {
+        features.push( id );
+    } else {
+        delete features[ arrayIndex ];
+    }
+    localStorage.setItem( module.exports.LOCAL_FEATURES_PREF_NAME, features );
+    MwSkinTheme.toggleFeature( id, arrayIndex < 0 );
 };
 
 

@@ -14,8 +14,7 @@
 
 
 ( function () {
-    var themeKey = 'skin-theme',
-        htmlNode = document.documentElement,
+    var htmlNode = document.documentElement,
         linkNode = null,
         currentTheme = null;
     /* @if ( VARS.WithPCSSupport ) */
@@ -60,7 +59,11 @@
     /* @endif */
 
 
-    window.MwSkinTheme = {
+    window.MwSkinTheme = Object.freeze( {
+        LOCAL_THEME_PREFERENCE_KEY: 'skin-theme',
+        LOCAL_FEATURE_PREFERENCE_KEY: 'skin-theme-features',
+
+
         getCurrent: function () {
             return currentTheme;
         },
@@ -86,9 +89,21 @@
             /* @if ( !VARS.WithPCSSupport ) */
             _setThemeImpl( target );
             /* @endif */
+        },
+
+
+        /* @if ( VARS.WithFeatureSupport ) */
+        toggleFeature: function ( id, value ) {
+            htmlNode.classList[ value ? 'add' : 'remove' ]( 'theme-feature-' + id );
         }
-    };
+        /* @endif */
+    } );
 
 
-    MwSkinTheme.set( localStorage.getItem( themeKey ) || RLCONF.wgCurrentTheme || VARS.Default );
+    MwSkinTheme.set( localStorage.getItem( MwSkinTheme.LOCAL_THEME_PREFERENCE_KEY ) || RLCONF.wgCurrentTheme || VARS.Default );
+    /* @if ( VARS.WithFeatureSupport ) */
+    JSON.parse( localStorage.getItem( MwSkinTheme.LOCAL_FEATURE_PREFERENCE_KEY ) || '[]' ).forEach( function ( id ) {
+        MwSkinTheme.toggleFeature( id, true );
+    } );
+    /* @endif */
 }() );
