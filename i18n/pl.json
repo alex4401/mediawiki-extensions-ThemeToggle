@@ -16,5 +16,9 @@
     "themeusage-theme": "Motyw",
     "themeusage-usercount": "Liczba użytkowników",
     "themeusage-activeusers": "Aktywni użytkownicy",
-    "themeusage-noresults": "Nie znaleziono użytkowników z preferencjami motywu innymi niż domyślne."
+    "themeusage-noresults": "Nie znaleziono użytkowników z preferencjami motywu innymi niż domyślne.",
+    "themetoggle-dropdown-section-themes": "Motywy",
+    "themetoggle-dropdown-section-features": "Inne",
+    "themeusage-unknown-theme": "Nieznane",
+    "theme-none": "Domyślny"
 }
