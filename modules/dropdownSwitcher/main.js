@@ -46,6 +46,4 @@ function initialise() {
 }
 
 
-Shared.whenCoreLoaded( function () {
-    $( initialise );
-} );
+Shared.runSwitcherInitialiser( initialise );

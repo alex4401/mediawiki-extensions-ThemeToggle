@@ -28,7 +28,7 @@ function _setAccountPreference( value ) {
             token: mw.user.tokens.get( 'csrfToken' )
         } );
     } );
-};
+}
 
 
 /**
@@ -97,4 +97,11 @@ module.exports.whenCoreLoaded = function ( callback, context ) {
 module.exports.prepare = function () {
     module.exports.trySanitisePreference();
     module.exports.trySyncNewAccount();
+};
+
+
+module.exports.runSwitcherInitialiser = function ( fn ) {
+    module.exports.whenCoreLoaded( function () {
+        $( fn );
+    } );
 };
