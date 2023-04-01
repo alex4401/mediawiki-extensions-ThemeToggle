@@ -101,7 +101,9 @@ module.exports.prepare = function () {
 
 
 module.exports.runSwitcherInitialiser = function ( fn ) {
-    module.exports.whenCoreLoaded( function () {
-        $( fn );
-    } );
+    if ( module.exports.CONFIG.themes.length > 1 ) {
+        module.exports.whenCoreLoaded( function () {
+            $( fn );
+        } );
+    }
 };
