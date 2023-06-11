@@ -71,7 +71,7 @@ class ResourceLoaderHooks implements
         ] );
     }
 
-    public function getSiteConfigModuleContents( Context $context, Config $config ): array {
+    public static function getSiteConfigModuleContents( Context $context, Config $config ): array {
         $defs = ThemeAndFeatureRegistry::get();
         return [
             'themes' => array_keys( array_filter( $defs->getAll(), fn( $themeInfo, $themeId )
