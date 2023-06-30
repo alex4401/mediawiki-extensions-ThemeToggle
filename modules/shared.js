@@ -65,6 +65,7 @@ module.exports.setUserPreference = function ( value ) {
     }
 
     MwSkinTheme.set( value );
+    mw.hook( 'ext.themes.themeChanged' ).fire( MwSkinTheme.getCurrent() );
 };
 
 
@@ -107,3 +108,9 @@ module.exports.runSwitcherInitialiser = function ( fn ) {
         } );
     }
 };
+
+
+// Broadcast the `ext.themes.themeChanged( string )` hook when core is loaded
+module.exports.whenCoreLoaded( function () {
+    mw.hook( 'ext.themes.themeChanged' ).fire( MwSkinTheme.getCurrent() );
+} );
