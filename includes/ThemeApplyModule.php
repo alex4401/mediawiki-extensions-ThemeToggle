@@ -18,28 +18,24 @@ class ThemeApplyModule extends FileModule {
         // Retrieve user's preference
         if ( !$user->isAnon() ) {
             $currentTheme = MediaWikiServices::getInstance()->getUserOptionsLookup()
-                ->getOption( $user, PreferenceHooks::getThemePreferenceName(), $currentTheme );
+                ->getOption( $user, PreferencesHooks::getThemePreferenceName(), $currentTheme );
         }
 
         // Perform replacements
         global $wgThemeToggleDisableAutoDetection;
-        $pairs = [
+        $script = strtr( $script, [
             'VARS.Default' => $context->encodeJson( $currentTheme ),
             'VARS.SiteBundledCss' => $context->encodeJson( $defs->getBundledThemeIds() ),
             'VARS.ResourceLoaderEndpoint' => $context->encodeJson( $this->getThemeLoadEndpointUri( $context ) ),
             'VARS.WithPCSSupport' => !$wgThemeToggleDisableAutoDetection && $defs->isEligibleForAuto() ? 1 : 0,
             'VARS.WithFeatureSupport' => false
-        ];
-        $script = strtr( $script, $pairs );
-
-        if ( ExtensionConfig::isDeadCodeEliminationExperimentEnabled() ) {
-            $script = strtr( $script, [
-                // Normalise conditions
-                '!1' => '0',
-                '!0' => '1'
-            ] );
-            $script = preg_replace( '/\/\* @if \( 0 \) \*\/[\s\S]+?\/\* @endif \*\//m', '', $script );
-        }
+        ] );
+        $script = strtr( $script, [
+            // Normalise conditions
+            '!1' => '0',
+            '!0' => '1'
+        ] );
+        $script = preg_replace( '/\/\* @if \( 0 \) \*\/[\s\S]+?\/\* @endif \*\//m', '', $script );
 
         return $script;
     }

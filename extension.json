@@ -95,9 +95,6 @@
 		},
 		"LoadScriptOverride": {
 			"value": null
-		},
-		"DeadCodeEliminationExperiment": {
-			"value": true
 		}
 	},
 
