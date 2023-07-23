@@ -86,14 +86,7 @@ class ThemeLoadingHooks implements
     }
 
     public function onResourceLoaderRegisterModules( ResourceLoader $resourceLoader ): void {
-        /* This is a stub, ideally there'd be a definitions page unless there's some more clever way */
         global $wgThemeToggleSiteCssBundled;
-
-        $resourceLoader->register( 'ext.themes.apply', [
-            'class' => ThemeApplyModule::class,
-            'localBasePath' => 'extensions/ThemeToggle/modules/inline',
-            'scripts' => [ ModuleHelper::getCoreJsNameToServe() . '.js' ]
-        ] );
 
         if ( ModuleHelper::getSwitcherModuleId() !== null ) {
             $resourceLoader->register( 'ext.themes.switcher', [

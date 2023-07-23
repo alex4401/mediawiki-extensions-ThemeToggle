@@ -16,16 +16,4 @@ class ModuleHelper {
         }
         return null;
     }
-
-    public static function getCoreJsNameToServe(): string {
-        if ( ExtensionConfig::isDeadCodeEliminationExperimentEnabled() ) {
-            return 'merged';
-        }
-
-        global $wgThemeToggleDisableAutoDetection;
-        if ( $wgThemeToggleDisableAutoDetection || !ThemeAndFeatureRegistry::get()->isEligibleForAuto() ) {
-            return 'noAuto';
-        }
-        return 'withAuto';
-    }
 }
