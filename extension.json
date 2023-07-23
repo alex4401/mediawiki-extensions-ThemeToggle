@@ -58,7 +58,13 @@
 	],
 
 	"SpecialPages": {
-		"ThemeUsage": "MediaWiki\\Extension\\ThemeToggle\\SpecialPages\\SpecialThemeUsage"
+		"ThemeUsage": {
+			"class": "MediaWiki\\Extension\\ThemeToggle\\SpecialPages\\SpecialThemeUsage",
+			"services": [
+				"ThemeToggle.Config",
+				"ThemeToggle.ThemeAndFeatureRegistry"
+			]
+		}
 	},
 	
 	"HookHandlers": {
@@ -72,7 +78,11 @@
 			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\ThemeLoadingHooks"
 		},
 		"Preferences": {
-			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\PreferencesHooks"
+			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\PreferencesHooks",
+			"services": [
+				"ThemeToggle.Config",
+				"ThemeToggle.ThemeAndFeatureRegistry"
+			]
 		}
 	},
 	"Hooks": {

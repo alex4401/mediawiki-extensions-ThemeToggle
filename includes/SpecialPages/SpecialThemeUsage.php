@@ -3,14 +3,29 @@
 namespace MediaWiki\Extension\ThemeToggle\SpecialPages;
 
 use Html;
+use MediaWiki\Extension\ThemeToggle\ExtensionConfig;
+use MediaWiki\Extension\ThemeToggle\ThemeAndFeatureRegistry;
 use QueryPage;
 
 class SpecialThemeUsage extends QueryPage {
+    /** @var ExtensionConfig */
+    private ExtensionConfig $config;
+
+    /** @var ThemeAndFeatureRegistry */
+    private ThemeAndFeatureRegistry $registry;
+
     private int $invalidCount = 0;
     private int $invalidActiveCount = 0;
 
-    public function __construct( $name = 'ThemeUsage' ) {
-        parent::__construct( $name );
+    public function __construct(
+        ExtensionConfig $config,
+        ThemeAndFeatureRegistry $registry
+    ) {
+        parent::__construct( 'ThemeUsage' );
+
+        $this->config = $config;
+        $this->registry = $registry;
+
         $this->limit = 1000;
         $this->shownavigation = false;
     }
@@ -29,7 +44,7 @@ class SpecialThemeUsage extends QueryPage {
                 'namespace' => 'COUNT( qcc_title )'
             ],
             'conds' => [
-                'up_property' => PreferenceHooks::getThemePreferenceName()
+                'up_property' => $this->config->getThemePreferenceName()
             ],
             'options' => [
                 'GROUP BY' => [ 'up_value' ]
@@ -84,7 +99,7 @@ class SpecialThemeUsage extends QueryPage {
         $themeId = $result->title;
         $userCount = $this->getLanguage()->formatNum( $result->value );
         if ( $themeId ) {
-            if ( !in_array( $themeId, ThemeAndFeatureRegistry::get()->getIds() ) ) {
+            if ( !in_array( $themeId, $this->registry->getIds() ) ) {
                 $this->invalidCount += $result->value;
                 $this->invalidActiveCount += $result->namespace;
                 return false;
