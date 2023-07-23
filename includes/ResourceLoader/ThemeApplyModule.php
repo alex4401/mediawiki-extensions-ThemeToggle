@@ -1,6 +1,8 @@
 <?php
 namespace MediaWiki\Extension\ThemeToggle\ResourceLoader;
 
+use MediaWiki\Extension\ThemeToggle\ExtensionConfig;
+use MediaWiki\Extension\ThemeToggle\ThemeAndFeatureRegistry;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\ResourceLoader\Context;
 use MediaWiki\ResourceLoader\FileModule;
@@ -11,23 +13,27 @@ class ThemeApplyModule extends FileModule {
     public function getScript( Context $context ): string {
         $script = parent::getScript( $context );
 
-        $user = $context->getUserObj();
-        $defs = ThemeAndFeatureRegistry::get();
+        /** @var ExtensionConfig */
+        $config = MediaWikiServices::getInstance()->getService( ExtensionConfig::SERVICE_NAME );
+        /** @var ThemeAndFeatureRegistry */
+        $registry = MediaWikiServices::getInstance()->getService( ThemeAndFeatureRegistry::SERVICE_NAME );
 
-        $currentTheme = $defs->getDefaultThemeId();
+        $user = $context->getUserObj();
+
+        $currentTheme = $registry->getDefaultThemeId();
         // Retrieve user's preference
         if ( !$user->isAnon() ) {
             $currentTheme = MediaWikiServices::getInstance()->getUserOptionsLookup()
-                ->getOption( $user, Prefere::getThemePreferenceName(), $currentTheme );
+                ->getOption( $user, $config->getThemePreferenceName(), $currentTheme );
         }
 
         // Perform replacements
         global $wgThemeToggleDisableAutoDetection;
         $script = strtr( $script, [
             'VARS.Default' => $context->encodeJson( $currentTheme ),
-            'VARS.SiteBundledCss' => $context->encodeJson( $defs->getBundledThemeIds() ),
+            'VARS.SiteBundledCss' => $context->encodeJson( $registry->getBundledThemeIds() ),
             'VARS.ResourceLoaderEndpoint' => $context->encodeJson( $this->getThemeLoadEndpointUri( $context ) ),
-            'VARS.WithPCSSupport' => !$wgThemeToggleDisableAutoDetection && $defs->isEligibleForAuto() ? 1 : 0,
+            'VARS.WithPCSSupport' => !$wgThemeToggleDisableAutoDetection && $registry->isEligibleForAuto() ? 1 : 0,
             'VARS.WithFeatureSupport' => false
         ] );
         $script = strtr( $script, [
@@ -41,12 +47,14 @@ class ThemeApplyModule extends FileModule {
     }
 
     private function getThemeLoadEndpointUri( Context $context ): string {
-        $loadScript = ExtensionConfig::getLoadScript();
+        $loadScript = MediaWikiServices::getInstance()->getService( ExtensionConfig::SERVICE_NAME )->getLoadScript();
         $language = $context->getLanguage();
+
         $out = "$loadScript?lang=$language&only=styles";
         if ( $context->getDebug() ) {
             $out .= '&debug=1';
         }
+
         return $out;
     }
 
