@@ -30,6 +30,10 @@ class ExtensionConfig {
         $this->options = $options;
     }
 
+    public function get( string $key ) {
+        return $this->options->get( $key );
+    }
+
     public function getLoadScript(): string {
         return $this->options->get( ConfigNames::LoadScriptOverride )
             ?? $this->options->get( MainConfigNames::LoadScript );

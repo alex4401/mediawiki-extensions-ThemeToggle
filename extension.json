@@ -43,7 +43,7 @@
 				"shared.js",
 				{
 					"name": "config.json",
-					"callback": "MediaWiki\\Extension\\ThemeToggle\\ResourceLoaderHooks::getSiteConfigModuleContents"
+					"callback": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\ThemeLoadingHooks::getSiteConfigModuleContents"
 				}
 			],
 			"targets": [ "desktop", "mobile" ]
@@ -75,7 +75,11 @@
 			]
 		},
 		"ThemeLoading": {
-			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\ThemeLoadingHooks"
+			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\ThemeLoadingHooks",
+			"services": [
+				"ThemeToggle.Config",
+				"ThemeToggle.ThemeAndFeatureRegistry"
+			]
 		},
 		"Preferences": {
 			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\PreferencesHooks",
