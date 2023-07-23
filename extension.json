@@ -53,26 +53,23 @@
 	},
 	
 	"HookHandlers": {
-		"ArticleHooks": {
-			"class": "MediaWiki\\Extension\\ThemeToggle\\ArticleHooks"
+		"CacheManagement": {
+			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\CacheManagementHooks"
 		},
-		"BodyHooks": {
-			"class": "MediaWiki\\Extension\\ThemeToggle\\BodyHooks"
+		"ThemeLoading": {
+			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\ThemeLoadingHooks"
 		},
-		"PreferenceHooks": {
-			"class": "MediaWiki\\Extension\\ThemeToggle\\PreferenceHooks"
-		},
-		"ResourceLoaderHooks": {
-			"class": "MediaWiki\\Extension\\ThemeToggle\\ResourceLoaderHooks"
+		"Preferences": {
+			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\PreferencesHooks"
 		}
 	},
 	"Hooks": {
-		"PageDeleteComplete": "ArticleHooks",
-		"PageSaveComplete": "ArticleHooks",
-		"BeforePageDisplay": "BodyHooks",
-		"ResourceLoaderRegisterModules": "ResourceLoaderHooks",
-		"GetPreferences": "PreferenceHooks",
-		"UserGetDefaultOptions": "PreferenceHooks"
+		"PageDeleteComplete": "CacheManagement",
+		"PageSaveComplete": "CacheManagement",
+		"BeforePageDisplay": "ThemeLoading",
+		"ResourceLoaderRegisterModules": "ThemeLoading",
+		"GetPreferences": "Preferences",
+		"UserGetDefaultOptions": "Preferences"
 	},
 
 	"config_prefix": "wgThemeToggle",

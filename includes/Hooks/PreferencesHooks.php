@@ -3,7 +3,7 @@ namespace MediaWiki\Extension\ThemeToggle;
 
 use WikiMap;
 
-class PreferenceHooks implements
+class PreferencesHooks implements
     \MediaWiki\Preferences\Hook\GetPreferencesHook,
     \MediaWiki\User\Hook\UserGetDefaultOptionsHook
 {

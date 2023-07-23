@@ -3,14 +3,70 @@ namespace MediaWiki\Extension\ThemeToggle;
 
 use Config;
 use ExtensionRegistry;
-use MediaWiki\ResourceLoader\Context;
-use MediaWiki\ResourceLoader\FileModule;
+use MediaWiki\ResourceLoader as RL;
 use MediaWiki\ResourceLoader\ResourceLoader;
+use OutputPage;
 
-class ResourceLoaderHooks implements
+class ThemeLoadingHooks implements
+    \MediaWiki\Hook\BeforePageDisplayHook,
     \MediaWiki\ResourceLoader\Hook\ResourceLoaderRegisterModulesHook
 {
     private static ?bool $isWikiGG = null;
+
+    /**
+     * Injects the inline theme applying script to the document head
+     */
+    public function onBeforePageDisplay( $out, $skin ): void {
+        global $wgThemeToggleEnableForAnonymousUsers;
+
+        $isAnonymous = $out->getUser()->isAnon();
+        if ( !$wgThemeToggleEnableForAnonymousUsers && $isAnonymous ) {
+            return;
+        }
+
+        $defs = ThemeAndFeatureRegistry::get();
+        $currentTheme = $defs->getForUser( $out->getUser() );
+
+        // Expose configuration variables
+        if ( !$isAnonymous ) {
+            $out->addJsConfigVars( [
+                'wgCurrentTheme' => $currentTheme
+            ] );
+        }
+
+        // Preload the CSS class
+        if ( $currentTheme !== 'auto' ) {
+            $out->addHtmlClasses( [ "theme-$currentTheme" ] );
+        }
+
+        // Inject the theme applying script into <head> to reduce latency
+        $rlEndpoint = self::getThemeLoadEndpointUri( $out );
+        self::injectScriptTag( $out, 'ext.themes.apply', '', "async src=\"$rlEndpoint&modules=ext.themes.apply&only=scripts"
+            . '&raw=1"' );
+
+        // Inject the theme switcher as a ResourceLoader module
+        if ( ModuleHelper::getSwitcherModuleId() !== null ) {
+            $out->addModules( [ 'ext.themes.switcher' ] );
+        }
+    }
+
+    private static function injectScriptTag( OutputPage $outputPage, string $id, string $script, $attributes = false ) {
+        $nonce = $outputPage->getCSP()->getNonce();
+        $outputPage->addHeadItem( $id, sprintf(
+            '<script%s%s>%s</script>',
+            $nonce !== false ? " nonce=\"$nonce\"" : '',
+            $attributes !== false ? " $attributes" : '',
+            $script
+        ) );
+    }
+
+    private static function getThemeLoadEndpointUri( OutputPage $outputPage ): string {
+        $out = ExtensionConfig::getLoadScript() . '?lang=' . $outputPage->getLanguage()->getCode();
+        if ( ResourceLoader::inDebugMode() ) {
+            $out .= '&debug=1';
+        }
+        return $out;
+    }
 
     public static function getSwitcherModuleDefinition( string $id ): array {
         switch ( $id ) {
@@ -71,7 +127,7 @@ class ResourceLoaderHooks implements
         ] );
     }
 
-    public static function getSiteConfigModuleContents( Context $context, Config $config ): array {
+    public static function getSiteConfigModuleContents( RL\Context $context, Config $config ): array {
         $defs = ThemeAndFeatureRegistry::get();
         return [
             'themes' => array_keys( array_filter( $defs->getAll(), fn( $themeInfo, $themeId )
