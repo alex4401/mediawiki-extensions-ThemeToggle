@@ -76,6 +76,10 @@ class ThemeAndFeatureRegistry {
         return $this->infos;
     }
 
+    public function get( string $id ): ?ThemeInfo {
+        return $this->infos[$id] ?? null;
+    }
+
     public function isEligibleForAuto(): bool {
         if ( $this->options->get( ConfigNames::DisableAutoDetection ) ) {
             return false;

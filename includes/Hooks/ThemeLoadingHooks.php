@@ -84,6 +84,20 @@ class ThemeLoadingHooks implements
         } else {
             $out->addHtmlClasses( [ 'theme-auto', 'theme-light' ] );
         }
+        // Preload the styles if default or current theme is not bundled with site CSS
+        if ( $currentTheme !== 'auto' ) {
+            $currentThemeInfo = $this->registry->get( $currentTheme );
+            if ( $currentThemeInfo !== null && !$currentThemeInfo->isBundled() ) {
+                $out->addLink( [
+                    'id' => 'mw-themetoggle-styleref',
+                    'rel' => 'stylesheet',
+                    'href' => wfAppendQuery( $this->getThemeLoadEndpointUri( $out ), [
+                        'only' => 'styles',
+                        'modules' => "ext.theme.$currentTheme",
+                    ] )
+                ] );
+            }
+        }
 
         // Inject the theme applying script into <head> to reduce latency
         $rlEndpoint = $this->getThemeLoadEndpointUri( $out );
@@ -139,11 +153,10 @@ class ThemeLoadingHooks implements
     }
 
     private function getThemeLoadEndpointUri( OutputPage $outputPage ): string {
-        $out = $this->config->getLoadScript() . '?lang=' . $outputPage->getLanguage()->getCode();
-        if ( ResourceLoader::inDebugMode() ) {
-            $out .= '&debug=1';
-        }
-        return $out;
+        return wfAppendQuery( $this->config->getLoadScript(), [
+            'lang' => $outputPage->getLanguage()->getCode(),
+            'debug' => ResourceLoader::inDebugMode() ? '2' : false,
+        ] );
     }
 
     private function getSwitcherModuleDefinition( string $id ): array {

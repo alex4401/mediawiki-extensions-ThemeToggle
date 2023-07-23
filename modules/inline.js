@@ -14,8 +14,9 @@
 
 
 ( function () {
-    var htmlNode = document.documentElement,
-        linkNode = null,
+    var LINK_ID = 'mw-themetoggle-styleref',
+        htmlNode = document.documentElement,
+        linkNode = document.getElementById( LINK_ID ),
         currentTheme = null;
     /* @if ( VARS.WithPCSSupport ) */
     var prefersDark = window.matchMedia( '(prefers-color-scheme: dark)' );
@@ -37,6 +38,7 @@
                     linkNode = document.createElement( 'link' );
                     document.head.appendChild( linkNode );
                 }
+                linkNode.id = LINK_ID;
                 linkNode.rel = 'stylesheet';
                 linkNode.type = 'text/css';
                 linkNode.href = VARS.ResourceLoaderEndpoint + '&modules=ext.theme.' + actualTarget;
