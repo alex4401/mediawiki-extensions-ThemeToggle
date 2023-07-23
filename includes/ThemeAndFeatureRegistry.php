@@ -27,7 +27,7 @@ class ThemeAndFeatureRegistry {
         ConfigNames::DisableAutoDetection,
     ];
 
-    public const CACHE_GENERATION = 4;
+    public const CACHE_GENERATION = 5;
     public const CACHE_TTL = 24 * 60 * 60;
     public const TITLE = 'Theme-definitions';
 
