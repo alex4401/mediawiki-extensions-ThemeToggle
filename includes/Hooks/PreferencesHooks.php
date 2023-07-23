@@ -1,41 +1,45 @@
 <?php
-namespace MediaWiki\Extension\ThemeToggle;
+namespace MediaWiki\Extension\ThemeToggle\Hooks;
 
-use WikiMap;
+use MediaWiki\Extension\ThemeToggle\ExtensionConfig;
+use MediaWiki\Extension\ThemeToggle\ThemeAndFeatureRegistry;
 
 class PreferencesHooks implements
     \MediaWiki\Preferences\Hook\GetPreferencesHook,
     \MediaWiki\User\Hook\UserGetDefaultOptionsHook
 {
+    /** @var ExtensionConfig */
+    private ExtensionConfig $config;
 
-    public static function getPreferenceGroupName(): string {
-        global $wgThemeTogglePreferenceGroup;
-        return $wgThemeTogglePreferenceGroup ?? WikiMap::getCurrentWikiId();
-    }
+    /** @var ThemeAndFeatureRegistry */
+    private ThemeAndFeatureRegistry $registry;
 
-    public static function getThemePreferenceName(): string {
-        return 'skinTheme-' . self::getPreferenceGroupName();
+    public function __construct(
+        ExtensionConfig $config,
+        ThemeAndFeatureRegistry $registry
+    ) {
+        $this->config = $config;
+        $this->registry = $registry;
     }
 
     public function onUserGetDefaultOptions( &$defaultOptions ) {
-        $defaultOptions[self::getThemePreferenceName()] = ThemeAndFeatureRegistry::get()->getDefaultThemeId();
+        $defaultOptions[$this->config->getThemePreferenceName()] = $this->registry->getDefaultThemeId();
     }
 
     public function onGetPreferences( $user, &$preferences ) {
-        $defs = ThemeAndFeatureRegistry::get();
         $themeOptions = [];
 
-        if ( $defs->isEligibleForAuto() ) {
+        if ( $this->registry->isEligibleForAuto() ) {
             $themeOptions[wfMessage( 'theme-auto-preference-description' )->text()] = 'auto';
         }
 
-        foreach ( $defs->getAll() as $themeId => $themeInfo ) {
+        foreach ( $this->registry->getAll() as $themeId => $themeInfo ) {
             if ( $themeInfo->isUserAllowedToUse( $user ) ) {
                 $themeOptions[wfMessage( $themeInfo->getMessageId() )->text()] = $themeId;
             }
         }
 
-        $preferences[self::getThemePreferenceName()] = [
+        $preferences[$this->config->getThemePreferenceName()] = [
             'label-message' => 'themetoggle-user-preference-label',
             'type' => 'select',
             'options' => $themeOptions,
