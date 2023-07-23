@@ -41,7 +41,9 @@ class ThemeApplyModule extends FileModule {
     }
 
     private function getThemeLoadEndpointUri( Context $context ): string {
-        $out = ExtensionConfig::getLoadScript() . '?lang=' . $context->getLanguage();
+        $loadScript = ExtensionConfig::getLoadScript();
+        $language = $context->getLanguage();
+        $out = "$loadScript?lang=$language&only=styles";
         if ( $context->getDebug() ) {
             $out .= '&debug=1';
         }

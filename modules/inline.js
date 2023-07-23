@@ -39,7 +39,7 @@
                 }
                 linkNode.rel = 'stylesheet';
                 linkNode.type = 'text/css';
-                linkNode.href = VARS.ResourceLoaderEndpoint + '&modules=ext.theme.' + actualTarget + '&only=styles';
+                linkNode.href = VARS.ResourceLoaderEndpoint + '&modules=ext.theme.' + actualTarget;
             } else if ( linkNode !== null ) {
                 document.head.removeChild( linkNode );
                 linkNode = null;
