@@ -2,6 +2,7 @@
 
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\ThemeToggle\ExtensionConfig;
+use MediaWiki\Extension\ThemeToggle\ThemeAndFeatureRegistry;
 use MediaWiki\MediaWikiServices;
 
 return [
@@ -13,6 +14,21 @@ return [
                 ExtensionConfig::CONSTRUCTOR_OPTIONS,
                 $services->getMainConfig()
             )
+        );
+    },
+
+    ThemeAndFeatureRegistry::SERVICE_NAME => static function (
+        MediaWikiServices $services
+    ): ThemeAndFeatureRegistry {
+        return new ThemeAndFeatureRegistry(
+            new ServiceOptions(
+                ThemeAndFeatureRegistry::CONSTRUCTOR_OPTIONS,
+                $services->getMainConfig()
+            ),
+            $services->get( ExtensionConfig::SERVICE_NAME ),
+            $services->getRevisionLookup(),
+            $services->getUserOptionsLookup(),
+            $services->getMainWANObjectCache()
         );
     },
 ];

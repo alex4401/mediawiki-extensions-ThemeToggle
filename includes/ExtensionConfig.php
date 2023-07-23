@@ -38,4 +38,8 @@ class ExtensionConfig {
     public function getPreferenceSuffix(): string {
         return $this->options->get( ConfigNames::PreferenceSuffix ) ?? WikiMap::getCurrentWikiId();
     }
+
+    public function getThemePreferenceName(): string {
+        return 'skinTheme-' . $this->getPreferenceSuffix();
+    }
 }

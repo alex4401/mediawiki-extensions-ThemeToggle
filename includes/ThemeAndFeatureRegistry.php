@@ -11,24 +11,60 @@ use User;
 use WANObjectCache;
 use Wikimedia\Rdbms\Database;
 use InvalidArgumentException;
+use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Extension\ThemeToggle\Data\ThemeInfo;
+use MediaWiki\Revision\RevisionLookup;
+use MediaWiki\User\UserOptionsLookup;
 
 class ThemeAndFeatureRegistry {
+    public const SERVICE_NAME = 'ThemeToggle.ThemeAndFeatureRegistry';
+
+    /**
+     * @internal Use only in ServiceWiring
+     */
+    public const CONSTRUCTOR_OPTIONS = [
+        ConfigNames::DefaultTheme,
+        ConfigNames::DisableAutoDetection,
+    ];
+
     public const CACHE_GENERATION = 4;
     public const CACHE_TTL = 24 * 60 * 60;
     public const TITLE = 'Theme-definitions';
 
+    /** @var ServiceOptions */
+    private ServiceOptions $options;
+
+    /** @var ExtensionConfig */
+    private ExtensionConfig $config;
+
+    /** @var RevisionLookup */
+    private RevisionLookup $revisionLookup;
+
+    /** @var UserOptionsLookup */
+    private UserOptionsLookup $userOptionsLookup;
+
+    /** @var WANObjectCache */
+    private WANObjectCache $wanObjectCache;
+
+    public function __construct(
+        ServiceOptions $options,
+        ExtensionConfig $config,
+        RevisionLookup $revisionLookup,
+        UserOptionsLookup $userOptionsLookup,
+        WANObjectCache $wanObjectCache
+    ) {
+        $options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
+        $this->options = $options;
+
+        $this->config = $config;
+        $this->revisionLookup = $revisionLookup;
+        $this->userOptionsLookup = $userOptionsLookup;
+        $this->wanObjectCache = $wanObjectCache;
+    }
+
     protected string $titlePrefix = 'MediaWiki:Theme-';
     protected ?array $ids = null;
     protected ?array $infos = null;
-
-    private static $instance = null;
-
-    public static function get() {
-        if ( self::$instance === null ) {
-            self::$instance = new ThemeAndFeatureRegistry();
-        }
-        return self::$instance;
-    }
 
     public function getIds(): array {
         $this->load();
@@ -41,10 +77,10 @@ class ThemeAndFeatureRegistry {
     }
 
     public function isEligibleForAuto(): bool {
-        global $wgThemeToggleDisableAutoDetection;
-        if ( $wgThemeToggleDisableAutoDetection ) {
+        if ( $this->options->get( ConfigNames::DisableAutoDetection ) ) {
             return false;
         }
+
         $this->load();
         return in_array( 'dark', $this->getIds() ) && in_array( 'light', $this->getIds() );
     }
@@ -53,9 +89,9 @@ class ThemeAndFeatureRegistry {
         $this->load();
 
         // Return the config variable if non-null and found in definitions
-        global $wgThemeToggleDefault;
-        if ( $wgThemeToggleDefault !== null && in_array( $wgThemeToggleDefault, $this->ids ) ) {
-            return $wgThemeToggleDefault;
+        $configDefault = $this->options->get( ConfigNames::DefaultTheme );
+        if ( $configDefault !== null && in_array( $configDefault, $this->ids ) ) {
+            return $configDefault;
         }
 
         // Search for the first theme with the `default` flag
@@ -72,7 +108,7 @@ class ThemeAndFeatureRegistry {
         }
 
         // If none found and dark and light themes are defined, return auto
-        if ( self::isEligibleForAuto() ) {
+        if ( $this->isEligibleForAuto() ) {
             return 'auto';
         }
 
@@ -84,8 +120,7 @@ class ThemeAndFeatureRegistry {
         $result = $this->getDefaultThemeId();
         // Retrieve user's preference
         if ( !$user->isAnon() ) {
-            $result = MediaWikiServices::getInstance()->getUserOptionsLookup()
-                ->getOption( $user, PreferenceHooks::getThemePreferenceName(), $result );
+            $result = $this->userOptionsLookup->getOption( $user, $this->config->getThemePreferenceName(), $result );
         }
         return $result;
     }
@@ -105,12 +140,11 @@ class ThemeAndFeatureRegistry {
         }
     }
 
-    private function purgeCache(): void {
-        $wanCache = MediaWikiServices::getInstance()->getMainWANObjectCache();
+    public function purgeCache(): void {
         $srvCache = ObjectCache::getLocalServerInstance( 'hash' );
-        $key = $this->makeDefinitionCacheKey( $wanCache );
+        $key = $this->makeDefinitionCacheKey( $this->wanObjectCache );
 
-        $wanCache->delete( $key );
+        $this->wanObjectCache->delete( $key );
         $srvCache->delete( $key );
 
         $this->ids = null;
@@ -133,20 +167,22 @@ class ThemeAndFeatureRegistry {
         //
         // 1. process cache
         if ( $this->infos === null ) {
-            $wanCache = MediaWikiServices::getInstance()->getMainWANObjectCache();
             $srvCache = ObjectCache::getLocalServerInstance( 'hash' );
-            $key = $this->makeDefinitionCacheKey( $wanCache );
+            $key = $this->makeDefinitionCacheKey( $this->wanObjectCache );
             // Between 7 and 15 seconds to avoid memcached/lockTSE stampede (T203786)
             $srvCacheTtl = mt_rand( 7, 15 );
-            $this->infos = $srvCache->getWithSetCallback( $key, $srvCacheTtl, function () use ( $wanCache, $key ) {
-                    return $wanCache->getWithSetCallback( $key, self::CACHE_TTL, function ( $old, &$ttl, &$setOpts ) {
-                        // Reduce caching of known-stale data (T157210)
-                        $setOpts += Database::getCacheSetOptions( wfGetDB( DB_REPLICA ) );
-                        return $this->fetchStructuredList();
-                    }, [
-                        // Avoid database stampede
-                        'lockTSE' => 300,
-                    ] );
+            $this->infos = $srvCache->getWithSetCallback( $key, $srvCacheTtl, function () use ( $key ) {
+                    return $this->wanObjectCache->getWithSetCallback(
+                        $key, self::CACHE_TTL,
+                        function ( $old, &$ttl, &$setOpts ) {
+                            // Reduce caching of known-stale data (T157210)
+                            $setOpts += Database::getCacheSetOptions( wfGetDB( DB_REPLICA ) );
+                            return $this->fetchStructuredList();
+                        }, [
+                            // Avoid database stampede
+                            'lockTSE' => 300,
+                        ]
+                    );
             } );
 
             $this->ids = array_keys( $this->infos );
@@ -154,9 +190,7 @@ class ThemeAndFeatureRegistry {
     }
 
     public function fetchStructuredList(): array {
-        $revision = MediaWikiServices::getInstance()
-            ->getRevisionLookup()
-            ->getRevisionByTitle( Title::makeTitle( NS_MEDIAWIKI, self::TITLE ) );
+        $revision = $this->revisionLookup->getRevisionByTitle( Title::makeTitle( NS_MEDIAWIKI, self::TITLE ) );
         $text = null;
         $useMessageFallback = !$revision || !$revision->getContent( SlotRecord::MAIN )
             || $revision->getContent( SlotRecord::MAIN )->isEmpty();
