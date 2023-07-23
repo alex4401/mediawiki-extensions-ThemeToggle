@@ -1,6 +1,6 @@
 <?php
 /* Based on Extension:Gadgets' SpecialGadgetUsage.php */
-namespace MediaWiki\Extension\ThemeToggle;
+namespace MediaWiki\Extension\ThemeToggle\SpecialPages;
 
 use Html;
 use QueryPage;

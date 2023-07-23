@@ -1,12 +1,12 @@
 <?php
 
-namespace MediaWiki\Extension\ThemeToggle;
+namespace MediaWiki\Extension\ThemeToggle\ResourceLoader;
 
 use MediaWiki\ResourceLoader\Context;
 use MediaWiki\ResourceLoader\Module;
 use MediaWiki\ResourceLoader\WikiModule;
 
-class ResourceLoaderWikiThemeModule extends WikiModule {
+class WikiThemeModule extends WikiModule {
     private string $id;
 
     public function __construct( array $options ) {

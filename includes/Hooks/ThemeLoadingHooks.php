@@ -3,6 +3,7 @@ namespace MediaWiki\Extension\ThemeToggle;
 
 use Config;
 use ExtensionRegistry;
+use MediaWiki\Extension\ThemeToggle\ResourceLoader\WikiThemeModule;
 use MediaWiki\ResourceLoader as RL;
 use MediaWiki\ResourceLoader\ResourceLoader;
 use OutputPage;
@@ -108,7 +109,7 @@ class ThemeLoadingHooks implements
             $messages[] = $themeInfo->getMessageId();
             if ( !in_array( $themeId, $wgThemeToggleSiteCssBundled ) ) {
                 $resourceLoader->register( 'ext.theme.' . $themeId, [
-                    'class' => ResourceLoaderWikiThemeModule::class,
+                    'class' => WikiThemeModule::class,
                     'id' => $themeId
                 ] );
             }

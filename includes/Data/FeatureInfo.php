@@ -1,22 +1,17 @@
 <?php
-namespace MediaWiki\Extension\ThemeToggle;
+namespace MediaWiki\Extension\ThemeToggle\Data;
 
 use InvalidArgumentException;
-use MediaWiki\Permissions\Authority;
 
-class ThemeInfo {
+class FeatureInfo {
     private string $id;
-    private array $rights = [];
     private bool $default = false;
-    private bool $bundled = false;
 
     public function __construct( array $info ) {
         foreach ( $info as $option => $params ) {
             switch ( $option ) {
                 case 'id':
-                case 'rights':
                 case 'default':
-                case 'bundled':
                     $this->{$option} = $params;
                     break;
                 default:
@@ -30,25 +25,10 @@ class ThemeInfo {
     }
 
     public function getMessageId(): string {
-        return 'theme-' . $this->id;
-    }
-
-    public function isBundled(): bool {
-        return $this->bundled;
+        return 'theme-feature-' . $this->id;
     }
 
     public function isDefault(): bool {
         return $this->default;
-    }
-
-    public function getRequiredUserRights(): array {
-        return $this->rights;
-    }
-
-    public function isUserAllowedToUse( Authority $user ): bool {
-        if ( count( $this->rights ) ) {
-            return $user->isAllowedAll( ...$this->rights );
-        }
-        return true;
     }
 }

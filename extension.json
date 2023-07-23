@@ -29,6 +29,12 @@
 	},
 
 	"ResourceModules": {
+		"ext.themes.apply": {
+			"class": "MediaWiki\\Extension\\ThemeToggle\\ResourceLoader\\ThemeApplyModule",
+			"scripts": [
+				"inline.js"
+			]
+		},
 		"ext.themes.jsapi": {
 			"dependencies": [
 				"ext.themes.siteMessages"
@@ -49,7 +55,7 @@
 	},
 
 	"SpecialPages": {
-		"ThemeUsage": "MediaWiki\\Extension\\ThemeToggle\\SpecialThemeUsage"
+		"ThemeUsage": "MediaWiki\\Extension\\ThemeToggle\\SpecialPages\\SpecialThemeUsage"
 	},
 	
 	"HookHandlers": {

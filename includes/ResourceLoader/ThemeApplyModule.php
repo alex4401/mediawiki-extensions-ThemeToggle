@@ -1,5 +1,5 @@
 <?php
-namespace MediaWiki\Extension\ThemeToggle;
+namespace MediaWiki\Extension\ThemeToggle\ResourceLoader;
 
 use MediaWiki\MediaWikiServices;
 use MediaWiki\ResourceLoader\Context;
@@ -18,7 +18,7 @@ class ThemeApplyModule extends FileModule {
         // Retrieve user's preference
         if ( !$user->isAnon() ) {
             $currentTheme = MediaWikiServices::getInstance()->getUserOptionsLookup()
-                ->getOption( $user, PreferencesHooks::getThemePreferenceName(), $currentTheme );
+                ->getOption( $user, Prefere::getThemePreferenceName(), $currentTheme );
         }
 
         // Perform replacements
