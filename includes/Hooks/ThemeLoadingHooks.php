@@ -113,7 +113,7 @@ class ThemeLoadingHooks implements
     public function onResourceLoaderRegisterModules( ResourceLoader $resourceLoader ): void {
         if ( $this->getSwitcherModuleId() !== null ) {
             $resourceLoader->register( 'ext.themes.switcher', [
-                'class' => FileModule::class,
+                'class' => RL\FileModule::class,
                 'localBasePath' => 'extensions/ThemeToggle/modules',
                 'remoteExtPath' => 'extensions/ThemeToggle/modules',
                 'dependencies' => [ 'ext.themes.jsapi' ],
@@ -137,7 +137,7 @@ class ThemeLoadingHooks implements
         }
 
         $resourceLoader->register( 'ext.themes.siteMessages', [
-            'class' => FileModule::class,
+            'class' => RL\FileModule::class,
             'messages' => $messages
         ] );
     }
