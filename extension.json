@@ -86,10 +86,6 @@
 		"Default": {
 			"value": null
 		},
-		"SiteCssBundled": {
-			"value": [],
-			"description": "The default theme (or fallback if auto) should be specified here at minimum."
-		},
 		"DisableAutoDetection": {
 			"value": false
 		},

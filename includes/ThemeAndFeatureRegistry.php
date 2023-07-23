@@ -128,10 +128,9 @@ class ThemeAndFeatureRegistry {
     public function getBundledThemeIds(): array {
         $this->load();
 
-        global $wgThemeToggleSiteCssBundled;
-        return array_merge( array_keys( array_filter( $this->infos, static function ( $info ) {
+        return array_keys( array_filter( $this->infos, static function ( $info ) {
             return $info->isBundled();
-        } ) ), $wgThemeToggleSiteCssBundled );
+        } ) );
     }
 
     public function handlePageUpdate( LinkTarget $target ): void {
