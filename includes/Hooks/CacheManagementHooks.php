@@ -11,6 +11,13 @@ class CacheManagementHooks implements
     \MediaWiki\Page\Hook\PageDeleteCompleteHook,
     \MediaWiki\Storage\Hook\PageSaveCompleteHook
 {
+    /** @var ThemeAndFeatureRegistry */
+    private ThemeAndFeatureRegistry $registry;
+
+    public function __construct( ThemeAndFeatureRegistry $registry ) {
+        $this->registry = $registry;
+    }
+
     public function onPageSaveComplete(
         $wikiPage,
         $userIdentity,
@@ -19,7 +26,10 @@ class CacheManagementHooks implements
         $revisionRecord,
         $editResult
     ): void {
-        ThemeAndFeatureRegistry::get()->handlePageUpdate( $wikiPage->getTitle() );
+        $title = $wikiPage->getTitle();
+        if ( $title->getNamespace() === NS_MEDIAWIKI && $title->getText() == ThemeAndFeatureRegistry::TITLE ) {
+            $this->registry->purgeCache();
+        }
     }
 
     public function onPageDeleteComplete(
@@ -31,6 +41,9 @@ class CacheManagementHooks implements
         ManualLogEntry $logEntry,
         int $archivedRevisionCount
     ): void {
-        ThemeAndFeatureRegistry::get()->handlePageUpdate( TitleValue::newFromPage( $page ) );
+        $title = TitleValue::newFromPage( $page );
+        if ( $title->getNamespace() === NS_MEDIAWIKI && $title->getText() == ThemeAndFeatureRegistry::TITLE ) {
+            $this->registry->purgeCache();
+        }
     }
 }

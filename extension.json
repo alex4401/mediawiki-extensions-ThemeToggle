@@ -63,7 +63,10 @@
 	
 	"HookHandlers": {
 		"CacheManagement": {
-			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\CacheManagementHooks"
+			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\CacheManagementHooks",
+			"services": [
+				"ThemeToggle.ThemeAndFeatureRegistry"
+			]
 		},
 		"ThemeLoading": {
 			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\ThemeLoadingHooks"

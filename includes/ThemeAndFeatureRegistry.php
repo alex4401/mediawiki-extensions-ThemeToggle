@@ -133,12 +133,6 @@ class ThemeAndFeatureRegistry {
         } ) );
     }
 
-    public function handlePageUpdate( LinkTarget $target ): void {
-        if ( $target->getNamespace() === NS_MEDIAWIKI && $target->getText() == self::TITLE ) {
-            $this->purgeCache();
-        }
-    }
-
     public function purgeCache(): void {
         $srvCache = ObjectCache::getLocalServerInstance( 'hash' );
         $key = $this->makeDefinitionCacheKey( $this->wanObjectCache );
