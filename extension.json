@@ -53,6 +53,9 @@
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\ThemeToggle\\": "includes/"
 	},
+	"ServiceWiringFiles": [
+		"includes/ServiceWiring.php"
+	],
 
 	"SpecialPages": {
 		"ThemeUsage": "MediaWiki\\Extension\\ThemeToggle\\SpecialPages\\SpecialThemeUsage"

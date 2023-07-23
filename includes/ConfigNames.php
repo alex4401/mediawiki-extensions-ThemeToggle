@@ -33,7 +33,7 @@ class ConfigNames {
     /**
      * Name constant. For use in ExtensionConfig.
      */
-    public const PreferenceGroup = 'ThemeTogglePreferenceGroup';
+    public const PreferenceSuffix = 'ThemeTogglePreferenceGroup';
 
     /**
      * Name constant. For use in ExtensionConfig.
