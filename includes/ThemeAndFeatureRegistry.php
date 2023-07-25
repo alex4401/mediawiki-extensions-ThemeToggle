@@ -27,7 +27,7 @@ class ThemeAndFeatureRegistry {
         ConfigNames::DisableAutoDetection,
     ];
 
-    public const CACHE_GENERATION = 5;
+    public const CACHE_GENERATION = 6;
     public const CACHE_TTL = 24 * 60 * 60;
     public const TITLE = 'Theme-definitions';
 
@@ -62,7 +62,6 @@ class ThemeAndFeatureRegistry {
         $this->wanObjectCache = $wanObjectCache;
     }
 
-    protected string $titlePrefix = 'MediaWiki:Theme-';
     protected ?array $ids = null;
     protected ?array $infos = null;
 
@@ -168,13 +167,13 @@ class ThemeAndFeatureRegistry {
             $key = $this->makeDefinitionCacheKey( $this->wanObjectCache );
             // Between 7 and 15 seconds to avoid memcached/lockTSE stampede (T203786)
             $srvCacheTtl = mt_rand( 7, 15 );
-            $this->infos = $srvCache->getWithSetCallback( $key, $srvCacheTtl, function () use ( $key ) {
+            $options = $srvCache->getWithSetCallback( $key, $srvCacheTtl, function () use ( $key ) {
                     return $this->wanObjectCache->getWithSetCallback(
                         $key, self::CACHE_TTL,
                         function ( $old, &$ttl, &$setOpts ) {
                             // Reduce caching of known-stale data (T157210)
                             $setOpts += Database::getCacheSetOptions( wfGetDB( DB_REPLICA ) );
-                            return $this->fetchStructuredList();
+                            return $this->fetchDefinitionList();
                         }, [
                             // Avoid database stampede
                             'lockTSE' => 300,
@@ -182,11 +181,13 @@ class ThemeAndFeatureRegistry {
                     );
             } );
 
+            // Construct ThemeInfo objects
+            $this->infos = array_map( fn ( $info ) => new ThemeInfo( $info ), $options );
             $this->ids = array_keys( $this->infos );
         }
     }
 
-    public function fetchStructuredList(): array {
+    private function fetchDefinitionList(): array {
         $revision = $this->revisionLookup->getRevisionByTitle( Title::makeTitle( NS_MEDIAWIKI, self::TITLE ) );
         $text = null;
         $useMessageFallback = !$revision || !$revision->getContent( SlotRecord::MAIN )
@@ -199,21 +200,16 @@ class ThemeAndFeatureRegistry {
             $text = ( $content instanceof TextContent ) ? $content->getText() : '';
         }
 
-        $themes = $this->listFromDefinition( $text );
-        return $themes;
-    }
-
-    private function listFromDefinition( $definition ): array {
-        $definition = preg_replace( '/<!--.*?-->/s', '', $definition );
+        $definition = preg_replace( '/<!--.*?-->/s', '', $text );
         $lines = preg_split( '/(\r\n|\r|\n)+/', $definition );
 
         $themes = [];
 
         foreach ( $lines as $line ) {
             try {
-                $themeInfo = $this->newFromText( $line );
+                $themeInfo = $this->newOptionsFromText( $line );
                 if ( $themeInfo ) {
-                    $themes[$themeInfo->getId()] = $themeInfo;
+                    $themes[$themeInfo['id']] = $themeInfo;
                 }
             } catch ( InvalidArgumentException $ex ) {
                 continue;
@@ -223,25 +219,29 @@ class ThemeAndFeatureRegistry {
         if ( empty( $themes ) ) {
             // This should match default Theme-definitions message
             $themes = [
-                'none' => new ThemeInfo( [
+                'none' => [
                     'id' => 'none',
                     'default' => true,
                     'bundled' => true
-                ] )
+                ]
             ];
         }
 
         return $themes;
     }
 
-    public function newFromText( $definition ) {
+    /**
+     * @param string $definition
+     * @return ?array
+     */
+    private function newOptionsFromText( string $definition ): ?array {
         $match = [];
         if ( !preg_match(
             '/^\*+ *([a-zA-Z](?:[-_:.\w ]*[a-zA-Z0-9])?)(\s*\[.*?\])?\s*$/',
             $definition,
             $match
         ) ) {
-            return false;
+            return null;
         }
 
         $info = [
@@ -274,6 +274,6 @@ class ThemeAndFeatureRegistry {
             }
         }
 
-        return new ThemeInfo( $info );
+        return $info;
     }
 }

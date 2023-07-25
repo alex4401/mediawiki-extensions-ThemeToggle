@@ -7,20 +7,31 @@ use MediaWiki\ResourceLoader\Module;
 use MediaWiki\ResourceLoader\WikiModule;
 
 class WikiThemeModule extends WikiModule {
+    /** @var string Theme ID */
     private string $id;
 
     public function __construct( array $options ) {
         $this->id = $options['id'];
     }
 
-    private function getThemeName(): string {
-        return $this->id;
+    /**
+     * @internal
+     * @param string $id
+     * @return string
+     */
+    public static function getCssPageName( $id ): string {
+        return "MediaWiki:Theme-$id.css";
     }
 
+    /**
+     * Get list of pages used by this module
+     *
+     * @param Context $context
+     * @return array[]
+     */
     protected function getPages( Context $context ) {
-        $theme = $this->getThemeName();
         return [
-            "MediaWiki:Theme-$theme.css" => [ 'type' => 'style' ]
+            self::getCssPageName( $this->id ) => [ 'type' => 'style' ]
         ];
     }
 
