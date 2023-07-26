@@ -24,16 +24,9 @@ Manual installation:
 * `$wgThemeToggleDefault`: theme that will be used by default for anonymous and new users.
 * * **Changing this requires purging cache.**
 * * Defaults to `auto`.
-* `$wgThemeToggleSiteCssBundled`: list of themes whose CSS is bundled with the site CSS (Common.css or Vector.css).
-* * **Changing this requires purging cache.**
-* * Defaults to `[]`. This should be set to the default theme, or if `auto`, the preferred variant like `dark`.
 * `$wgThemeTogglePreferenceGroup`: suffix to add to the preference name on this wiki. Set this on wiki-farms if user preferences are shared and you want a wiki to have a separate theme toggle.
 * * Defaults to wiki ID.
-* `$wgThemeToggleAsyncCoreJsDelivery`: delivers core JavaScript in a separate request, so the script can be updated separately and does not have to be downloaded on every HTML download.
-* * Defaults to `true`.
-* * This may cause a flash on initial load, but should be negligible later.
 * `$wgThemeToggleDisableAutoDetection`: cuts away support for the `auto`matic theme detection (based on prefers-color-scheme). Only set this if you are sure you don't need automatic detection, or do not use a `light` and `dark` theme combination.
-* * If `$wgThemeToggleAsyncCoreJsDelivery` is set to `false`, **changing this requires purging cache** (different JavaScript script variant).
 * * Defaults to `false`.
 * `$wgThemeToggleSwitcherStyle`: switcher style.
 * * Defaults to `auto`.
