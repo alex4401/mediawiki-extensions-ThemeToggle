@@ -12,6 +12,12 @@ var Shared = require( 'ext.themes.jsapi' );
 var $toggle;
 
 
+function updateTitle() {
+    // eslint-disable-next-line mediawiki/msg-doc
+    $toggle.attr( 'title', mw.msg( 'themetoggle-simple-switch', mw.msg( 'theme-' + MwSkinTheme.getCurrent() ) ) );
+}
+
+
 function cycleTheme() {
     var nextIndex = Shared.CONFIG.themes.indexOf( MwSkinTheme.getCurrent() ) + 1;
     if ( nextIndex >= Shared.CONFIG.themes.length ) {
@@ -19,6 +25,7 @@ function cycleTheme() {
     }
 
     Shared.setUserPreference( Shared.CONFIG.themes[ nextIndex ] );
+    updateTitle();
 }
 
 
@@ -26,7 +33,6 @@ function initialise() {
     Shared.prepare();
 
     $toggle = $( '<span>' )
-        .attr( 'title', mw.msg( 'themetoggle-simple-switch' ) )
         .on( 'mousedown', function ( event ) {
             if ( event.which === 1 || event.button === 0 ) {
                 cycleTheme();
@@ -36,6 +42,8 @@ function initialise() {
         .append( $toggle )
         // eslint-disable-next-line no-jquery/no-global-selector
         .prependTo( $( '#p-personal > .vector-menu-content > ul' ) );
+
+    updateTitle();
 }
 
 
