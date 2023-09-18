@@ -27,6 +27,11 @@ class ThemeApplyModule extends FileModule {
                 ->getOption( $user, $config->getThemePreferenceName(), $currentTheme );
         }
 
+        // Unwrap the script contents if we received an array from FileModule
+        if ( is_array( $script ) ) {
+            $script = $script['plainScripts']['inline.js']['content'];
+        }
+
         // Perform replacements
         global $wgThemeToggleDisableAutoDetection;
         $script = strtr( $script, [
