@@ -15,6 +15,7 @@ use Skin;
 
 class ThemeLoadingHooks implements
     \MediaWiki\Hook\BeforePageDisplayHook,
+    \MediaWiki\Hook\OutputPageAfterGetHeadLinksArrayHook,
     \MediaWiki\ResourceLoader\Hook\ResourceLoaderRegisterModulesHook
 {
     /** @var ExtensionConfig */
@@ -57,7 +58,7 @@ class ThemeLoadingHooks implements
     }
 
     /**
-     * Injects the inline theme applying script to the document head
+     * Schedules switcher loading, adds body classes, injects logged-in users' theme choices.
      *
      * @param OutputPage $out
      * @param Skin $skin
@@ -99,15 +100,24 @@ class ThemeLoadingHooks implements
             }
         }
 
-        // Inject the theme applying script into <head> to reduce latency
-        $rlEndpoint = $this->getThemeLoadEndpointUri( $out );
-        $this->injectScriptTag( $out, 'ext.themes.apply', '', "async src=\"$rlEndpoint&modules=ext.themes.apply&only=scripts"
-            . '&raw=1"' );
-
         // Inject the theme switcher as a ResourceLoader module
         if ( $this->getSwitcherModuleId() !== null ) {
             $out->addModules( [ 'ext.themes.switcher' ] );
         }
+    }
+
+    /**
+     * Injects the theme applying script into <head> before meta tags and other extensions' head items. This should
+     * help the script get downloaded earlier (ideally it would be scheduled before core JS).
+     *
+     * @param array &$tags
+     * @param OutputPage $out
+     * @return void
+     */
+    public function onOutputPageAfterGetHeadLinksArray( &$tags, $out ) {
+        $rlEndpoint = $this->getThemeLoadEndpointUri( $out );
+        $html = $this->makeScriptTag( $out, '', "async src=\"$rlEndpoint&modules=ext.themes.apply&only=scripts&raw=1\"" );
+        array_unshift( $tags, $html );
     }
 
     public function onResourceLoaderRegisterModules( ResourceLoader $resourceLoader ): void {
@@ -142,14 +152,18 @@ class ThemeLoadingHooks implements
         ] );
     }
 
-    private function injectScriptTag( OutputPage $outputPage, string $id, string $script, $attributes = false ) {
+    private function makeScriptTag( OutputPage $outputPage, string $script, $attributes = false ) {
         $nonce = $outputPage->getCSP()->getNonce();
-        $outputPage->addHeadItem( $id, sprintf(
+        return sprintf(
             '<script%s%s>%s</script>',
             $nonce !== false ? " nonce=\"$nonce\"" : '',
             $attributes !== false ? " $attributes" : '',
             $script
-        ) );
+        );
+    }
+
+    private function injectScriptTag( OutputPage $outputPage, string $id, string $script, $attributes = false ) {
+        $outputPage->addHeadItem( $id, $this->makeScriptTag( $outputPage, $script, $attributes ) );
     }
 
     private function getThemeLoadEndpointUri( OutputPage $outputPage ): string {

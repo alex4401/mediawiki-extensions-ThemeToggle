@@ -93,6 +93,7 @@
 		"PageDeleteComplete": "CacheManagement",
 		"PageSaveComplete": "CacheManagement",
 		"BeforePageDisplay": "ThemeLoading",
+		"OutputPageAfterGetHeadLinksArray": "ThemeLoading",
 		"ResourceLoaderRegisterModules": "ThemeLoading",
 		"GetPreferences": "Preferences",
 		"UserGetDefaultOptions": "Preferences"
