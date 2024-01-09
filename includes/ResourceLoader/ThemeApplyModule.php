@@ -54,8 +54,9 @@ class ThemeApplyModule extends FileModule {
     private function getThemeLoadEndpointUri( Context $context ): string {
         $loadScript = MediaWikiServices::getInstance()->getService( ExtensionConfig::SERVICE_NAME )->getLoadScript();
         $language = $context->getLanguage();
+        $skin = $context->getSkin();
 
-        $out = "$loadScript?lang=$language&only=styles";
+        $out = "$loadScript?lang=$language&only=styles&skin=$skin";
         if ( $context->getDebug() ) {
             $out .= '&debug=1';
         }

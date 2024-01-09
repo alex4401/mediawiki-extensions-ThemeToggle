@@ -116,7 +116,12 @@ class ThemeLoadingHooks implements
      */
     public function onOutputPageAfterGetHeadLinksArray( &$tags, $out ) {
         $rlEndpoint = $this->getThemeLoadEndpointUri( $out );
-        $html = $this->makeScriptTag( $out, '', "async src=\"$rlEndpoint&modules=ext.themes.apply&only=scripts&raw=1\"" );
+        $skin = $out->getSkin()->getSkinName();
+        $html = $this->makeScriptTag(
+            $out,
+            '',
+            "async src=\"$rlEndpoint&modules=ext.themes.apply&only=scripts&skin=$skin&raw=1\""
+        );
         array_unshift( $tags, $html );
     }
 
@@ -170,6 +175,7 @@ class ThemeLoadingHooks implements
         return wfAppendQuery( $this->config->getLoadScript(), [
             'lang' => $outputPage->getLanguage()->getCode(),
             'debug' => ResourceLoader::inDebugMode() ? '2' : false,
+            'skin' => $outputPage->getSkin()->getSkinName(),
         ] );
     }
 
