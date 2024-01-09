@@ -128,6 +128,17 @@ class ThemeAndFeatureRegistry {
         return $result;
     }
 
+    public function hasNonBundledThemes(): bool {
+        $this->load();
+
+        foreach ( $this->infos as $info ) {
+            if ( !$info->isBundled() ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function getBundledThemeIds(): array {
         $this->load();
 
