@@ -14,13 +14,16 @@
 
 
 ( function () {
-    var LINK_ID = 'mw-themetoggle-styleref',
-        htmlNode = document.documentElement,
+    var
+        /* @if ( VARS.WithThemeLoader ) */
+        LINK_ID = 'mw-themetoggle-styleref',
         linkNode = document.getElementById( LINK_ID ),
+        /* @endif */
+        /* @if ( VARS.WithPCSSupport ) */
+        prefersDark = window.matchMedia( '(prefers-color-scheme: dark)' ),
+        /* @endif */
+        htmlNode = document.documentElement,
         currentTheme = null;
-    /* @if ( VARS.WithPCSSupport ) */
-    var prefersDark = window.matchMedia( '(prefers-color-scheme: dark)' );
-    /* @endif */
 
 
     function _setThemeImpl( actualTarget ) {
@@ -33,6 +36,7 @@
                 htmlNode.classList.add( 'theme-' + actualTarget );
             }
 
+            /* @if ( VARS.WithThemeLoader ) */
             if ( VARS.SiteBundledCss.indexOf( actualTarget ) < 0 ) {
                 if ( linkNode === null ) {
                     linkNode = document.createElement( 'link' );
@@ -46,6 +50,7 @@
                 document.head.removeChild( linkNode );
                 linkNode = null;
             }
+            /* @endif */
         } catch ( ex ) {
             setTimeout( function () {
                 throw ex;
