@@ -15,23 +15,17 @@ class WikiThemeModule extends WikiModule {
     }
 
     /**
-     * @internal
-     * @param string $id
-     * @return string
-     */
-    public static function getCssPageName( $id ): string {
-        return "MediaWiki:Theme-$id.css";
-    }
-
-    /**
      * Get list of pages used by this module
      *
      * @param Context $context
      * @return array[]
      */
     protected function getPages( Context $context ) {
+        $id = $this->id;
+        $skin = ucfirst( $context->getSkin() );
         return [
-            self::getCssPageName( $this->id ) => [ 'type' => 'style' ]
+            "MediaWiki:Theme-$id.css" => [ 'type' => 'style' ],
+            "MediaWiki:Theme-$id-$skin.css" => [ 'type' => 'style' ],
         ];
     }
 
