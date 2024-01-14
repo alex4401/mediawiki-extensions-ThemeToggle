@@ -27,6 +27,8 @@ class PreferencesHooks implements
     }
 
     public function onGetPreferences( $user, &$preferences ) {
+        global $wgHiddenPrefs;
+
         $themeOptions = [];
 
         if ( $this->registry->isEligibleForAuto() ) {
@@ -43,7 +45,13 @@ class PreferencesHooks implements
             'label-message' => 'themetoggle-user-preference-label',
             'type' => 'select',
             'options' => $themeOptions,
-            'section' => 'rendering/skin/skin-prefs'
+            'section' => 'rendering/skin/skin-prefs',
         ];
+
+        // The theme preference should only be shown when there's at least two themes to choose from. Hide it, but don't
+        // remove it, so MediaWiki stays aware of it.
+        if ( count( $themeOptions ) < 2 ) {
+            $wgHiddenPrefs[] = $this->config->getThemePreferenceName();
+        }
     }
 }
