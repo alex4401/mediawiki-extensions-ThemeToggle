@@ -32,19 +32,19 @@ class PreferencesHooks implements
         $themeOptions = [];
 
         if ( $this->registry->isEligibleForAuto() ) {
-            $themeOptions[wfMessage( 'theme-auto-preference-description' )->text()] = 'auto';
+            $themeOptions['theme-auto-preference-description'] = 'auto';
         }
 
         foreach ( $this->registry->getAll() as $themeId => $themeInfo ) {
             if ( $themeInfo->isUserAllowedToUse( $user ) ) {
-                $themeOptions[wfMessage( $themeInfo->getMessageId() )->text()] = $themeId;
+                $themeOptions[$themeInfo->getMessageId()] = $themeId;
             }
         }
 
         $preferences[$this->config->getThemePreferenceName()] = [
             'label-message' => 'themetoggle-user-preference-label',
             'type' => 'select',
-            'options' => $themeOptions,
+            'options-messages' => $themeOptions,
             'section' => 'rendering/skin/skin-prefs',
         ];
 
