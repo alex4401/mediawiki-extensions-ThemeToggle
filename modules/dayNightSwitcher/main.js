@@ -9,12 +9,13 @@
 */
 
 var Shared = require( 'ext.themes.jsapi' );
-var $toggle;
+var $toggle, $container;
 
 
 function updateTitle() {
     // eslint-disable-next-line mediawiki/msg-doc
-    $toggle.attr( 'title', mw.msg( 'themetoggle-simple-switch', mw.msg( 'theme-' + MwSkinTheme.getCurrent() ) ) );
+    var msg = mw.msg( 'themetoggle-simple-switch', mw.msg( 'theme-' + MwSkinTheme.getCurrent() ) );
+    $toggle.setAttribute( 'title', msg );
 }
 
 
@@ -32,16 +33,19 @@ function cycleTheme() {
 function initialise() {
     Shared.prepare();
 
-    $toggle = $( '<span>' )
-        .on( 'mousedown', function ( event ) {
-            if ( event.which === 1 || event.button === 0 ) {
-                cycleTheme();
-            }
-        } );
-    $( '<li id="p-themes" class="mw-list-item">' )
-        .append( $toggle )
-        // eslint-disable-next-line no-jquery/no-global-selector
-        .prependTo( $( '#p-personal > .vector-menu-content > ul' ) );
+    $container = document.createElement( 'li' );
+    $container.id = 'p-themes';
+    $container.className = 'mw-list-item';
+
+    $toggle = document.createElement( 'span' );
+    $toggle.addEventListener( 'mousedown', function ( event ) {
+        if ( event.which === 1 || event.button === 0 ) {
+            cycleTheme();
+        }
+    } );
+    $container.appendChild( $toggle );
+
+    document.querySelector( '#pt-userpage' ).prepend( $container );
 
     updateTitle();
 }
