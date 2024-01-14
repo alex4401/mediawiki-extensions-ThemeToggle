@@ -136,13 +136,7 @@ class ThemeLoadingHooks implements
             ] + $this->getSwitcherModuleDefinition( $this->getSwitcherModuleId() ) );
         }
 
-        $messages = [];
-        if ( $this->registry->isEligibleForAuto() ) {
-            $messages[] = 'theme-auto';
-        }
-
         foreach ( $this->registry->getAll() as $themeId => $themeInfo ) {
-            $messages[] = $themeInfo->getMessageId();
             if ( !$themeInfo->isBundled() ) {
                 $resourceLoader->register( 'ext.theme.' . $themeId, [
                     'class' => WikiThemeModule::class,
@@ -150,11 +144,6 @@ class ThemeLoadingHooks implements
                 ] );
             }
         }
-
-        $resourceLoader->register( 'ext.themes.siteMessages', [
-            'class' => RL\FileModule::class,
-            'messages' => $messages
-        ] );
     }
 
     private function makeScriptTag( OutputPage $outputPage, string $script, $attributes = false ) {

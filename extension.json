@@ -36,9 +36,7 @@
 			]
 		},
 		"ext.themes.jsapi": {
-			"dependencies": [
-				"ext.themes.siteMessages"
-			],
+			"class": "MediaWiki\\Extension\\ThemeToggle\\ResourceLoader\\SharedJsModule",
 			"packageFiles": [
 				"shared.js",
 				{
