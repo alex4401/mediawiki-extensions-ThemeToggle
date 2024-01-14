@@ -42,7 +42,8 @@ class PreferencesHooks implements
         }
 
         $preferences[$this->config->getThemePreferenceName()] = [
-            'label-message' => 'themetoggle-user-preference-label',
+            'label-message' => 'themetoggle-prefs-theme-label',
+            'help-message' => 'themetoggle-prefs-theme-help',
             'type' => 'select',
             'options-messages' => $themeOptions,
             'section' => 'rendering/skin/skin-prefs',

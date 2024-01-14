@@ -129,7 +129,7 @@ class SpecialThemeUsage extends QueryPage {
             $unknownRow .= Html::openElement( 'td', [] );
             $unknownRow .= Html::element( 'span', [
                 'style' => 'border-bottom: 2px dotted #666; font-style: italic',
-                'title' => $this->msg( 'themeusage-unknown-theme-tooltip' )
+                'title' => $this->msg( 'themeusage-unknown-theme-tip' )
             ], $this->msg( 'themeusage-unknown-theme' ) );
             $unknownRow .= Html::closeElement( 'td' );
             $unknownRow .= Html::element( 'td', [], $this->getLanguage()->formatNum( $this->invalidCount ) );
