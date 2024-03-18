@@ -180,7 +180,10 @@ class ThemeLoadingHooks implements
                 return [
                     'packageFiles' => [ 'dropdownSwitcher/main.js' ],
                     'styles' => [ 'dropdownSwitcher/' . ( $this->isWikiGG() ? 'styles-wikigg.less' : 'styles-generic.less' ) ],
-                    'messages' => [ 'themetoggle-dropdown-switch' ]
+                    'messages' => [
+                        'themetoggle-dropdown-switch',
+                        'themetoggle-dropdown-section-themes',
+                    ]
                 ];
         }
     }

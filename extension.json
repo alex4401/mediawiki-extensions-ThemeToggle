@@ -44,6 +44,9 @@
 					"callback": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\ThemeLoadingHooks::getSiteConfigModuleContents"
 				}
 			],
+			"messages": [
+				"themetoggle-skinprefs"
+			],
 			"targets": [ "desktop", "mobile" ]
 		}
 	},

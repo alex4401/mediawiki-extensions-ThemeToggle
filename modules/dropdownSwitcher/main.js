@@ -31,7 +31,7 @@ function initialise() {
     Shared.prepare();
 
     var $metaHeading = document.createElement( 'span' );
-    $metaHeading.innerText = mw.msg( 'themes-heading' );
+    $metaHeading.innerText = mw.msg( 'themetoggle-skinprefs' );
 
     var $themeHeading = document.createElement( 'span' );
     // eslint-disable-next-line mediawiki/msg-doc
@@ -59,6 +59,10 @@ function initialise() {
     $container.appendChild( $toggle );
     $container.appendChild( $label );
     $container.appendChild( $list );
+
+    var $themeSection = document.createElement( 'li' );
+    $themeSection.innerText = mw.msg( 'themetoggle-dropdown-section-themes' );
+    $list.appendChild( $themeSection );
 
     if ( Shared.CONFIG.supportsAuto ) {
         addTheme( 'auto' );
