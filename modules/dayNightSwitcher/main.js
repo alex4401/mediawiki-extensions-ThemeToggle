@@ -46,7 +46,7 @@ function initialise() {
     } );
     $container.appendChild( $toggle );
 
-    document.querySelector( '#pt-userpage' ).prepend( $container );
+    document.querySelector( '#pt-userpage' ).parentNode.prepend( $container );
 
     updateTitle();
 }
