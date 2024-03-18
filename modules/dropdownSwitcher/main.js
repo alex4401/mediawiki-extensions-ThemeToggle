@@ -7,40 +7,65 @@ var $container, $label, $list;
 
 
 function addTheme( themeId ) {
-    $( '<li class="mw-list-item" id="p-themes-item-' + themeId + '">' )
+    var $link = document.createElement( 'a' );
+    $link.href = '#';
+    // eslint-disable-next-line mediawiki/msg-doc
+    $link.innerText = mw.msg( 'theme-' + themeId );
+
+    var $item = document.createElement( 'li' );
+    $item.className = 'mw-list-item';
+    $item.id = 'pt-themes-item-' + themeId;
+    $item.appendChild( $link );
+    $item.addEventListener( 'click', function ( event ) {
+        event.preventDefault();
+        Shared.setUserPreference( themeId );
         // eslint-disable-next-line mediawiki/msg-doc
-        .append( $( '<a href="#">' + mw.msg( 'theme-' + themeId ) + '</a>' ) )
-        .on( 'click', function ( event ) {
-            event.preventDefault();
-            Shared.setUserPreference( themeId );
-            // eslint-disable-next-line mediawiki/msg-doc
-            $label.text( mw.msg( 'theme-' + themeId ) );
-        } )
-        .appendTo( $list );
+        $label.innerText = mw.msg( 'theme-' + themeId );
+    } );
+
+    $list.appendChild( $item );
 }
 
 
 function initialise() {
     Shared.prepare();
 
-    $label = $( '<span class="vector-menu-heading-label">' )
-        // eslint-disable-next-line mediawiki/msg-doc
-        .text( mw.msg( 'theme-' + MwSkinTheme.getCurrent() ) );
-    $list = $( '<ul class="vector-menu-content-list menu">' );
-    $container = $( '<li id="p-themes" class="mw-list-item vector-menu vector-menu-dropdown vector-menu-dropdown-noicon">' )
-        .append( $( '<input id="p-themes-checkbox" type="checkbox" class="vector-menu-checkbox" role="button" '
-            + 'aria-haspopup="true" aria-labelledby="p-themes-label">' )
-            .attr( 'title', mw.msg( 'themetoggle-dropdown-switch' ) ) )
-        .append( $( '<label id="p-themes-label" for="p-themes-checkbox" class="vector-menu-heading">' )
-            .prepend( $label ) )
-        .append( $( '<div class="vector-menu-content">' )
-            .append( $list ) )
-        .prependTo( '#p-personal > .vector-menu-content > ul' );
+    var $metaHeading = document.createElement( 'span' );
+    $metaHeading.innerText = mw.msg( 'themes-heading' );
+
+    var $themeHeading = document.createElement( 'span' );
+    // eslint-disable-next-line mediawiki/msg-doc
+    $themeHeading.innerText = mw.msg( 'theme-' + MwSkinTheme.getCurrent() );
+
+    $label = document.createElement( 'label' );
+    $label.id = 'pt-themes-label';
+    $label.htmlFor = 'pt-themes-checkbox';
+    $label.appendChild( $metaHeading );
+    $label.appendChild( $themeHeading );
+
+    var $toggle = document.createElement( 'input' );
+    $toggle.id = $label.htmlFor;
+    $toggle.type = 'checkbox';
+    $toggle.setAttribute( 'role', 'button' );
+    $toggle.setAttribute( 'aria-haspopup', 'true' );
+    $toggle.setAttribute( 'aria-labelledby', $label.htmlFor );
+    $toggle.title = mw.msg( 'themetoggle-dropdown-switch' );
+
+    $list = document.createElement( 'ul' );
+
+    $container = document.createElement( 'li' );
+    $container.id = 'pt-themes';
+    $container.className = 'mw-list-item';
+    $container.appendChild( $toggle );
+    $container.appendChild( $label );
+    $container.appendChild( $list );
 
     if ( Shared.CONFIG.supportsAuto ) {
         addTheme( 'auto' );
     }
     Shared.getAvailableThemes().forEach( addTheme );
+
+    document.querySelector( '#p-personal > .vector-menu-content > ul' ).prepend( $container );
 
     mw.hook( 'ext.themes.dropdownSwitcherReady' ).fire( $container );
 }
