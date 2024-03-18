@@ -23,7 +23,7 @@ class SharedJsModule extends FileModule {
             $messages[] = $themeInfo->getMessageId();
         }
 
-        return $this->messages;
+        return array_merge( $this->messages, $messages );
     }
 
     public function enableModuleContentVersion(): bool {
