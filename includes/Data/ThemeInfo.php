@@ -72,17 +72,6 @@ class ThemeInfo {
     }
 
     /**
-     * @param Authority $user
-     * @return bool
-     */
-    public function isUserAllowedToUse( Authority $user ): bool {
-        if ( count( $this->rights ) ) {
-            return $user->isAllowedAll( ...$this->rights );
-        }
-        return true;
-    }
-
-    /**
      * Serialise this gadget to an array.
      *
      * @return array

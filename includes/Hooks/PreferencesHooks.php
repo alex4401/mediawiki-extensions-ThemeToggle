@@ -35,10 +35,8 @@ class PreferencesHooks implements
             $themeOptions['theme-auto-preference-description'] = 'auto';
         }
 
-        foreach ( $this->registry->getAll() as $themeId => $themeInfo ) {
-            if ( $themeInfo->isUserAllowedToUse( $user ) ) {
-                $themeOptions[$themeInfo->getMessageId()] = $themeId;
-            }
+        foreach ( $this->registry->getAvailableForUser( $user ) as $themeId => $themeInfo ) {
+            $themeOptions[$themeInfo->getMessageId()] = $themeId;
         }
 
         $preferences[$this->config->getThemePreferenceName()] = [

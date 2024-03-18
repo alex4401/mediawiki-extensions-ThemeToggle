@@ -13,6 +13,7 @@ use Wikimedia\Rdbms\Database;
 use InvalidArgumentException;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\ThemeToggle\Data\ThemeInfo;
+use MediaWiki\Permissions\Authority;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\User\UserOptionsLookup;
 
@@ -73,6 +74,18 @@ class ThemeAndFeatureRegistry {
     public function getAll(): array {
         $this->load();
         return $this->infos;
+    }
+
+    /**
+     * @param Authority $user
+     * @return array
+     */
+    public function getAvailableForUser( Authority $authority ): array {
+        $this->load();
+        return array_filter( $this->infos, static function ( $info ) use ( $authority ) {
+            $rights = $info->getRequiredUserRights();
+            return count( $rights ) && $authority->isAllowedAll( ...$rights );
+        } );
     }
 
     public function get( string $id ): ?ThemeInfo {
