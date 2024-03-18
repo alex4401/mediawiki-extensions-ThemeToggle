@@ -202,7 +202,8 @@ class ThemeLoadingHooks implements
                     }
                     return $key;
                 },
-                $registry->getAll()
+                array_keys( $registry->getAll() ),
+                array_values( $registry->getAll() )
             ),
             'supportsAuto' => $registry->isEligibleForAuto(),
             'preferenceGroup' => $config->getPreferenceSuffix(),
