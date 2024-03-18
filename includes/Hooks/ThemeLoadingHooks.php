@@ -130,7 +130,7 @@ class ThemeLoadingHooks implements
             $resourceLoader->register( 'ext.themes.switcher', [
                 'class' => RL\FileModule::class,
                 'localBasePath' => 'extensions/ThemeToggle/modules',
-                'remoteExtPath' => 'extensions/ThemeToggle/modules',
+                'remoteExtPath' => 'ThemeToggle/modules',
                 'dependencies' => [ 'ext.themes.jsapi' ],
                 'targets' => [ 'desktop', 'mobile' ]
             ] + $this->getSwitcherModuleDefinition( $this->getSwitcherModuleId() ) );
