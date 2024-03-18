@@ -8,7 +8,8 @@
  * - https://temtem.wiki.gg
 */
 
-var Shared = require( 'ext.themes.jsapi' );
+var Shared = require( 'ext.themes.jsapi' ),
+    themes = Shared.getAvailableThemes();
 var $toggle, $container;
 
 
@@ -20,12 +21,12 @@ function updateTitle() {
 
 
 function cycleTheme() {
-    var nextIndex = Shared.CONFIG.themes.indexOf( MwSkinTheme.getCurrent() ) + 1;
-    if ( nextIndex >= Shared.CONFIG.themes.length ) {
+    var nextIndex = themes.indexOf( MwSkinTheme.getCurrent() ) + 1;
+    if ( nextIndex >= themes.length ) {
         nextIndex = 0;
     }
 
-    Shared.setUserPreference( Shared.CONFIG.themes[ nextIndex ] );
+    Shared.setUserPreference( themes[ nextIndex ] );
     updateTitle();
 }
 

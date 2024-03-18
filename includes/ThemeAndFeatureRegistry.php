@@ -15,6 +15,8 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\ThemeToggle\Data\ThemeInfo;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Revision\RevisionLookup;
+use MediaWiki\User\UserGroupManager;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserOptionsLookup;
 
 class ThemeAndFeatureRegistry {
@@ -28,7 +30,7 @@ class ThemeAndFeatureRegistry {
         ConfigNames::DisableAutoDetection,
     ];
 
-    public const CACHE_GENERATION = 6;
+    public const CACHE_GENERATION = 7;
     public const CACHE_TTL = 24 * 60 * 60;
     public const TITLE = 'Theme-definitions';
 
@@ -44,6 +46,9 @@ class ThemeAndFeatureRegistry {
     /** @var UserOptionsLookup */
     private UserOptionsLookup $userOptionsLookup;
 
+    /** @var UserGroupManager */
+    private UserGroupManager $userGroupManager;
+
     /** @var WANObjectCache */
     private WANObjectCache $wanObjectCache;
 
@@ -52,6 +57,7 @@ class ThemeAndFeatureRegistry {
         ExtensionConfig $config,
         RevisionLookup $revisionLookup,
         UserOptionsLookup $userOptionsLookup,
+        UserGroupManager $userGroupManager,
         WANObjectCache $wanObjectCache
     ) {
         $options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
@@ -60,6 +66,7 @@ class ThemeAndFeatureRegistry {
         $this->config = $config;
         $this->revisionLookup = $revisionLookup;
         $this->userOptionsLookup = $userOptionsLookup;
+        $this->userGroupManager = $userGroupManager;
         $this->wanObjectCache = $wanObjectCache;
     }
 
@@ -77,14 +84,23 @@ class ThemeAndFeatureRegistry {
     }
 
     /**
-     * @param Authority $user
+     * @param UserIdentity $user
      * @return array
      */
-    public function getAvailableForUser( Authority $authority ): array {
+    public function getAvailableForUser( UserIdentity $userIdentity ): array {
         $this->load();
-        return array_filter( $this->infos, static function ( $info ) use ( $authority ) {
-            $rights = $info->getRequiredUserRights();
-            return count( $rights ) && $authority->isAllowedAll( ...$rights );
+
+        // End early if no configured theme needs special user groups
+        if ( empty( array_filter( $this->infos, fn ( $item ) => empty( $item->getEntitledUserGroups() ) ) ) ) {
+            return $this->infos;
+        }
+
+        $userGroups = $this->userGroupManager->getUserEffectiveGroups( $userIdentity );
+        return array_filter( $this->infos, static function ( $info ) use ( &$userGroups ) {
+            if ( empty( $info->getEntitledUserGroups() ) ) {
+                return true;
+            }
+            return !empty( array_intersect( $info->getEntitledUserGroups(), $userGroups ) );
         } );
     }
 
@@ -285,8 +301,8 @@ class ThemeAndFeatureRegistry {
                 }
 
                 switch ( $option ) {
-                    case 'rights':
-                        $info['rights'] = $params;
+                    case 'user-groups':
+                        $info['user-groups'] = $params;
                         break;
                     case 'default':
                         $info['default'] = true;

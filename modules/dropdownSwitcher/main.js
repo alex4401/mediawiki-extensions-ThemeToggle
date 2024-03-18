@@ -40,7 +40,7 @@ function initialise() {
     if ( Shared.CONFIG.supportsAuto ) {
         addTheme( 'auto' );
     }
-    Shared.CONFIG.themes.forEach( addTheme );
+    Shared.getAvailableThemes().forEach( addTheme );
 
     mw.hook( 'ext.themes.dropdownSwitcherReady' ).fire( $container );
 }

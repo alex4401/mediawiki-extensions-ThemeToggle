@@ -2,13 +2,12 @@
 namespace MediaWiki\Extension\ThemeToggle\Data;
 
 use InvalidArgumentException;
-use MediaWiki\Permissions\Authority;
 
 class ThemeInfo {
     /** @var string */
     private string $id;
-    /** @var string[] Required rights to advertise. */
-    private array $rights = [];
+    /** @var string[] Required user groups to advertise. */
+    private array $userGroups = [];
     /** @var bool Whether default. */
     private bool $default = false;
     /** @var bool Whether included in site CSS. */
@@ -18,7 +17,7 @@ class ThemeInfo {
         foreach ( $info as $option => $params ) {
             switch ( $option ) {
                 case 'id':
-                case 'rights':
+                case 'user-groups':
                 case 'default':
                 case 'bundled':
                     $this->{$option} = $params;
@@ -67,8 +66,8 @@ class ThemeInfo {
     /**
      * @return string[]
      */
-    public function getRequiredUserRights(): array {
-        return $this->rights;
+    public function getEntitledUserGroups(): array {
+        return $this->userGroups;
     }
 
     /**
@@ -81,7 +80,7 @@ class ThemeInfo {
             'id' => $this->id,
             'default' => $this->default,
             'bundled' => $this->bundled,
-            'rights' => $this->rights,
+            'user-groups' => $this->userGroups,
         ];
     }
 }

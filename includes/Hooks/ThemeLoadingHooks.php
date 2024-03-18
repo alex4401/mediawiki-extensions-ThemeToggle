@@ -192,8 +192,18 @@ class ThemeLoadingHooks implements
         $registry = MediaWikiServices::getInstance()->getService( ThemeAndFeatureRegistry::SERVICE_NAME );
 
         return [
-            'themes' => array_keys( array_filter( $registry->getAll(), fn( $themeInfo, $themeId )
-                => ( count( $themeInfo->getRequiredUserRights() ) <= 0 ), ARRAY_FILTER_USE_BOTH ) ),
+            'themes' => array_map(
+                static function ( $key, $info ) {
+                    if ( $info->getEntitledUserGroups() ) {
+                        return [
+                            'id' => $key,
+                            'userGroups' => $info->getEntitledUserGroups(),
+                        ];
+                    }
+                    return $key;
+                },
+                $registry->getAll()
+            ),
             'supportsAuto' => $registry->isEligibleForAuto(),
             'preferenceGroup' => $config->getPreferenceSuffix(),
             'defaultTheme' => $registry->getDefaultThemeId()

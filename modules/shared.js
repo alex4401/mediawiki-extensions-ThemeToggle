@@ -31,6 +31,19 @@ function _setAccountPreference( value ) {
 }
 
 
+module.exports.getAvailableThemes = function () {
+    var userGroups = mw.config.get( 'wgUserGroups' );
+    return this.CONFIG.themes.filter( function ( item ) {
+        if ( item.userGroups ) {
+            return item.userGroups.some( function ( entitled ) {
+                return userGroups.indexOf( entitled ) >= 0;
+            } );
+        }
+        return true;
+    } );
+};
+
+
 /**
  * Checks whether local preference points to a valid theme, and if not, erases it and requests the default theme to be
  * set.

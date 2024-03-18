@@ -28,6 +28,7 @@ return [
             $services->get( ExtensionConfig::SERVICE_NAME ),
             $services->getRevisionLookup(),
             $services->getUserOptionsLookup(),
+            $services->getUserGroupManager(),
             $services->getMainWANObjectCache()
         );
     },
