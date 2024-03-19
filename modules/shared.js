@@ -33,14 +33,16 @@ function _setAccountPreference( value ) {
 
 module.exports.getAvailableThemes = function () {
     var userGroups = mw.config.get( 'wgUserGroups' );
-    return this.CONFIG.themes.filter( function ( item ) {
-        if ( item.userGroups ) {
-            return item.userGroups.some( function ( entitled ) {
-                return userGroups.indexOf( entitled ) >= 0;
-            } );
-        }
-        return true;
-    } );
+    return this.CONFIG.themes
+        .map( function ( item ) {
+            if ( item.userGroups ) {
+                return item.userGroups.some( function ( entitled ) {
+                    return userGroups.indexOf( entitled ) >= 0;
+                } ) ? item.id : null;
+            }
+            return item;
+        } )
+        .filter( Boolean );
 };
 
 
