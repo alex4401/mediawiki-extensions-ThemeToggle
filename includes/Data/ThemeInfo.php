@@ -17,7 +17,7 @@ class ThemeInfo {
         foreach ( $info as $option => $params ) {
             switch ( $option ) {
                 case 'id':
-                case 'user-groups':
+                case 'userGroups':
                 case 'default':
                 case 'bundled':
                     $this->{$option} = $params;

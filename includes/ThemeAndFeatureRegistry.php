@@ -30,7 +30,7 @@ class ThemeAndFeatureRegistry {
         ConfigNames::DisableAutoDetection,
     ];
 
-    public const CACHE_GENERATION = 7;
+    public const CACHE_GENERATION = 8;
     public const CACHE_TTL = 24 * 60 * 60;
     public const TITLE = 'Theme-definitions';
 
@@ -302,7 +302,7 @@ class ThemeAndFeatureRegistry {
 
                 switch ( $option ) {
                     case 'user-groups':
-                        $info['user-groups'] = $params;
+                        $info['userGroups'] = $params;
                         break;
                     case 'default':
                         $info['default'] = true;
