@@ -44,6 +44,11 @@ module.exports.getAvailableThemes = function () {
 };
 
 
+module.exports.getSwitcherPortlet = function () {
+    return document.querySelector( '#p-personal ul' );
+};
+
+
 /**
  * Checks whether local preference points to a valid theme, and if not, erases it and requests the default theme to be
  * set.

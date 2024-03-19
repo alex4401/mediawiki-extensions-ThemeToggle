@@ -69,7 +69,7 @@ function initialise() {
     }
     Shared.getAvailableThemes().forEach( addTheme );
 
-    document.querySelector( '#pt-userpage' ).parentNode.prepend( $container );
+    Shared.getSwitcherPortlet().prepend( $container );
 
     mw.hook( 'ext.themes.dropdownSwitcherReady' ).fire( $container );
 }
