@@ -11,6 +11,8 @@
     "themetoggle-dropdown-switch": "Text shown when mouse is over the dropdown theme switcher.",
     "themetoggle-dropdown-section-themes": "Name of a section, which has themes listed below. This is only used in the dropdown theme switcher.",
     "themetoggle-dropdown-section-features": "Name of a section, which has features (such as: reader mode, font size, etc.) listed below. This is only used in the dropdown theme switcher.",
+    "themetoggle-css-pages-list-intro": "A sentence introducing an unordered list of links",
+    "themetoggle-bundled-list-intro": "A sentence introducing an unordered list of strings",
     "themeusage": "Title of Special:ThemeUsage.",
     "themeusage-theme": "Column name in [[Special:ThemeUsage]]. Theme identifiers are listed below.",
     "themeusage-usercount": "Column name in [[Special:ThemeUsage]]. Below, number of a theme's registered users is listed for each theme.",
