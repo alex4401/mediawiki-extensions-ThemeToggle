@@ -88,6 +88,12 @@
 				"ThemeToggle.Config",
 				"ThemeToggle.ThemeAndFeatureRegistry"
 			]
+		},
+		"ThemeLinks": {
+			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\ThemeLinksHooks",
+			"services": [
+				"ThemeToggle.ThemeAndFeatureRegistry"
+			]
 		}
 	},
 	"Hooks": {
@@ -97,7 +103,8 @@
 		"OutputPageAfterGetHeadLinksArray": "ThemeLoading",
 		"ResourceLoaderRegisterModules": "ThemeLoading",
 		"GetPreferences": "Preferences",
-		"UserGetDefaultOptions": "Preferences"
+		"UserGetDefaultOptions": "Preferences",
+		"OutputPageParserOutput": "ThemeLinks"
 	},
 
 	"config_prefix": "wgThemeToggle",
