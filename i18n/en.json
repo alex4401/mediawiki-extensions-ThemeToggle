@@ -14,6 +14,7 @@
     "themetoggle-dropdown-section-features": "Other preferences",
     "themetoggle-css-pages-list-intro": "The following CSS pages are being referenced:",
     "themetoggle-bundled-list-intro": "The following themes have no dedicated stylesheets because they are marked as bundled:",
+    "themetoggle-list-display-as": "Displayed as",
     "themeusage": "Theme usage statistics",
     "themeusage-theme": "Theme",
     "themeusage-usercount": "Number of users",
