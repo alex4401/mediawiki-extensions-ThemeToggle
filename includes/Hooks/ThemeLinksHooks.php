@@ -16,10 +16,9 @@ class ThemeLinksHooks implements
 		$this->registry = $registry;
 	}
 
-	public function onOutputPageParserOutput($out, $parserOutput): void {
+	public function onOutputPageParserOutput( $out, $parserOutput ): void {
 		$title = $out->getTitle();
-		if ( $title->getNamespace() !== NS_MEDIAWIKI || $title->getText() !==
- ThemeAndFeatureRegistry::TITLE ) {
+		if ( $title->getNamespace() !== NS_MEDIAWIKI || $title->getText() !== ThemeAndFeatureRegistry::TITLE ) {
 			return;
 		}
 
@@ -30,31 +29,29 @@ class ThemeLinksHooks implements
 
 		$html = Html::element('p', [], wfMessage('themetoggle-css-pages-list-intro') );
 		$html .= Html::openElement('ul');
-		foreach($themes as $theme) {
-			if ($theme->isBundled() === true) {
+		foreach ( $themes as $theme ) {
+			if ( $theme->isBundled() ) {
 				$hasBundledThemes = true;
 			} else {
-				$html .= Html::rawElement('li', [],
-					$linkRenderer->makeLink( Title::newFromText($theme->getCssPageName()) )
-				);
+				$html .= Html::rawElement( 'li', [],
+					$linkRenderer->makeLink( Title::newFromText( $theme->getCssPageName() ) ) );
 			}
 		}
 		$html .= Html::closeElement('ul');
 
-		if ($hasBundledThemes) {
-			$html .= Html::element('p', [], wfMessage('themetoggle-bundled-list-intro') );
-			$html .= Html::openElement('ul');
-			foreach ($themes as $theme) {
-				if ($theme->isBundled() === true) {
-					$html .= Html::element('li', [], $theme->getId());
+		if ( $hasBundledThemes ) {
+			$html .= Html::element( 'p', [], wfMessage( 'themetoggle-bundled-list-intro' ) );
+			$html .= Html::openElement( 'ul' );
+			foreach ( $themes as $theme ) {
+				if ( $theme->isBundled() ) {
+					$html .= Html::element( 'li', [], $theme->getId() );
 				}
 			}
-			$html .= Html::closeElement('ul');
+			$html .= Html::closeElement( 'ul' );
 		}
 
-		$html .= Html::element('hr');
+		$html .= Html::element( 'hr' );
 
 		$parserOutput->setText( $html . $parserOutput->getText() );
 	}
-
 }
