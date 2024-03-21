@@ -1,23 +1,21 @@
 {
-    "@metadata": {
-        "authors": [
-            "Bellbox"
-        ]
-    },
-    "themetoggle-user-preference-label": "ธีม",
-    "theme-auto": "อัตโนมัติ (ซิงค์กับอุปกรณ์)",
-    "theme-auto-preference-description": "ปฏิบัติตามการตั้งค่าของระบบว่าควรใช้โหมดสีอ่อน (Light) หรือ สีเข้ม (Dark)",
-    "theme-dark": "โหมดสีเข้ม",
-    "theme-light": "โหมดสีอ่อน",
-    "themetoggle-simple-switch": "คลิกเพื่อสลับธีม",
-    "themetoggle-dropdown-switch": "คลิกเพื่อเลือกธีม",
-    "themetoggle-desc": "อนุญาตให้สร้างธีมแบบ Local ปรับแต่งสำหรับการตั้งค่าด้วยการแคชเชิงรุก โดยที่โซลูชันที่ใช้คุกกี้อาจทำให้แคชเสียหายได้",
-    "themeusage-usercount": "จำนวนผู้ใช้ทั้งหมด",
-    "themeusage-activeusers": "ผู้ใช้ที่ยังใช้งานอยู่",
-    "themeusage-noresults": "ไม่พบผู้ใช้ที่มีค่ากำหนดธีมที่ไม่ใช่ค่าเริ่มต้น",
-    "themeusage": "สถิติการใช้ธีม",
-    "themeusage-theme": "ธีม",
-    "theme-none": "ชื่อของธีมที่กำหนดค่าโดยค่าเริ่มต้น หรือขาดอย่างใดอย่างหนึ่ง",
-    "themeusage-unknown-theme": "ไม่ทราบ",
-    "themeusage-unknown-theme-tooltip": "ผู้ใช้เหล่านี้ใช้ค่าธีมที่ไม่ทราบ, อาจเป็นไปไได้ว่าธีมนั้นถูกลบออกไปแล้ว เลยถูกกำหนดเป็นค่าเริ่มต้น"
+	"@metadata": {
+		"authors": [
+			"Bellbox"
+		]
+	},
+	"themetoggle-desc": "อนุญาตให้สร้างธีมแบบ Local ปรับแต่งสำหรับการตั้งค่าด้วยการแคชเชิงรุก โดยที่โซลูชันที่ใช้คุกกี้อาจทำให้แคชเสียหายได้",
+	"themetoggle-simple-switch": "คลิกเพื่อสลับธีม",
+	"themetoggle-dropdown-switch": "คลิกเพื่อเลือกธีม",
+	"themeusage": "สถิติการใช้ธีม",
+	"themeusage-theme": "ธีม",
+	"themeusage-usercount": "จำนวนผู้ใช้ทั้งหมด",
+	"themeusage-noresults": "ไม่พบผู้ใช้ที่มีค่ากำหนดธีมที่ไม่ใช่ค่าเริ่มต้น",
+	"themeusage-activeusers": "ผู้ใช้ที่ยังใช้งานอยู่",
+	"themeusage-unknown-theme": "ไม่ทราบ",
+	"theme-none": "ชื่อของธีมที่กำหนดค่าโดยค่าเริ่มต้น หรือขาดอย่างใดอย่างหนึ่ง",
+	"theme-auto": "อัตโนมัติ (ซิงค์กับอุปกรณ์)",
+	"theme-auto-preference-description": "ปฏิบัติตามการตั้งค่าของระบบว่าควรใช้โหมดสีอ่อน (Light) หรือ สีเข้ม (Dark)",
+	"theme-dark": "โหมดสีเข้ม",
+	"theme-light": "โหมดสีอ่อน"
 }

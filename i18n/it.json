@@ -1,7 +1,21 @@
 {
-    "@metadata": {
-        "authors": [
-            "Zaffira"
-        ]
-    }
+	"@metadata": {
+		"authors": [
+			"Beta16",
+			"Zaffira"
+		]
+	},
+	"themetoggle-prefs-theme-label": "Tema",
+	"themetoggle-skinprefs": "Aspetto",
+	"themetoggle-dropdown-section-themes": "Temi",
+	"themetoggle-dropdown-section-features": "Altre preferenze",
+	"themeusage-theme": "Tema",
+	"themeusage-usercount": "Numero di utenti",
+	"themeusage-activeusers": "Utenti attivi",
+	"themeusage-unknown-theme": "Sconosciuto",
+	"theme-none": "Nessuno",
+	"theme-auto": "Automatico (sistema)",
+	"theme-auto-preference-description": "Automatico (segui le preferenze di sistema per determinare se utilizzare il tema chiaro o scuro)",
+	"theme-dark": "Scuro",
+	"theme-light": "Chiaro"
 }

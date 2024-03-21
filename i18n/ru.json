@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"Dirruw'o",
+			"Stjn"
+		]
+	},
+	"themetoggle-desc": "Позволяет сайту создавать локальные темы. Настроено для конфигураций с агрессивным кэшированием, где решение на основе файлов cookie может испортить кеш.",
+	"themetoggle-prefs-theme-label": "Тема",
+	"themetoggle-prefs-theme-desc": "Выберите тему для отображения этой вики:",
+	"themetoggle-simple-switch": "Текущая тема — «$1». Нажмите, чтобы переключиться.",
+	"themetoggle-dropdown-switch": "Разверните, чтобы выбрать тему.",
+	"themetoggle-skinprefs": "Внешний вид",
+	"themetoggle-dropdown-section-themes": "Темы",
+	"themetoggle-dropdown-section-features": "Другие предпочтения",
+	"themetoggle-css-pages-list-intro": "Ссылаются на следующие страницы CSS:",
+	"themetoggle-bundled-list-intro": "Следующие темы не имеют специальных таблиц стилей, поскольку они помечены как связанные:",
+	"themeusage": "Статистика использования темы",
+	"themeusage-theme": "Тема",
+	"themeusage-usercount": "Номера участников",
+	"themeusage-noresults": "Пользователей с настройками темы, отличными от стандартных, не обнаружено.",
+	"themeusage-activeusers": "Активные участники",
+	"themeusage-unknown-theme": "Не знаем",
+	"themeusage-unknown-theme-tip": "Эти пользователи установили неизвестную тему в качестве предпочтения, возможно, потому, что с тех пор тема была удалена. Вместо этого они увидят тему по умолчанию.",
+	"theme-definitions": "* none[default|bundled]",
+	"theme-none": "Нет",
+	"theme-auto": "Автоматический (системный)",
+	"theme-auto-preference-description": "Автоматически (следуйте системным настройкам, чтобы определить, следует ли использовать светлую или темную тему)",
+	"theme-dark": "Тёмный",
+	"theme-light": "Светлый"
+}

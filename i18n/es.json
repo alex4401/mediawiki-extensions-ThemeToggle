@@ -1,23 +1,31 @@
 {
-    "@metadata": {
-        "authors": [
-            "Mirageionova"
-        ]
-    },
-    "themetoggle-desc": "Permite a la página web crear temas locales. Se adapta a configuraciones de caché exigente, donde una solución basada en cookies podría envenenar la caché.",
-    "themetoggle-user-preference-label": "Tema",
-    "theme-auto": "Automático (sistema)",
-    "theme-auto-preference-description": "Seguir las preferencias del sistema para determinar la elección entre un tema claro u oscuro",
-    "theme-dark": "Oscuro",
-    "theme-light": "Claro",
-    "themetoggle-simple-switch": "Haz clic para activar el tema",
-    "themetoggle-dropdown-switch": "Haz clic para elegir un tema",
-    "themeusage-usercount": "Número de usuarios",
-    "themeusage-noresults": "No se han encontrado usuarios usando temas no predeterminados.",
-    "themeusage": "Estadísticas de uso del tema",
-    "themeusage-theme": "Tema",
-    "themeusage-activeusers": "Usuarios activos",
-    "theme-none": "Ninguno",
-    "themeusage-unknown-theme-tooltip": "Estos usuarios no tienen un tema establecido como tema preferente, probablemente debido a que el tema se ha eliminado desde entonces. En su defecto, los usuarios verán el tema por defecto.",
-    "themeusage-unknown-theme": "Desconocido"
+	"@metadata": {
+		"authors": [
+			"Eulalio",
+			"Mirageionova"
+		]
+	},
+	"themetoggle-desc": "Permite a la página web crear temas locales. Se adapta a configuraciones de caché exigente, donde una solución basada en cookies podría envenenar la caché.",
+	"themetoggle-prefs-theme-label": "Tema",
+	"themetoggle-prefs-theme-desc": "Elija el tema para mostrar esta wiki en:",
+	"themetoggle-simple-switch": "El tema actual es \"$1\". Toque para cambiar.",
+	"themetoggle-dropdown-switch": "Haz clic para elegir un tema",
+	"themetoggle-skinprefs": "Apariencia",
+	"themetoggle-dropdown-section-themes": "Temas",
+	"themetoggle-dropdown-section-features": "Otras preferencias",
+	"themetoggle-css-pages-list-intro": "Se hace referencia a las siguientes páginas CSS:",
+	"themetoggle-bundled-list-intro": "Los siguientes temas no tienen hojas de estilo dedicadas porque están marcados como incluidos:",
+	"themeusage": "Estadísticas de uso del tema",
+	"themeusage-theme": "Tema",
+	"themeusage-usercount": "Número de usuarios",
+	"themeusage-noresults": "No se han encontrado usuarios usando temas no predeterminados.",
+	"themeusage-activeusers": "Usuarios activos",
+	"themeusage-unknown-theme": "Desconocido",
+	"themeusage-unknown-theme-tip": "Estos usuarios tienen un tema desconocido establecido como preferencia, posiblemente porque el tema ya se eliminó. En su lugar, verán el tema predeterminado.",
+	"theme-definitions": "* ninguno[predeterminado|incluido]",
+	"theme-none": "Ninguno",
+	"theme-auto": "Automático (sistema)",
+	"theme-auto-preference-description": "Seguir las preferencias del sistema para determinar la elección entre un tema claro u oscuro",
+	"theme-dark": "Oscuro",
+	"theme-light": "Claro"
 }

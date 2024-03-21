@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": [
+			"Cristina S"
+		]
+	},
+	"themetoggle-prefs-theme-label": "Temă",
+	"themetoggle-prefs-theme-desc": "Alege tema de afișare a acestui wiki:",
+	"themetoggle-simple-switch": "Tema curentă este \"$1\". Atingeți pentru schimbare.",
+	"themetoggle-dropdown-switch": "Extindeți pentru a alege o temă.",
+	"themetoggle-skinprefs": "Aspect",
+	"themetoggle-dropdown-section-themes": "Teme",
+	"themetoggle-dropdown-section-features": "Alte preferințe",
+	"themetoggle-css-pages-list-intro": "Următoarele pagini CSS sunt indicate pentru referință:",
+	"themeusage": "Statistici privind utilizarea temelor",
+	"themeusage-theme": "Temă",
+	"themeusage-usercount": "Număr de utilizatori",
+	"themeusage-activeusers": "Utilizatori activi",
+	"themeusage-unknown-theme": "Necunoscut",
+	"themeusage-unknown-theme-tip": "Acești utilizatori au setată ca preferință o temă necunoscută, probabil pentru că tema respectivă a fost eliminată între timp. Ei vor vedea în schimb tema implicită.",
+	"theme-none": "Niciunul/ Niciuna/ Nimic",
+	"theme-auto": "Automat (sistem)",
+	"theme-auto-preference-description": "Automat (urmați preferințele sistemului  pentru a determina dacă ar trebui utilizată tema luminoasă sau tema întunecată)",
+	"theme-dark": "Întunecată"
+}

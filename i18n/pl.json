@@ -1,24 +1,23 @@
 {
-    "@metadata": {
-        "authors": [
-            "alex4401"
-        ]
-    },
-    "themetoggle-user-preference-label": "Motyw",
-    "theme-auto": "Automatycznie (system)",
-    "theme-auto-preference-description": "Wybiera jasny lub ciemny motyw na podstawie preferencji systemowych",
-    "theme-dark": "Ciemny",
-    "theme-light": "Jasny",
-    "themetoggle-simple-switch": "Kliknij, by zmienić motyw",
-    "themetoggle-dropdown-switch": "Kliknij, by wybrać motyw",
-    "themetoggle-desc": "Pozwala stronie na tworzenie własnych motywów kolorystycznych. Dostosowane do instalacji wykorzystujących agresywne buforowanie, gdzie rozwiązanie oparte na cookies mogłoby zatruć pamięć podręczną.",
-    "themeusage": "Statystyki użycia motywów",
-    "themeusage-theme": "Motyw",
-    "themeusage-usercount": "Liczba użytkowników",
-    "themeusage-activeusers": "Aktywni użytkownicy",
-    "themeusage-noresults": "Nie znaleziono użytkowników z preferencjami motywu innymi niż domyślne.",
-    "themetoggle-dropdown-section-themes": "Motywy",
-    "themetoggle-dropdown-section-features": "Inne",
-    "themeusage-unknown-theme": "Nieznane",
-    "theme-none": "Domyślny"
+	"@metadata": {
+		"authors": [
+			"alex4401"
+		]
+	},
+	"themetoggle-desc": "Pozwala stronie na tworzenie własnych motywów kolorystycznych. Dostosowane do instalacji wykorzystujących agresywne buforowanie, gdzie rozwiązanie oparte na cookies mogłoby zatruć pamięć podręczną.",
+	"themetoggle-simple-switch": "Kliknij, by zmienić motyw",
+	"themetoggle-dropdown-switch": "Kliknij, by wybrać motyw",
+	"themetoggle-dropdown-section-themes": "Motywy",
+	"themetoggle-dropdown-section-features": "Inne",
+	"themeusage": "Statystyki użycia motywów",
+	"themeusage-theme": "Motyw",
+	"themeusage-usercount": "Liczba użytkowników",
+	"themeusage-noresults": "Nie znaleziono użytkowników z preferencjami motywu innymi niż domyślne.",
+	"themeusage-activeusers": "Aktywni użytkownicy",
+	"themeusage-unknown-theme": "Nieznane",
+	"theme-none": "Domyślny",
+	"theme-auto": "Automatycznie (system)",
+	"theme-auto-preference-description": "Wybiera jasny lub ciemny motyw na podstawie preferencji systemowych",
+	"theme-dark": "Ciemny",
+	"theme-light": "Jasny"
 }

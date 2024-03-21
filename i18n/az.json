@@ -1,0 +1,29 @@
+{
+	"@metadata": {
+		"authors": [
+			"NMW03"
+		]
+	},
+	"themetoggle-desc": "Sayta yerli temalar yaratmağa imkan verir. Çərəz əsaslı həllin keşi poza biləcəyi aqressiv keşləmə ilə quraşdırmalar üçün uyğunlaşdırılmışdır.",
+	"themetoggle-prefs-theme-label": "Tema",
+	"themetoggle-prefs-theme-desc": "Bu vikidə istifadə ediləcək temanı seçin:",
+	"themetoggle-simple-switch": "Cari mövzu \"$1\"-dir. Dəyişmək üçün toxunun.",
+	"themetoggle-dropdown-switch": "Mövzu seçmək üçün genişləndirin.",
+	"themetoggle-skinprefs": "Görünüş",
+	"themetoggle-dropdown-section-themes": "Temalar",
+	"themetoggle-dropdown-section-features": "Digər nizamlamalar",
+	"themetoggle-css-pages-list-intro": "Aşağıdakı CSS səhifələrinə istinad edilir:",
+	"themetoggle-bundled-list-intro": "Aşağıdakı mövzuların xüsusi üslub cədvəlləri yoxdur, çünki onlar paketlənmiş kimi qeyd olunur:",
+	"themeusage": "Tema istifadə statistikası",
+	"themeusage-theme": "Tema",
+	"themeusage-usercount": "İstifadəçilərin sayı",
+	"themeusage-noresults": "Qeyri-defolt teması olan istifadəçilər tapılmadı.",
+	"themeusage-activeusers": "Aktiv istifadəçilər",
+	"themeusage-unknown-theme": "Naməlum",
+	"themeusage-unknown-theme-tip": "Bu istifadəçilər naməlum mövzuya üstünlük verirlər, ola bilsin ki, mövzu o vaxtdan silinib. Bunun əvəzinə onlar standart mövzunu görəcəklər.",
+	"theme-none": "Heç biri",
+	"theme-auto": "Avtomatik (sistem)",
+	"theme-auto-preference-description": "Avtomatik (açıq və ya tünd mövzunun istifadə edilməsini müəyyən etmək üçün sistem tərcihlərini izləyin)",
+	"theme-dark": "Qaranlıq",
+	"theme-light": "İşıqlı"
+}

@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Milicevic01"
+		]
+	},
+	"themetoggle-prefs-theme-label": "Тема",
+	"themetoggle-skinprefs": "Изглед",
+	"themetoggle-dropdown-section-themes": "Теме",
+	"themetoggle-dropdown-section-features": "Друга подешавања",
+	"themeusage": "Статистика употребе тема",
+	"themeusage-theme": "Тема",
+	"themeusage-usercount": "Број корисника",
+	"themeusage-activeusers": "Активни корисници",
+	"themeusage-unknown-theme": "Непознато",
+	"theme-none": "Нема",
+	"theme-dark": "Тамна",
+	"theme-light": "Светла"
+}
