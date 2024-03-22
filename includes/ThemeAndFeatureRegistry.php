@@ -262,7 +262,8 @@ class ThemeAndFeatureRegistry {
                 'none' => [
                     'id' => 'none',
                     'default' => true,
-                    'bundled' => true
+                    'bundled' => true,
+					'kind' => "unknown",
                 ]
             ];
         }
@@ -310,6 +311,9 @@ class ThemeAndFeatureRegistry {
                     case 'bundled':
                         $info['bundled'] = true;
                         break;
+					case 'kind':
+						$info['kind'] = $params[0];
+						break;
                 }
             }
         }
