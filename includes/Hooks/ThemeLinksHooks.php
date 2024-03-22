@@ -41,7 +41,7 @@ class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 			if ( $theme->isBundled() ) {
 				$hasBundledThemes = true;
 			} else {
-				$html .= Html::rawElement( 'li', [], $this->makeThemeListItem( $theme, true ) );
+				$html .= Html::rawElement( 'li', [], $this->makeThemeListItem( $theme ) );
 			}
 		}
 		$html .= Html::closeElement( 'ul' );
@@ -51,7 +51,7 @@ class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 			$html .= Html::openElement( 'ul' );
 			foreach ( $themes as $theme ) {
 				if ( $theme->isBundled() ) {
-					$html .= Html::rawElement( 'li', [], $this->makeThemeListItem( $theme, false ) );
+					$html .= Html::rawElement( 'li', [], $this->makeThemeListItem( $theme ) );
 				}
 			}
 			$html .= Html::closeElement( 'ul' );
@@ -62,7 +62,7 @@ class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 		$parserOutput->setText( $html . $parserOutput->getText() );
 	}
 
-	private function makeThemeListItem( $theme, bool $linkCss ): string {
+	private function makeThemeListItem( $theme ): string {
 		$html = null;
 
 		if ( $theme->isBundled() ) {
