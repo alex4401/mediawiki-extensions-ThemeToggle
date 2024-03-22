@@ -6,13 +6,21 @@ use Html;
 use Title;
 use TitleValue;
 use MediaWiki\Extension\ThemeToggle\ThemeAndFeatureRegistry;
+use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\MediaWikiServices;
 
 class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
+	/** @var LinkRenderer */
+	private LinkRenderer $linkRenderer;
+
 	/** @var ThemeAndFeatureRegistry */
 	private ThemeAndFeatureRegistry $registry;
 
-	public function __construct( ThemeAndFeatureRegistry $registry ) {
+	public function __construct(
+		LinkRenderer $linkRenderer,
+		ThemeAndFeatureRegistry $registry
+	) {
+		$this->linkRenderer = $linkRenderer;
 		$this->registry = $registry;
 	}
 
@@ -24,7 +32,6 @@ class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 		}
 
 		$themes = $this->registry->getAll();
-		$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
 
 		$hasBundledThemes = false;
 
@@ -34,11 +41,8 @@ class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 			if ( $theme->isBundled() ) {
 				$hasBundledThemes = true;
 			} else {
-
-				$themeText =
-					$linkRenderer->makeLink( Title::newFromText( $theme->getCssPageName() ) );
-
-				$html .= Html::rawElement( 'li', [], $this->themeListItem( $themeText, $theme ) );
+				$themeText = $this->linkRenderer->makeLink( Title::newFromText( $theme->getCssPageName() ) );
+				$html .= Html::rawElement( 'li', [], $this->makeThemeListItem( $themeText, $theme ) );
 			}
 		}
 		$html .= Html::closeElement( 'ul' );
@@ -48,10 +52,7 @@ class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 			$html .= Html::openElement( 'ul' );
 			foreach ( $themes as $theme ) {
 				if ( $theme->isBundled() ) {
-
-					$themeText = $theme->getId();
-					$html .= Html::rawElement( 'li', [],
-						$this->themeListItem( $themeText, $theme ) );
+					$html .= Html::rawElement( 'li', [], $this->makeThemeListItem( $theme->getId(), $theme ) );
 				}
 			}
 			$html .= Html::closeElement( 'ul' );
@@ -62,14 +63,14 @@ class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 		$parserOutput->setText( $html . $parserOutput->getText() );
 	}
 
-	private function themeListItem( $themeText, $theme ): string {
-		$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
-		$themeText .= " (" . wfMessage( 'themetoggle-list-display-as' ) . ' ';
-		$themeText .= $linkRenderer->makeLink( new TitleValue( NS_MEDIAWIKI,
-			$theme->getMessageId() ), wfMessage( $theme->getMessageId() ) );
-		$themeText .= ')';
-
-		return $themeText;
+	private function makeThemeListItem( $themeId, $theme ): string {
+		$html = wfEscapeWikiText( $themeId ) . ' (' . wfMessage( 'themetoggle-list-display-as' ) . ' ';
+		$html .= $this->linkRenderer->makeLink(
+			new TitleValue( NS_MEDIAWIKI, $theme->getMessageId() ),
+			wfMessage( $theme->getMessageId() )
+		);
+		$html .= ')';
+		return $html;
 	}
 
 }

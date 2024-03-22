@@ -92,6 +92,7 @@
 		"ThemeLinks": {
 			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\ThemeLinksHooks",
 			"services": [
+				"LinkRenderer",
 				"ThemeToggle.ThemeAndFeatureRegistry"
 			]
 		}
