@@ -12,6 +12,15 @@ class ThemeInfo {
     private bool $default = false;
     /** @var bool Whether included in site CSS. */
     private bool $bundled = false;
+    /** @var kind Either dark or light */
+	private string $kind = "unknown";
+	/** @var array Allowed kinds & their corresponding classes */
+    private array $recognizedKinds = [
+    	"dark" => "kind-dark",
+		"light" => "kind-light",
+		"unknown" => "kind-unknown",
+	];
+
 
     public function __construct( array $info ) {
         foreach ( $info as $option => $params ) {
@@ -22,6 +31,11 @@ class ThemeInfo {
                 case 'bundled':
                     $this->{$option} = $params;
                     break;
+				case 'kind':
+					if (array_key_exists($params[0], $this->recognizedKinds)) {
+						$this->kind = $params[0];
+					}
+					break;
                 default:
                     throw new InvalidArgumentException( "Unrecognized '$option' parameter" );
             }
@@ -81,6 +95,22 @@ class ThemeInfo {
             'default' => $this->default,
             'bundled' => $this->bundled,
             'user-groups' => $this->userGroups,
+			"kind" => $this->kind,
         ];
     }
+
+    /**
+	 * @return string The theme kind, i.e. "dark" or "light
+	 */
+    public function getKind(): string {
+    	return $this->kind;
+	}
+
+	/**
+	 * @return string The class to add describing the theme's kind
+	 */
+	public function kindClassName(): string {
+		return $this->recognizedKinds[$this->getKind()];
+	}
+
 }
