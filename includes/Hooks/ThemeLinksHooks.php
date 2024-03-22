@@ -41,8 +41,7 @@ class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 			if ( $theme->isBundled() ) {
 				$hasBundledThemes = true;
 			} else {
-				$themeText = $this->linkRenderer->makeLink( Title::newFromText( $theme->getCssPageName() ) );
-				$html .= Html::rawElement( 'li', [], $this->makeThemeListItem( $themeText, $theme ) );
+				$html .= Html::rawElement( 'li', [], $this->makeThemeListItem( $theme, true ) );
 			}
 		}
 		$html .= Html::closeElement( 'ul' );
@@ -52,7 +51,7 @@ class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 			$html .= Html::openElement( 'ul' );
 			foreach ( $themes as $theme ) {
 				if ( $theme->isBundled() ) {
-					$html .= Html::rawElement( 'li', [], $this->makeThemeListItem( $theme->getId(), $theme ) );
+					$html .= Html::rawElement( 'li', [], $this->makeThemeListItem( $theme, false ) );
 				}
 			}
 			$html .= Html::closeElement( 'ul' );
@@ -63,8 +62,16 @@ class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 		$parserOutput->setText( $html . $parserOutput->getText() );
 	}
 
-	private function makeThemeListItem( $themeId, $theme ): string {
-		$html = wfEscapeWikiText( $themeId ) . ' (' . wfMessage( 'themetoggle-list-display-as' ) . ' ';
+	private function makeThemeListItem( $theme, bool $linkCss ): string {
+		$html = null;
+
+		if ( $theme->isBundled() ) {
+			$html = wfEscapeWikiText( $themeId );
+		} else {
+			$html = $this->linkRenderer->makeLink( Title::newFromText( $theme->getCssPageName() ) );
+		}
+		
+		$html .= ' (' . wfMessage( 'themetoggle-list-display-as' ) . ' ';
 		$html .= $this->linkRenderer->makeLink(
 			new TitleValue( NS_MEDIAWIKI, $theme->getMessageId() ),
 			wfMessage( $theme->getMessageId() )
