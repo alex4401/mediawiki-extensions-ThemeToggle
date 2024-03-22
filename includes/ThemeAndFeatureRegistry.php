@@ -176,6 +176,13 @@ class ThemeAndFeatureRegistry {
         } ) );
     }
 
+    public function getThemeKinds(): array {
+        $this->load();
+        return array_map(function ($info) {
+            return $info->getKind();
+        }, $this->infos);
+    }
+
     public function purgeCache(): void {
         $srvCache = ObjectCache::getLocalServerInstance( 'hash' );
         $key = $this->makeDefinitionCacheKey( $this->wanObjectCache );

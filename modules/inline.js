@@ -31,9 +31,12 @@
             // Apply by changing class
             if ( actualTarget !== null ) {
                 // Remove all theme classes
-                htmlNode.className = htmlNode.className.replace( / theme-[^\s]+/ig, '' );
+                htmlNode.className = htmlNode.className.replace( / (theme|view)-[^\s]+/ig, '' );
                 // Add new theme class
                 htmlNode.classList.add( 'theme-' + actualTarget );
+                /* @if ( VARS.ThemeKinds ) */
+                htmlNode.classList.add( 'view-' + VARS.ThemeKinds[actualTarget] );
+                /* @endif */
             }
 
             /* @if ( VARS.WithThemeLoader ) */
