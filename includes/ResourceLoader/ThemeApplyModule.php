@@ -40,6 +40,7 @@ class ThemeApplyModule extends FileModule {
             'VARS.ResourceLoaderEndpoint' => $context->encodeJson( $this->getThemeLoadEndpointUri( $context ) ),
             'VARS.WithPCSSupport' => !$wgThemeToggleDisableAutoDetection && $registry->isEligibleForAuto() ? 1 : 0,
             'VARS.WithThemeLoader' => $registry->hasNonBundledThemes() ? 1 : 0,
+            'VARS.ThemeKinds' => $context->encodeJson( $registry->getThemeKinds() ),
             'VARS.WithFeatureSupport' => false
         ] );
         $script = strtr( $script, [

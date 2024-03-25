@@ -89,6 +89,7 @@ class ThemeLoadingHooks implements
         if ( $currentTheme !== 'auto' ) {
             $currentThemeInfo = $this->registry->get( $currentTheme );
             if ( $currentThemeInfo !== null && !$currentThemeInfo->isBundled() ) {
+                $out->addHtmlClasses( [ $currentThemeInfo->kindClassName()] );
                 $out->addLink( [
                     'id' => 'mw-themetoggle-styleref',
                     'rel' => 'stylesheet',
