@@ -1,0 +1,22 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ykhwong"
+		]
+	},
+	"themetoggle-prefs-theme-label": "테마",
+	"themetoggle-simple-switch": "현재 테마는 \"$1\"입니다. 전환하려면 탭하세요.",
+	"themetoggle-skinprefs": "보이기",
+	"themetoggle-dropdown-section-themes": "테마",
+	"themetoggle-dropdown-section-features": "기타 환경 설정",
+	"themetoggle-css-pages-list-intro": "다음 CSS 페이지가 참조됩니다:",
+	"themeusage": "테마 사용 통계",
+	"themeusage-theme": "테마",
+	"themeusage-usercount": "사용자 수",
+	"themeusage-activeusers": "활동적인 사용자",
+	"themeusage-unknown-theme": "알 수 없음",
+	"theme-none": "없음",
+	"theme-auto": "자동 (시스템)",
+	"theme-dark": "어두움",
+	"theme-light": "밝음"
+}

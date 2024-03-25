@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"Anterdc99",
+			"Googology"
+		]
+	},
+	"themetoggle-desc": "允许站点创建本地主题。适用于采用激进缓存的设置，因为基于cookie的解决方案可能会毒害缓存。",
+	"themetoggle-prefs-theme-label": "主题",
+	"themetoggle-prefs-theme-desc": "选择用于显示此wiki的主题：",
+	"themetoggle-simple-switch": "当前主题是“$1”。点击即可切换。",
+	"themetoggle-dropdown-switch": "展开以选择主题。",
+	"themetoggle-skinprefs": "外观",
+	"themetoggle-dropdown-section-themes": "主题",
+	"themetoggle-dropdown-section-features": "其他参数设置",
+	"themetoggle-css-pages-list-intro": "正在引用以下CSS页面：",
+	"themetoggle-bundled-list-intro": "以下主题没有专用样式表，因为它们被标记为捆绑主题：",
+	"themetoggle-list-display-as": "显示为",
+	"themeusage": "主题使用统计",
+	"themeusage-theme": "主题",
+	"themeusage-usercount": "用户数量",
+	"themeusage-noresults": "未找到具有非默认主题参数设置的用户。",
+	"themeusage-activeusers": "活跃用户",
+	"themeusage-unknown-theme": "未知",
+	"themeusage-unknown-theme-tip": "这些用户将未知主题设置为他们的偏好，可能是因为该主题已被删除。他们将会看到默认主题。",
+	"theme-none": "无",
+	"theme-auto": "自动（系统）",
+	"theme-auto-preference-description": "自动（按照系统参数设置确定是否应使用浅色或深色主题）",
+	"theme-dark": "深色",
+	"theme-light": "浅色"
+}

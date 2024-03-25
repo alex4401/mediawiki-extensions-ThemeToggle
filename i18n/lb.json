@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Volvox"
+		]
+	},
+	"themetoggle-prefs-theme-label": "Faarfschema",
+	"themetoggle-skinprefs": "Ausgesinn",
+	"themetoggle-dropdown-section-features": "Aner Astellungen",
+	"themeusage-theme": "Faarfschema",
+	"themeusage-usercount": "Zuel vun de Benotzer",
+	"themeusage-activeusers": "Aktiv Benotzer",
+	"themeusage-unknown-theme": "Onbekannt",
+	"theme-none": "Keen",
+	"theme-auto": "Automatesch (System)",
+	"theme-dark": "Däischter",
+	"theme-light": "Hell"
+}

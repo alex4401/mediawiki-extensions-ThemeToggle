@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Amire80",
 			"alex4401"
 		]
 	},
@@ -13,7 +14,7 @@
 	"themetoggle-dropdown-section-features": "Name of a section, which has features (such as: reader mode, font size, etc.) listed below. This is only used in the dropdown theme switcher.",
 	"themetoggle-css-pages-list-intro": "A sentence introducing an unordered list of links",
 	"themetoggle-bundled-list-intro": "A sentence introducing an unordered list of strings",
-    "themetoggle-list-display-as": "Describing a link to a system message",
+	"themetoggle-list-display-as": "Describing a link to a system message",
 	"themeusage": "Title of Special:ThemeUsage.",
 	"themeusage-theme": "Column name in [[Special:ThemeUsage]]. Theme identifiers are listed below.",
 	"themeusage-usercount": "Column name in [[Special:ThemeUsage]]. Below, number of a theme's registered users is listed for each theme.",
@@ -21,7 +22,7 @@
 	"themeusage-activeusers": "Column name in [[Special:ThemeUsage]]. Below, number of a theme's registered active users is listed for each theme.",
 	"themeusage-unknown-theme": "Fallback theme name in [[Special:ThemeUsage]] if a user preference points at an invalid (e.g. because it's been deleted since) theme.",
 	"themeusage-unknown-theme-tip": "These users have an unknown theme set as their preference, possibly because the theme has since been removed. They will see the default theme instead.",
-	"theme-definitions": "{{optional}}{{doc-important|Read the message below. Some parts of this message require special treatment.}}\nDefault definitions of themes and features.\n\nA line:\n* is a comment if it starts with <code>#</code>.\n* is a theme definition if it starts with an asterisk <code>*</code>. It consists of an identifier (which shall not contain spaces or special characters such as slashes, commas), optionally followed by non-translatable flags (in the example: <code>default</code>, <code>bundled</code>) in square brackets. The identifier does not act as a display name for the theme; instead, a system message is used (named with the format of theme-''<ID>'').",
+	"theme-definitions": "{{ignored}}\n{{doc-important|Read the message below. Some parts of this message require special treatment.}}\nDefault definitions of themes and features.\n\nA line:\n* is a comment if it starts with <code>#</code>.\n* is a theme definition if it starts with an asterisk <code>*</code>. It consists of an identifier (which shall not contain spaces or special characters such as slashes, commas), optionally followed by non-translatable flags (in the example: <code>default</code>, <code>bundled</code>) in square brackets. The identifier does not act as a display name for the theme; instead, a system message is used (named with the format of theme-''<ID>'').",
 	"theme-none": "Name of the fallback <code>none</code> theme (used when the extension is unconfigured).",
 	"theme-auto": "Name of a special automatic theme setting, which determines the actual theme from the wiki user's system colour preferences.",
 	"theme-auto-preference-description": "Text shown for the automatic theme selection option in [[Special:Preferences]].",

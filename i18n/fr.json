@@ -1,23 +1,24 @@
 {
 	"@metadata": {
 		"authors": [
-			"Chatmaigre888"
+			"Chatmaigre888",
+			"Wladek92"
 		]
 	},
 	"themetoggle-desc": "Permet au site de créer des thèmes locaux. Prévu pour les configurations avec un système de cache agressif, où une solution basée sur les cookies pourrait empoisonner le cache.",
-	"themetoggle-simple-switch": "Cliquez pour changer de thème",
-	"themetoggle-dropdown-switch": "Cliquez pour choisir un thème",
+	"themetoggle-simple-switch": "Le thème actuel est « $1 ». Cliquez pour changer de thème.",
+	"themetoggle-dropdown-switch": "Développer pour choisir un thème.",
 	"themetoggle-dropdown-section-themes": "Thèmes",
-	"themetoggle-dropdown-section-features": "Autres",
+	"themetoggle-dropdown-section-features": "Autres préférences",
 	"themeusage": "Statistiques d'utilisation du thème",
 	"themeusage-theme": "Thème",
 	"themeusage-usercount": "Nombre d'utilisateurs",
-	"themeusage-noresults": "Pas d'utilisateurs sans préférences de thème pas par défaut trouvé.",
+	"themeusage-noresults": "Aucun utilisateur trouvé sans préférences de thème par défaut.",
 	"themeusage-activeusers": "Utilisateurs actifs",
 	"themeusage-unknown-theme": "Inconnu",
 	"theme-none": "Aucun",
 	"theme-auto": "Automatique (système)",
-	"theme-auto-preference-description": "Suit les préférences système pour déterminer si l'on utilise le thème clair ou sombre",
+	"theme-auto-preference-description": "Automatique (suit les préférences système pour déterminer si l'on utilise le thème clair ou sombre)",
 	"theme-dark": "Sombre",
 	"theme-light": "Clair"
 }

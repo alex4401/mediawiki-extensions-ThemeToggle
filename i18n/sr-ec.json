@@ -5,15 +5,19 @@
 		]
 	},
 	"themetoggle-prefs-theme-label": "Тема",
+	"themetoggle-simple-switch": "Тренутна тема је „$1”. Тапните за промену.",
+	"themetoggle-dropdown-switch": "Развији те да изаберете тему.",
 	"themetoggle-skinprefs": "Изглед",
 	"themetoggle-dropdown-section-themes": "Теме",
 	"themetoggle-dropdown-section-features": "Друга подешавања",
+	"themetoggle-list-display-as": "Прикажи као",
 	"themeusage": "Статистика употребе тема",
 	"themeusage-theme": "Тема",
 	"themeusage-usercount": "Број корисника",
 	"themeusage-activeusers": "Активни корисници",
 	"themeusage-unknown-theme": "Непознато",
 	"theme-none": "Нема",
+	"theme-auto": "Аутоматски (систем)",
 	"theme-dark": "Тамна",
 	"theme-light": "Светла"
 }

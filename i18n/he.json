@@ -1,0 +1,30 @@
+{
+	"@metadata": {
+		"authors": [
+			"Amire80"
+		]
+	},
+	"themetoggle-desc": "מאפשרת לאתר ליצור ערכות נושא מקומיות. מכוונן לתצורות עם מטמון אגרסיבי, שבו פתרון מבוסס עוגיות עלול להרעיל את המטמון.",
+	"themetoggle-prefs-theme-label": "ערכת נושא",
+	"themetoggle-prefs-theme-desc": "נא לבחור את הנושא להצגת הוויקי הזה:",
+	"themetoggle-simple-switch": "ערכת הנושא הנוכחית היא \"$1\". יש להקיש כדי לעבור.",
+	"themetoggle-dropdown-switch": "{{GENDER:|הרחב|הרחיבי}} כדי לבחור ערכת נושא.",
+	"themetoggle-skinprefs": "מראה",
+	"themetoggle-dropdown-section-themes": "ערכות נושא",
+	"themetoggle-dropdown-section-features": "העדפות אחרות",
+	"themetoggle-css-pages-list-intro": "יש הפניה לדפי ה־CSS הבאים:",
+	"themetoggle-bundled-list-intro": "לערכות הנושא הבאות אין גיליונות סגנונות ייעודיים מכיוון שהם מסומנים כארוזים בחבילות:",
+	"themetoggle-list-display-as": "מוצגת בתור",
+	"themeusage": "סטטיסטיקת השימוש בערכות נושא",
+	"themeusage-theme": "ערכת נושא",
+	"themeusage-usercount": "מספר המשתמשים",
+	"themeusage-noresults": "לא נמצאו משתמשים עם העדפות ערכת נושא שאינן ברירת מחדל.",
+	"themeusage-activeusers": "משתמשים פעילים",
+	"themeusage-unknown-theme": "לא ידוע",
+	"themeusage-unknown-theme-tip": "למשתמשים האלה יש ערכת נושא לא ידועה בהעדפה שלהם, אולי בגלל שערכת הנושא הוסרה מאז. הם יראו במקום זאת את ערכת הנושא המוגדרת כברירת מחדל.",
+	"theme-none": "לא כלום",
+	"theme-auto": "אוטומטית (מערכת)",
+	"theme-auto-preference-description": "אוטומטית (לעקוב אחר העדפות המערכת כדי לקבוע אם להשתמש בעיצוב בהיר או כהה)",
+	"theme-dark": "כהה",
+	"theme-light": "בהיר"
+}
