@@ -1,0 +1,30 @@
+{
+	"@metadata": {
+		"authors": [
+			"Siebrand"
+		]
+	},
+	"themetoggle-desc": "Hiermee kan de site lokale thema's maken. Afgestemd op configuraties met agressieve caching, waarbij een op cookies gebaseerde oplossing de cache kan vergiftigen.",
+	"themetoggle-prefs-theme-label": "Thema",
+	"themetoggle-prefs-theme-desc": "Kies het thema waarin deze wiki moet worden weergegeven:",
+	"themetoggle-simple-switch": "Het huidige thema is \"$1\". Tik om te wisselen.",
+	"themetoggle-dropdown-switch": "Uitvouwen om een thema te kiezen.",
+	"themetoggle-skinprefs": "Uiterlijk",
+	"themetoggle-dropdown-section-themes": "Thema's",
+	"themetoggle-dropdown-section-features": "Overige voorkeuren",
+	"themetoggle-css-pages-list-intro": "Er wordt verwezen naar de volgende CSS-pagina's:",
+	"themetoggle-bundled-list-intro": "De volgende thema's hebben geen speciale stylesheets omdat ze als gebundeld zijn gemarkeerd:",
+	"themetoggle-list-display-as": "Weergegeven als",
+	"themeusage": "Statistiek over het gebruik van thema's",
+	"themeusage-theme": "Thema",
+	"themeusage-usercount": "Aantal gebruikers",
+	"themeusage-noresults": "Er zijn geen gebruikers gevonden met niet-standaard themavoorkeuren.",
+	"themeusage-activeusers": "Actieve gebruikers",
+	"themeusage-unknown-theme": "Onbekend",
+	"themeusage-unknown-theme-tip": "Deze gebruikers hebben een onbekend thema als voorkeur ingesteld, mogelijk omdat het thema inmiddels is verwijderd. In plaats daarvan zien ze het standaardthema.",
+	"theme-none": "Geen",
+	"theme-auto": "Automatisch (systeem)",
+	"theme-auto-preference-description": "Automatisch (volg systeemvoorkeuren om te bepalen of een licht of donker thema moet worden gebruikt)",
+	"theme-dark": "Donker",
+	"theme-light": "Licht"
+}

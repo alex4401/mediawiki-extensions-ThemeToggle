@@ -1,0 +1,16 @@
+{
+	"@metadata": {
+		"authors": [
+			"আফতাবুজ্জামান"
+		]
+	},
+	"themetoggle-prefs-theme-label": "থিম",
+	"themetoggle-skinprefs": "অবয়ব",
+	"themetoggle-dropdown-section-themes": "থিম",
+	"themetoggle-dropdown-section-features": "অন্যান্য পছন্দ",
+	"themeusage-unknown-theme": "অজানা",
+	"theme-none": "কোনোটি নয়",
+	"theme-auto": "স্বয়ংক্রিয় (সিস্টেম)",
+	"theme-dark": "আঁধার",
+	"theme-light": "উজ্জ্বল"
+}
