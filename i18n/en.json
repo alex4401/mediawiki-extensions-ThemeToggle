@@ -8,6 +8,7 @@
     "themetoggle-prefs-theme-label": "Theme",
     "themetoggle-prefs-theme-desc": "Choose the theme to display this wiki in:",
     "themetoggle-simple-switch": "Current theme is \"$1\". Tap to switch.",
+    "themetoggle-simple-switch-short": "Current theme: $1",
     "themetoggle-dropdown-switch": "Expand to choose a theme.",
     "themetoggle-skinprefs": "Appearance",
     "themetoggle-dropdown-section-themes": "Themes",

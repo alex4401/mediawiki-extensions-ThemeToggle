@@ -14,7 +14,7 @@
 }
 
 
-body #p-personal li#p-themes {
+body header#wikigg-header #p-personal li#pt-themes {
     all: unset;
     border-right: 1px solid #333;
     margin-right: 0;
@@ -22,7 +22,7 @@ body #p-personal li#p-themes {
     background: inherit;
     list-style: none;
 
-    & > span {
+    & > .ext-themetoggle-simple-icon {
         display: block;
         margin-right: 2px;
         -webkit-appearance: none;
@@ -35,9 +35,24 @@ body #p-personal li#p-themes {
         transition: all .3s;
     }
 
-    &:hover > span {
+    &:hover > .ext-themetoggle-simple-icon {
         cursor: pointer;
         border-radius: 8px;
         background-color: #fff3;
+    }
+
+    .ext-themetoggle-simple-label {
+        display: none;
+        color: #fff;
+    }
+
+    @media screen and ( max-width: 720px ) {
+        display: flex;
+        align-items: center;
+        border-right: 0;
+
+        .ext-themetoggle-simple-label {
+            display: block;
+        }
     }
 }
