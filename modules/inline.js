@@ -33,8 +33,7 @@
                 // Remove all theme classes
                 htmlNode.className = htmlNode.className.replace( / (theme|view)-[^\s]+/ig, '' );
                 // Add new theme class
-                htmlNode.classList.add( 'theme-' + actualTarget );
-                htmlNode.classList.add( 'view-' + VARS.ThemeKinds[ actualTarget ] );
+                htmlNode.classList.add( 'theme-' + actualTarget, 'view-' + VARS.ThemeKinds[ actualTarget ] );
             }
 
             /* @if ( VARS.WithThemeLoader ) */
