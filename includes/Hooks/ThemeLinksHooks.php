@@ -66,7 +66,7 @@ class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 		$html = null;
 
 		if ( $theme->isBundled() ) {
-			$html = wfEscapeWikiText( $themeId );
+			$html = wfEscapeWikiText( $theme->getId() );
 		} else {
 			$html = $this->linkRenderer->makeLink( Title::newFromText( $theme->getCssPageName() ) );
 		}
