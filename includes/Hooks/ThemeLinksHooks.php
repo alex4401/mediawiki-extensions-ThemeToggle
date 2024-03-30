@@ -26,8 +26,7 @@ class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 
 	public function onOutputPageParserOutput( $out, $parserOutput ): void {
 		$title = $out->getTitle();
-		if ( $title->getNamespace() !== NS_MEDIAWIKI ||
-			$title->getText() !== ThemeAndFeatureRegistry::TITLE ) {
+		if ( $title->getNamespace() !== NS_MEDIAWIKI || $title->getText() !== ThemeAndFeatureRegistry::TITLE ) {
 			return;
 		}
 

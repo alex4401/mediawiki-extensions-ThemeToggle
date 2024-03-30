@@ -78,18 +78,25 @@ class ThemeLoadingHooks implements
             ] );
         }
 
+        $htmlClasses = [];
+
         // Preload the CSS class. For automatic detection, assume light - we can't make a good guess (obviously), but client
         // scripts will correct this.
         if ( $currentTheme !== 'auto' ) {
-            $out->addHtmlClasses( [ "theme-$currentTheme" ] );
+            $htmlClasses[] = "theme-$currentTheme";
+            $currentThemeInfo = $this->registry->get( $currentTheme );
+            if ( $currentThemeInfo ) {
+                $htmlClasses[] = 'view-' . $currentThemeInfo->getKind();
+            }
         } else {
-            $out->addHtmlClasses( [ 'theme-auto', 'theme-light' ] );
-        }
+            $htmlClasses[] = 'theme-auto';
+            $htmlClasses[] = 'theme-light';
+            $htmlClasses[] = 'view-light';
+        }        
         // Preload the styles if default or current theme is not bundled with site CSS
         if ( $currentTheme !== 'auto' ) {
             $currentThemeInfo = $this->registry->get( $currentTheme );
             if ( $currentThemeInfo !== null && !$currentThemeInfo->isBundled() ) {
-                $out->addHtmlClasses( [ $currentThemeInfo->kindClassName()] );
                 $out->addLink( [
                     'id' => 'mw-themetoggle-styleref',
                     'rel' => 'stylesheet',
@@ -100,6 +107,8 @@ class ThemeLoadingHooks implements
                 ] );
             }
         }
+
+        $out->addHtmlClasses( $htmlClasses );
 
         // Inject the theme switcher as a ResourceLoader module
         if ( $this->getSwitcherModuleId() !== null ) {

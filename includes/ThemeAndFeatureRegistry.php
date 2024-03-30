@@ -30,7 +30,7 @@ class ThemeAndFeatureRegistry {
         ConfigNames::DisableAutoDetection,
     ];
 
-    public const CACHE_GENERATION = 8;
+    public const CACHE_GENERATION = 9;
     public const CACHE_TTL = 24 * 60 * 60;
     public const TITLE = 'Theme-definitions';
 
@@ -178,9 +178,7 @@ class ThemeAndFeatureRegistry {
 
     public function getThemeKinds(): array {
         $this->load();
-        return array_map(function ($info) {
-            return $info->getKind();
-        }, $this->infos);
+        return array_map( fn ( $info ) => $info->getKind(), $this->infos );
     }
 
     public function purgeCache(): void {
@@ -270,7 +268,7 @@ class ThemeAndFeatureRegistry {
                     'id' => 'none',
                     'default' => true,
                     'bundled' => true,
-					'kind' => "unknown",
+					'kind' => 'unknown',
                 ]
             ];
         }
@@ -293,8 +291,17 @@ class ThemeAndFeatureRegistry {
         }
 
         $info = [
-            'id' => trim( str_replace( ' ', '_', $match[1] ) )
+            'id' => trim( str_replace( ' ', '_', $match[1] ) ),
         ];
+
+        switch ( $info['id'] ) {
+            case 'light':
+                $info['kind'] = 'light';
+                break;
+            case 'dark':
+                $info['kind'] = 'dark';
+                break;
+        }
 
         if ( isset( $match[2] ) ) {
             $options = trim( $match[2], ' []' );

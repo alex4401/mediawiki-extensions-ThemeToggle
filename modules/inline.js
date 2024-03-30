@@ -34,9 +34,7 @@
                 htmlNode.className = htmlNode.className.replace( / (theme|view)-[^\s]+/ig, '' );
                 // Add new theme class
                 htmlNode.classList.add( 'theme-' + actualTarget );
-                /* @if ( VARS.ThemeKinds ) */
-                htmlNode.classList.add( 'view-' + VARS.ThemeKinds[actualTarget] );
-                /* @endif */
+                htmlNode.classList.add( 'view-' + VARS.ThemeKinds[ actualTarget ] );
             }
 
             /* @if ( VARS.WithThemeLoader ) */
