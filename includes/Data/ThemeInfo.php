@@ -1,4 +1,5 @@
 <?php
+
 namespace MediaWiki\Extension\ThemeToggle\Data;
 
 use InvalidArgumentException;
@@ -12,6 +13,9 @@ class ThemeInfo {
     private bool $default = false;
     /** @var bool Whether included in site CSS. */
     private bool $bundled = false;
+    /** @var string Either dark or light */
+    private string $kind = 'unknown';
+
 
     public function __construct( array $info ) {
         foreach ( $info as $option => $params ) {
@@ -20,6 +24,7 @@ class ThemeInfo {
                 case 'userGroups':
                 case 'default':
                 case 'bundled':
+                case 'kind':
                     $this->{$option} = $params;
                     break;
                 default:
@@ -33,6 +38,13 @@ class ThemeInfo {
      */
     public function getId(): string {
         return $this->id;
+    }
+
+    /**
+     * @return string The theme kind, i.e. "dark" or "light
+     */
+    public function getKind(): string {
+        return $this->kind;
     }
 
     /**
@@ -81,6 +93,7 @@ class ThemeInfo {
             'default' => $this->default,
             'bundled' => $this->bundled,
             'user-groups' => $this->userGroups,
+            'kind' => $this->kind,
         ];
     }
 }
