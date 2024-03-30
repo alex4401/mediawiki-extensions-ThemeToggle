@@ -41,7 +41,7 @@ class ThemeApplyModule extends FileModule {
             'VARS.WithPCSSupport' => !$wgThemeToggleDisableAutoDetection && $registry->isEligibleForAuto() ? 1 : 0,
             'VARS.WithThemeLoader' => $registry->hasNonBundledThemes() ? 1 : 0,
             'VARS.ThemeKinds' => $context->encodeJson( $registry->getThemeKinds() ),
-            'VARS.WithFeatureSupport' => false
+            'VARS.WithFeatureSupport' => 0
         ] );
         $script = strtr( $script, [
             // Normalise conditions
