@@ -1,21 +1,22 @@
 {
 	"@metadata": {
 		"authors": [
-			"Magiczocker"
+			"Magiczocker",
+			"TomatoCake"
 		]
 	},
 	"themetoggle-desc": "Ermöglicht es der Webseite, lokale Themen zu erstellen. Abgestimmt für Einrichtungen mit aggressivem Caching, wo eine Cookie-basierte Lösung den Cache vergiften könnte.",
 	"themetoggle-simple-switch": "Klicken, um das Thema umzuschalten",
-	"themetoggle-dropdown-switch": "Klicken, um ein Thema auszuwählen",
-	"themeusage": "Statistiken zur Themennutzung",
-	"themeusage-theme": "Thema",
+	"themetoggle-dropdown-switch": "Klicke, um ein Farbschema auszuwählen",
+	"themeusage": "Statistiken zur Farbschemanutzung",
+	"themeusage-theme": "Farbschema",
 	"themeusage-usercount": "Anzahl der Benutzer",
 	"themeusage-noresults": "Keine Benutzer mit nicht standardmäßigen Themeneinstellungen gefunden.",
 	"themeusage-activeusers": "Aktive Benutzer",
 	"themeusage-unknown-theme": "Unbekannt",
 	"theme-none": "Kein",
 	"theme-auto": "Automatisch (System)",
-	"theme-auto-preference-description": "Folgt den Systemeinstellungen, um zu bestimmen, ob das helle oder dunkle Thema verwendet werden soll",
+	"theme-auto-preference-description": "Automatisch (folgt den Systemeinstellungen, um zu bestimmen, ob das helle oder dunkle Farbschema verwendet werden soll)",
 	"theme-dark": "Dunkel",
 	"theme-light": "Hell"
 }

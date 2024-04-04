@@ -8,6 +8,7 @@
 	"themetoggle-prefs-theme-label": "ערכת נושא",
 	"themetoggle-prefs-theme-desc": "נא לבחור את הנושא להצגת הוויקי הזה:",
 	"themetoggle-simple-switch": "ערכת הנושא הנוכחית היא \"$1\". יש להקיש כדי לעבור.",
+	"themetoggle-simple-switch-short": "ערכת הנושא הנוכחית: $1",
 	"themetoggle-dropdown-switch": "{{GENDER:|הרחב|הרחיבי}} כדי לבחור ערכת נושא.",
 	"themetoggle-skinprefs": "מראה",
 	"themetoggle-dropdown-section-themes": "ערכות נושא",

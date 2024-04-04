@@ -9,6 +9,7 @@
 	"themetoggle-prefs-theme-label": "Тема",
 	"themetoggle-prefs-theme-desc": "Выберите тему для отображения этой вики:",
 	"themetoggle-simple-switch": "Текущая тема — «$1». Нажмите, чтобы переключиться.",
+	"themetoggle-simple-switch-short": "Текущий этап: $1",
 	"themetoggle-dropdown-switch": "Разверните, чтобы выбрать тему.",
 	"themetoggle-skinprefs": "Внешний вид",
 	"themetoggle-dropdown-section-themes": "Темы",
