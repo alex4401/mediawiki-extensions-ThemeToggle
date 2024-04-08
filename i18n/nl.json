@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Mainframe98",
 			"Siebrand"
 		]
 	},
@@ -8,6 +9,7 @@
 	"themetoggle-prefs-theme-label": "Thema",
 	"themetoggle-prefs-theme-desc": "Kies het thema waarin deze wiki moet worden weergegeven:",
 	"themetoggle-simple-switch": "Het huidige thema is \"$1\". Tik om te wisselen.",
+	"themetoggle-simple-switch-short": "Huidig thema: $1",
 	"themetoggle-dropdown-switch": "Uitvouwen om een thema te kiezen.",
 	"themetoggle-skinprefs": "Uiterlijk",
 	"themetoggle-dropdown-section-themes": "Thema's",
