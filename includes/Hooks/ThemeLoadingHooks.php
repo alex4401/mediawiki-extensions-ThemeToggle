@@ -184,7 +184,10 @@ class ThemeLoadingHooks implements
                 return [
                     'packageFiles' => [ 'dayNightSwitcher/main.js' ],
                     'styles' => [ 'dayNightSwitcher/' . ( $this->isWikiGG() ? 'styles-wikigg.less' : 'styles-generic.less' ) ],
-                    'messages' => [ 'themetoggle-simple-switch' ]
+                    'messages' => [
+                        'themetoggle-simple-switch',
+                        'themetoggle-simple-switch-short',
+                    ]
                 ];
             case 'ext.themes.dropdownSwitcher':
                 return [
