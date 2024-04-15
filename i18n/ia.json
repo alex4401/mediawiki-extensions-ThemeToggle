@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"McDutchie"
+		]
+	},
+	"themetoggle-desc": "Permitte que le sito crea apparentias local. Isto es optimisate pro configurationes con un systema de cache aggressive, ubi un solution basate sur cookies poterea invalidar le cache.",
+	"themetoggle-prefs-theme-label": "Apparentia",
+	"themetoggle-prefs-theme-desc": "Elige le apparentia in le qual presentar iste wiki:",
+	"themetoggle-simple-switch": "Le apparentia actual es “$1”. Tocca pro cambiar.",
+	"themetoggle-simple-switch-short": "Apparentia actual: $1",
+	"themetoggle-dropdown-switch": "Expande pro eliger un apparentia.",
+	"themetoggle-skinprefs": "Aspecto graphic",
+	"themetoggle-dropdown-section-themes": "Apparentias",
+	"themetoggle-dropdown-section-features": "Altere preferentias",
+	"themetoggle-css-pages-list-intro": "Le sequente paginas CSS es referentiate:",
+	"themetoggle-bundled-list-intro": "Le sequente apparentias non ha folios de stilo dedicate perque es marcate como aggruppate:",
+	"themetoggle-list-display-as": "monstrate como",
+	"themeusage": "Statisticas de uso del apparentia",
+	"themeusage-theme": "Apparentia",
+	"themeusage-usercount": "Numero de usatores",
+	"themeusage-noresults": "Necun usator con un preferentia de apparentia non predefinite ha essite trovate.",
+	"themeusage-activeusers": "Usatores active",
+	"themeusage-unknown-theme": "Incognite",
+	"themeusage-unknown-theme-tip": "Iste usatores ha un apparentia incognite definite como lor preferentia, possibilemente perque le apparentia ha essite removite intertanto. Iste usatores videra le apparentia predefinite in loco de lor preferite.",
+	"theme-none": "Necun",
+	"theme-auto": "Automatic (systema)",
+	"theme-auto-preference-description": "Automatic (sequer le preferentias del systema pro determinar si usar le thema clar o obscur)",
+	"theme-dark": "Obscur",
+	"theme-light": "Clar"
+}

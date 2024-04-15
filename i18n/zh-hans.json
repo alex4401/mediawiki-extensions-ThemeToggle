@@ -9,6 +9,7 @@
 	"themetoggle-prefs-theme-label": "主题",
 	"themetoggle-prefs-theme-desc": "选择用于显示此wiki的主题：",
 	"themetoggle-simple-switch": "当前主题是“$1”。点击即可切换。",
+	"themetoggle-simple-switch-short": "当前主题：$1",
 	"themetoggle-dropdown-switch": "展开以选择主题。",
 	"themetoggle-skinprefs": "外观",
 	"themetoggle-dropdown-section-themes": "主题",
