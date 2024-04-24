@@ -30,7 +30,7 @@ class ThemeAndFeatureRegistry {
         ConfigNames::DisableAutoDetection,
     ];
 
-    public const CACHE_GENERATION = 9;
+    public const CACHE_GENERATION = 10;
     public const CACHE_TTL = 24 * 60 * 60;
     public const TITLE = 'Theme-definitions';
 
@@ -267,7 +267,7 @@ class ThemeAndFeatureRegistry {
                 'none' => [
                     'id' => 'none',
                     'default' => true,
-                    'bundled' => true,
+                    'in-site-css' => true,
                     'kind' => 'unknown',
                 ]
             ];
@@ -317,13 +317,14 @@ class ThemeAndFeatureRegistry {
 
                 switch ( $option ) {
                     case 'user-groups':
-                        $info['userGroups'] = $params;
+                        $info['user-groups'] = $params;
                         break;
                     case 'default':
                         $info['default'] = true;
                         break;
                     case 'bundled':
-                        $info['bundled'] = true;
+                    case 'in-site-css':
+                        $info['in-site-css'] = true;
                         break;
                     case 'kind':
                         $info['kind'] = $params[0];

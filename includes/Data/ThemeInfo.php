@@ -5,6 +5,12 @@ namespace MediaWiki\Extension\ThemeToggle\Data;
 use InvalidArgumentException;
 
 class ThemeInfo {
+    private const PUBLIC_TO_PRIVATE_FIELD_MAP = [
+        'user-groups' => 'userGroups',
+        'in-site-css' => 'inSiteCss',
+        'bundled' => 'inSiteCss',
+    ];
+
     /** @var string */
     private string $id;
     /** @var string[] Required user groups to advertise. */
@@ -12,20 +18,24 @@ class ThemeInfo {
     /** @var bool Whether default. */
     private bool $default = false;
     /** @var bool Whether included in site CSS. */
-    private bool $bundled = false;
+    private bool $inSiteCss = false;
     /** @var string Either dark or light */
     private string $kind = 'unknown';
 
 
     public function __construct( array $info ) {
         foreach ( $info as $option => $params ) {
+            $mapped = self::PUBLIC_TO_PRIVATE_FIELD_MAP[ $option ];
+
             switch ( $option ) {
                 case 'id':
+                case 'user-groups':
                 case 'userGroups':
                 case 'default':
+                case 'in-site-css':
                 case 'bundled':
                 case 'kind':
-                    $this->{$option} = $params;
+                    $this->{$mapped} = $params;
                     break;
                 default:
                     throw new InvalidArgumentException( "Unrecognized '$option' parameter" );
@@ -65,7 +75,7 @@ class ThemeInfo {
      * @return bool Whether included in site CSS.
      */
     public function isBundled(): bool {
-        return $this->bundled;
+        return $this->inSiteCss;
     }
 
     /**
@@ -91,7 +101,7 @@ class ThemeInfo {
         return [
             'id' => $this->id,
             'default' => $this->default,
-            'bundled' => $this->bundled,
+            'in-site-css' => $this->inSiteCss,
             'user-groups' => $this->userGroups,
             'kind' => $this->kind,
         ];
