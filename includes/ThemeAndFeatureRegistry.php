@@ -294,13 +294,10 @@ class ThemeAndFeatureRegistry {
             'id' => trim( str_replace( ' ', '_', $match[1] ) ),
         ];
 
-        switch ( $info['id'] ) {
-            case 'light':
-                $info['kind'] = 'light';
-                break;
-            case 'dark':
-                $info['kind'] = 'dark';
-                break;
+        if ( str_starts_with( $info['id'], 'light' ) ) {
+            $info['kind'] = 'light';
+        } elseif ( str_starts_with( $info['id'], 'dark' ) ) {
+            $info['kind'] = 'dark';
         }
 
         if ( isset( $match[2] ) ) {
