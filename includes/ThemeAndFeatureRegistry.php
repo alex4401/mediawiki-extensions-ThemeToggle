@@ -246,7 +246,7 @@ class ThemeAndFeatureRegistry {
         }
 
         $definition = preg_replace( '/<!--.*?-->/s', '', $text );
-        $lines = preg_split( '/(\r\n|\r|\n)+/', $definition );
+        $lines = preg_split( '/\r\n|\r|\n/', $definition );
 
         $themes = [];
 
