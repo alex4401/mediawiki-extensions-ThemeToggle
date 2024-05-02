@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Hakimi97"
+		]
+	},
+	"themetoggle-dropdown-switch": "Kembangkan untuk memilih tema.",
+	"themetoggle-skinprefs": "Penampilan",
+	"themetoggle-dropdown-section-themes": "Tema",
+	"theme-none": "Tiada",
+	"theme-auto": "Automatik (sistem)",
+	"theme-auto-preference-description": "Automatik (ikut keutamaan sistem untuk menentukan sama ada tema terang atau gelap harus digunakan)",
+	"theme-dark": "Gelap",
+	"theme-light": "Terang"
+}
