@@ -1,13 +1,15 @@
 {
 	"@metadata": {
 		"authors": [
-			"NMW03"
+			"NMW03",
+			"Nemoralis"
 		]
 	},
 	"themetoggle-desc": "Sayta yerli temalar yaratmağa imkan verir. Çərəz əsaslı həllin keşi poza biləcəyi aqressiv keşləmə ilə quraşdırmalar üçün uyğunlaşdırılmışdır.",
 	"themetoggle-prefs-theme-label": "Tema",
 	"themetoggle-prefs-theme-desc": "Bu vikidə istifadə ediləcək temanı seçin:",
 	"themetoggle-simple-switch": "Cari mövzu \"$1\"-dir. Dəyişmək üçün toxunun.",
+	"themetoggle-simple-switch-short": "Cari mövzu: $1",
 	"themetoggle-dropdown-switch": "Mövzu seçmək üçün genişləndirin.",
 	"themetoggle-skinprefs": "Görünüş",
 	"themetoggle-dropdown-section-themes": "Temalar",

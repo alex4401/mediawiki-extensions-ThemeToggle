@@ -1,0 +1,16 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"themetoggle-prefs-theme-label": "Tem",
+	"themetoggle-simple-switch-short": "Tem a-vremañ: $1",
+	"themetoggle-skinprefs": "Neuz",
+	"themetoggle-dropdown-section-themes": "Temoù",
+	"themeusage-theme": "Tem",
+	"themeusage-usercount": "Niver a implijerien",
+	"themeusage-activeusers": "Implijerien oberiant",
+	"themeusage-unknown-theme": "Dianav",
+	"theme-none": "Hini ebet",
+	"theme-dark": "Teñval",
+	"theme-light": "Sklaer"
+}
