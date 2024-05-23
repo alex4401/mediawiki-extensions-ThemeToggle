@@ -30,7 +30,7 @@ class ThemeAndFeatureRegistry {
         ConfigNames::DisableAutoDetection,
     ];
 
-    public const CACHE_GENERATION = 10;
+    public const CACHE_GENERATION = 11;
     public const CACHE_TTL = 24 * 60 * 60;
     public const TITLE = 'Theme-definitions';
 
@@ -226,6 +226,18 @@ class ThemeAndFeatureRegistry {
                     );
             } );
 
+            if ( empty( $options ) ) {
+                // This should match default Theme-definitions message
+                $themes = [
+                    'none' => [
+                        'id' => 'none',
+                        'default' => true,
+                        'in-site-css' => true,
+                        'kind' => 'unknown',
+                    ]
+                ];
+            }
+
             // Construct ThemeInfo objects
             $this->infos = array_map( fn ( $info ) => new ThemeInfo( $info ), $options );
             $this->ids = array_keys( $this->infos );
@@ -259,18 +271,6 @@ class ThemeAndFeatureRegistry {
             } catch ( InvalidArgumentException $ex ) {
                 continue;
             }
-        }
-
-        if ( empty( $themes ) ) {
-            // This should match default Theme-definitions message
-            $themes = [
-                'none' => [
-                    'id' => 'none',
-                    'default' => true,
-                    'in-site-css' => true,
-                    'kind' => 'unknown',
-                ]
-            ];
         }
 
         return $themes;
