@@ -11,7 +11,7 @@
 	"type": "other",
 
 	"requires": {
-		"MediaWiki": ">= 1.39.0",
+		"MediaWiki": ">= 1.41.0",
 		"platform": {
 			"php": ">= 7.4"
 		}
@@ -46,8 +46,7 @@
 			],
 			"messages": [
 				"themetoggle-skinprefs"
-			],
-			"targets": [ "desktop", "mobile" ]
+			]
 		}
 	},
 
