@@ -294,6 +294,10 @@ class ThemeAndFeatureRegistry {
             'id' => trim( str_replace( ' ', '_', $match[1] ) ),
         ];
 
+        if ( !isset( $info['id'] ) || empty( $info['id'] ) ) {
+            return null;
+        }
+
         if ( str_starts_with( $info['id'], 'light' ) ) {
             $info['kind'] = 'light';
         } elseif ( str_starts_with( $info['id'], 'dark' ) ) {
