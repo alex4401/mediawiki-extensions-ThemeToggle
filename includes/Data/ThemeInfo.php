@@ -25,7 +25,7 @@ class ThemeInfo {
 
     public function __construct( array $info ) {
         foreach ( $info as $option => $params ) {
-            $mapped = self::PUBLIC_TO_PRIVATE_FIELD_MAP[ $option ];
+            $mapped = self::PUBLIC_TO_PRIVATE_FIELD_MAP[ $option ] ?? $option;
 
             switch ( $option ) {
                 case 'id':
