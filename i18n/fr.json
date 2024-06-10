@@ -2,12 +2,15 @@
 	"@metadata": {
 		"authors": [
 			"Chatmaigre888",
+			"SleaY",
 			"Wladek92"
 		]
 	},
 	"themetoggle-desc": "Permet au site de créer des thèmes locaux. Prévu pour les configurations avec un système de cache agressif, où une solution basée sur les cookies pourrait empoisonner le cache.",
+	"themetoggle-prefs-theme-label": "Thème",
 	"themetoggle-simple-switch": "Le thème actuel est « $1 ». Cliquez pour changer de thème.",
 	"themetoggle-dropdown-switch": "Développer pour choisir un thème.",
+	"themetoggle-skinprefs": "Apparence",
 	"themetoggle-dropdown-section-themes": "Thèmes",
 	"themetoggle-dropdown-section-features": "Autres préférences",
 	"themeusage": "Statistiques d'utilisation du thème",
