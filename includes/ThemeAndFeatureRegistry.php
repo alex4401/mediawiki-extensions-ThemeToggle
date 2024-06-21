@@ -228,18 +228,19 @@ class ThemeAndFeatureRegistry {
 
             if ( empty( $options ) ) {
                 // This should match default Theme-definitions message
-                $themes = [
-                    'none' => [
+                $this->infos = [
+                    'none' => new ThemeInfo( [
                         'id' => 'none',
                         'default' => true,
                         'in-site-css' => true,
                         'kind' => 'unknown',
-                    ]
+                    ] ),
                 ];
+            } else {
+                // Construct ThemeInfo objects from options
+                $this->infos = array_map( fn ( $info ) => new ThemeInfo( $info ), $options );
             }
 
-            // Construct ThemeInfo objects
-            $this->infos = array_map( fn ( $info ) => new ThemeInfo( $info ), $options );
             $this->ids = array_keys( $this->infos );
         }
     }
