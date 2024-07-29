@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kly"
+		]
+	},
+	"themetoggle-desc": "允許站台建立本地端主題。適用於調校具激進快取的設定，因為基於 cookie 的解決方案可能會損害到快取。",
+	"themetoggle-prefs-theme-label": "主題",
+	"themetoggle-prefs-theme-desc": "選擇要顯示於此 wiki 的主題：",
+	"themetoggle-simple-switch": "目前主題是「$1」。點擊來切換。",
+	"themetoggle-simple-switch-short": "目前主題：$1",
+	"themetoggle-dropdown-switch": "展開來選擇主題。",
+	"themetoggle-skinprefs": "外觀",
+	"themetoggle-dropdown-section-themes": "主題",
+	"themetoggle-dropdown-section-features": "其他偏好設定",
+	"themetoggle-css-pages-list-intro": "現在引用以下 CSS 頁面：",
+	"themetoggle-bundled-list-intro": "以下主題沒有專用樣式表，因為他們被標記為綁定主題：",
+	"themetoggle-list-display-as": "顯示為",
+	"themeusage": "主題使用統計",
+	"themeusage-theme": "主題",
+	"themeusage-usercount": "使用者數量",
+	"themeusage-noresults": "未找到具有非預設主題偏好設定的使用者。",
+	"themeusage-activeusers": "活躍使用者",
+	"themeusage-unknown-theme": "未知",
+	"themeusage-unknown-theme-tip": "這些使用者把未知主題設定為他們的偏好，可能是因為該主題已被移除。他們會改看到預設主題。",
+	"theme-none": "無",
+	"theme-auto": "自動（系統）",
+	"theme-auto-preference-description": "自動（依照系統偏好設定來判斷應使用深色或明亮主題）",
+	"theme-dark": "深色",
+	"theme-light": "明亮"
+}
