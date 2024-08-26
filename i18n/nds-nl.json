@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Servien"
+		]
+	},
+	"themetoggle-prefs-theme-label": "Tema",
+	"themetoggle-skinprefs": "Uterlik",
+	"themetoggle-dropdown-section-themes": "Tema's",
+	"themeusage-theme": "Tema",
+	"themeusage-activeusers": "Aktive gebrukers",
+	"themeusage-unknown-theme": "Unbekend",
+	"theme-none": "Geen",
+	"theme-auto": "Automatisk (systeem)",
+	"theme-dark": "Dunker",
+	"theme-light": "Licht"
+}
