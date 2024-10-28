@@ -45,15 +45,25 @@ class ThemeAndFeatureRegistry {
     protected ?array $infos = null;
     private ?ThemeDefinitionsSource $source = null;
 
+    /**
+     * @return string[]
+     */
     public function getIds(): array {
         $this->load();
         return $this->ids;
     }
 
+    /**
+     * @param string $id Theme ID
+     * @return ?ThemeInfo
+     */
     public function get( string $id ): ?ThemeInfo {
         return $this->infos[$id] ?? null;
     }
 
+    /**
+     * @return array<string,ThemeInfo>
+     */
     public function getAll(): array {
         $this->load();
         return $this->infos;

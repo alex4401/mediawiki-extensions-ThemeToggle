@@ -14,6 +14,9 @@ class SwitcherHooks implements
     \MediaWiki\Hook\BeforePageDisplayHook,
     \MediaWiki\ResourceLoader\Hook\ResourceLoaderRegisterModulesHook
 {
+    private const SWITCHER_DROPDOWN = 'Dropdown';
+    private const SWITCHER_DAYNIGHT = 'DayNight';
+
     /** @var ExtensionConfig */
     private ExtensionConfig $config;
 
@@ -39,16 +42,16 @@ class SwitcherHooks implements
         return $this->isWikiGG;
     }
 
-    private function getSwitcherModuleId(): ?string {
+    private function getSwitcherStyle(): ?string {
         switch ( $this->config->get( ConfigNames::SwitcherStyle ) ) {
-            case 'auto':
-                return ( count( $this->registry->getIds() ) <= 2 ) ? 'ext.themes.dayNightSwitcher'
-                    : 'ext.themes.dropdownSwitcher';
             case 'dayNight':
             case 'simple':
-                return 'ext.themes.dayNightSwitcher';
+                return self::SWITCHER_DAYNIGHT;
             case 'dropdown':
-                return 'ext.themes.dropdownSwitcher';
+                return self::SWITCHER_DROPDOWN;
+
+            case 'auto':
+                return count( $this->registry->getIds() ) === 2 ? self::SWITCHER_DAYNIGHT : self::SWITCHER_DROPDOWN;
         }
         return null;
     }
@@ -66,26 +69,27 @@ class SwitcherHooks implements
         }
 
         // Inject the theme switcher as a ResourceLoader module
-        if ( $this->getSwitcherModuleId() !== null ) {
+        if ( $this->getSwitcherStyle() !== null ) {
             $out->addModules( [ 'ext.themes.switcher' ] );
         }
     }
 
     public function onResourceLoaderRegisterModules( ResourceLoader $resourceLoader ): void {
-        if ( $this->getSwitcherModuleId() !== null ) {
+        $style = $this->getSwitcherStyle();
+        if ( $style !== null ) {
             $resourceLoader->register( 'ext.themes.switcher', [
                 'class' => RL\FileModule::class,
                 'localBasePath' => 'extensions/ThemeToggle/modules',
                 'remoteExtPath' => 'ThemeToggle/modules',
                 'dependencies' => [ 'ext.themes.jsapi' ],
                 'targets' => [ 'desktop', 'mobile' ]
-            ] + $this->getSwitcherModuleDefinition( $this->getSwitcherModuleId() ) );
+            ] + $this->getModuleDefinitionForStyle( $style ) );
         }
     }
 
-    private function getSwitcherModuleDefinition( string $id ): array {
-        switch ( $id ) {
-            case 'ext.themes.dayNightSwitcher':
+    private function getModuleDefinitionForStyle( string $style ): array {
+        switch ( $style ) {
+            case self::SWITCHER_DAYNIGHT:
                 return [
                     'packageFiles' => [ 'dayNightSwitcher/main.js' ],
                     'styles' => [ 'dayNightSwitcher/' . ( $this->isWikiGG() ? 'styles-wikigg.less' : 'styles-generic.less' ) ],
@@ -94,7 +98,7 @@ class SwitcherHooks implements
                         'themetoggle-simple-switch-short',
                     ]
                 ];
-            case 'ext.themes.dropdownSwitcher':
+            case self::SWITCHER_DROPDOWN:
                 return [
                     'packageFiles' => [ 'dropdownSwitcher/main.js' ],
                     'styles' => [ 'dropdownSwitcher/' . ( $this->isWikiGG() ? 'styles-wikigg.less' : 'styles-generic.less' ) ],
