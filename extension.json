@@ -1,6 +1,6 @@
 {
 	"name": "Theme Toggle",
-	"version": "1.3.5",
+	"version": "1.4.0",
 
 	"author": [
 		"alex4401"
@@ -94,14 +94,27 @@
 				"LinkRenderer",
 				"ThemeToggle.ThemeAndFeatureRegistry"
 			]
+		},
+		"Switcher": {
+			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\SwitcherHooks",
+			"services": [
+				"LinkRenderer",
+				"ThemeToggle.ThemeAndFeatureRegistry"
+			]
 		}
 	},
 	"Hooks": {
 		"PageDeleteComplete": "CacheManagement",
 		"PageSaveComplete": "CacheManagement",
-		"BeforePageDisplay": "ThemeLoading",
+		"BeforePageDisplay": [
+			"ThemeLoading",
+			"Switcher"
+		],
 		"OutputPageAfterGetHeadLinksArray": "ThemeLoading",
-		"ResourceLoaderRegisterModules": "ThemeLoading",
+		"ResourceLoaderRegisterModules": [
+			"ThemeLoading",
+			"Switcher"
+		],
 		"GetPreferences": "Preferences",
 		"UserGetDefaultOptions": "Preferences",
 		"OutputPageParserOutput": "ThemeLinks"
