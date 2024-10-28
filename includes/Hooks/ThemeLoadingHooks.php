@@ -200,30 +200,4 @@ class ThemeLoadingHooks implements
                 ];
         }
     }
-
-    public static function getSiteConfigModuleContents( RL\Context $context, Config $config ): array {
-        /** @var ExtensionConfig */
-        $config = MediaWikiServices::getInstance()->getService( ExtensionConfig::SERVICE_NAME );
-        /** @var ThemeAndFeatureRegistry */
-        $registry = MediaWikiServices::getInstance()->getService( ThemeAndFeatureRegistry::SERVICE_NAME );
-
-        return [
-            'themes' => array_map(
-                static function ( $key, $info ) {
-                    if ( $info->getEntitledUserGroups() ) {
-                        return [
-                            'id' => $key,
-                            'userGroups' => $info->getEntitledUserGroups(),
-                        ];
-                    }
-                    return $key;
-                },
-                array_keys( $registry->getAll() ),
-                array_values( $registry->getAll() )
-            ),
-            'supportsAuto' => $registry->isEligibleForAuto(),
-            'preferenceGroup' => $config->getPreferenceSuffix(),
-            'defaultTheme' => $registry->getDefaultThemeId()
-        ];
-    }
 }

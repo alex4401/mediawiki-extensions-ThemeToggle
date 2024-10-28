@@ -41,7 +41,7 @@
 				"shared.js",
 				{
 					"name": "config.json",
-					"callback": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\ThemeLoadingHooks::getSiteConfigModuleContents"
+					"callback": "MediaWiki\\Extension\\ThemeToggle\\ResourceLoader\\SharedJsModule::getConfigArray"
 				}
 			],
 			"messages": [
