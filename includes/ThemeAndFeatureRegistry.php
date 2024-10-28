@@ -1,20 +1,16 @@
 <?php
 namespace MediaWiki\Extension\ThemeToggle;
 
-use MediaWiki\Linker\LinkTarget;
-use MediaWiki\MediaWikiServices;
-use MediaWiki\Revision\SlotRecord;
-use ObjectCache;
-use TextContent;
-use Title;
-use User;
+use BagOStuff;
 use WANObjectCache;
 use Wikimedia\Rdbms\Database;
-use InvalidArgumentException;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\ThemeToggle\Data\ThemeInfo;
-use MediaWiki\Permissions\Authority;
+use MediaWiki\Extension\ThemeToggle\Repository\MediaWikiTextThemeDefinitions;
+use MediaWiki\Extension\ThemeToggle\Repository\ThemeDefinitionsSource;
 use MediaWiki\Revision\RevisionLookup;
+use MediaWiki\Title\Title;
+use MediaWiki\User\User;
 use MediaWiki\User\UserGroupManager;
 use MediaWiki\User\UserIdentity;
 use MediaWiki\User\UserOptionsLookup;
@@ -30,57 +26,121 @@ class ThemeAndFeatureRegistry {
         ConfigNames::DisableAutoDetection,
     ];
 
-    public const CACHE_GENERATION = 11;
+    public const CACHE_GENERATION = 12;
     public const CACHE_TTL = 24 * 60 * 60;
-    public const TITLE = 'Theme-definitions';
-
-    /** @var ServiceOptions */
-    private ServiceOptions $options;
-
-    /** @var ExtensionConfig */
-    private ExtensionConfig $config;
-
-    /** @var RevisionLookup */
-    private RevisionLookup $revisionLookup;
-
-    /** @var UserOptionsLookup */
-    private UserOptionsLookup $userOptionsLookup;
-
-    /** @var UserGroupManager */
-    private UserGroupManager $userGroupManager;
-
-    /** @var WANObjectCache */
-    private WANObjectCache $wanObjectCache;
 
     public function __construct(
-        ServiceOptions $options,
-        ExtensionConfig $config,
-        RevisionLookup $revisionLookup,
-        UserOptionsLookup $userOptionsLookup,
-        UserGroupManager $userGroupManager,
-        WANObjectCache $wanObjectCache
+        private ServiceOptions $options,
+        private ExtensionConfig $config,
+        private RevisionLookup $revisionLookup,
+        private UserOptionsLookup $userOptionsLookup,
+        private UserGroupManager $userGroupManager,
+        private WANObjectCache $wanObjectCache,
+        private BagOStuff $hashCache
     ) {
-        $options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
-        $this->options = $options;
-
-        $this->config = $config;
-        $this->revisionLookup = $revisionLookup;
-        $this->userOptionsLookup = $userOptionsLookup;
-        $this->userGroupManager = $userGroupManager;
-        $this->wanObjectCache = $wanObjectCache;
+        $this->options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
     }
 
     protected ?array $ids = null;
     protected ?array $infos = null;
+    private ?ThemeDefinitionsSource $source = null;
 
     public function getIds(): array {
         $this->load();
         return $this->ids;
     }
 
+    public function get( string $id ): ?ThemeInfo {
+        return $this->infos[$id] ?? null;
+    }
+
     public function getAll(): array {
         $this->load();
         return $this->infos;
+    }
+
+    public function makeDefinitionCacheKey(): string {
+        return $this->wanObjectCache->makeKey( 'theme-definitions', self::CACHE_GENERATION );
+    }
+
+    public function getSource(): ThemeDefinitionsSource {
+        if ( $this->source === null ) {
+            // TODO: open this up to other sources
+            $this->source = new MediaWikiTextThemeDefinitions( $this->revisionLookup );
+        }
+
+        return $this->source;
+    }
+
+    protected function load(): void {
+        // From back to front:
+        //
+        // 3. wan cache (e.g. memcached)
+        //    This improves end-user latency and reduces database load.
+        //    It is purged when the data changes.
+        //
+        // 2. server cache (e.g. APCu).
+        //    Very short blind TTL, mainly to avoid high memcached I/O.
+        //
+        // 1. process cache
+        if ( $this->infos !== null ) {
+            return;
+        }
+
+        $key = $this->makeDefinitionCacheKey();
+        // Between 7 and 15 seconds to avoid memcached/lockTSE stampede (T203786)
+        $srvCacheTtl = mt_rand( 7, 15 );
+        $options = $this->hashCache->getWithSetCallback( $key, $srvCacheTtl, function () use ( $key ) {
+                return $this->wanObjectCache->getWithSetCallback(
+                    $key,
+                    self::CACHE_TTL,
+                    function ( $old, &$ttl, &$setOpts ) {
+                        // Reduce caching of known-stale data (T157210)
+                        $setOpts += Database::getCacheSetOptions( wfGetDB( DB_REPLICA ) );
+                        return $this->loadFreshInternal();
+                    },
+                    [
+                        // Avoid database stampede
+                        'lockTSE' => 300,
+                    ]
+                );
+        } );
+
+        $this->postLoad();
+
+        // Construct ThemeInfo objects from cachable constructor options
+        $this->infos = array_map( fn ( $info ) => new ThemeInfo( $info ), $options );
+        $this->ids = array_keys( $this->infos );
+    }
+
+    protected function loadFreshInternal(): array {
+        return $this->getSource()->load();
+    }
+
+    protected function postLoad(): void {
+        if ( empty( $options ) ) {
+            // This should match default Theme-definitions message
+            $this->infos = [
+                'none' => [
+                    'id' => 'none',
+                    'default' => true,
+                    'in-site-css' => true,
+                    'kind' => 'unknown',
+                ],
+            ];
+        }
+    }
+
+    public function handlePagePurge( Title $title ): void {
+        if ( $this->getSource()->doesTitleInvalidateCache( $title ) ) {
+            $key = $this->makeDefinitionCacheKey();
+
+            $this->wanObjectCache->delete( $key );
+            $this->hashCache->delete( $key );
+    
+            $this->ids = null;
+            $this->infos = null;
+        }
     }
 
     /**
@@ -102,10 +162,6 @@ class ThemeAndFeatureRegistry {
             }
             return !empty( array_intersect( $info->getEntitledUserGroups(), $userGroups ) );
         } );
-    }
-
-    public function get( string $id ): ?ThemeInfo {
-        return $this->infos[$id] ?? null;
     }
 
     public function isEligibleForAuto(): bool {
@@ -179,162 +235,5 @@ class ThemeAndFeatureRegistry {
     public function getThemeKinds(): array {
         $this->load();
         return array_map( fn ( $info ) => $info->getKind(), $this->infos );
-    }
-
-    public function purgeCache(): void {
-        $srvCache = ObjectCache::getLocalServerInstance( 'hash' );
-        $key = $this->makeDefinitionCacheKey( $this->wanObjectCache );
-
-        $this->wanObjectCache->delete( $key );
-        $srvCache->delete( $key );
-
-        $this->ids = null;
-        $this->infos = null;
-    }
-
-    private function makeDefinitionCacheKey( WANObjectCache $cache ): string {
-        return $cache->makeKey( 'theme-definitions', self::CACHE_GENERATION );
-    }
-
-    protected function load(): void {
-        // From back to front:
-        //
-        // 3. wan cache (e.g. memcached)
-        //    This improves end-user latency and reduces database load.
-        //    It is purged when the data changes.
-        //
-        // 2. server cache (e.g. APCu).
-        //    Very short blind TTL, mainly to avoid high memcached I/O.
-        //
-        // 1. process cache
-        if ( $this->infos === null ) {
-            $srvCache = ObjectCache::getLocalServerInstance( 'hash' );
-            $key = $this->makeDefinitionCacheKey( $this->wanObjectCache );
-            // Between 7 and 15 seconds to avoid memcached/lockTSE stampede (T203786)
-            $srvCacheTtl = mt_rand( 7, 15 );
-            $options = $srvCache->getWithSetCallback( $key, $srvCacheTtl, function () use ( $key ) {
-                    return $this->wanObjectCache->getWithSetCallback(
-                        $key, self::CACHE_TTL,
-                        function ( $old, &$ttl, &$setOpts ) {
-                            // Reduce caching of known-stale data (T157210)
-                            $setOpts += Database::getCacheSetOptions( wfGetDB( DB_REPLICA ) );
-                            return $this->fetchDefinitionList();
-                        }, [
-                            // Avoid database stampede
-                            'lockTSE' => 300,
-                        ]
-                    );
-            } );
-
-            if ( empty( $options ) ) {
-                // This should match default Theme-definitions message
-                $this->infos = [
-                    'none' => new ThemeInfo( [
-                        'id' => 'none',
-                        'default' => true,
-                        'in-site-css' => true,
-                        'kind' => 'unknown',
-                    ] ),
-                ];
-            } else {
-                // Construct ThemeInfo objects from options
-                $this->infos = array_map( fn ( $info ) => new ThemeInfo( $info ), $options );
-            }
-
-            $this->ids = array_keys( $this->infos );
-        }
-    }
-
-    private function fetchDefinitionList(): array {
-        $revision = $this->revisionLookup->getRevisionByTitle( Title::makeTitle( NS_MEDIAWIKI, self::TITLE ) );
-        $text = null;
-        $useMessageFallback = !$revision || !$revision->getContent( SlotRecord::MAIN )
-            || $revision->getContent( SlotRecord::MAIN )->isEmpty();
-
-        if ( $useMessageFallback ) {
-            $text = wfMessage( self::TITLE )->inLanguage( 'en' )->plain();
-        } else {
-            $content = $revision->getContent( SlotRecord::MAIN );
-            $text = ( $content instanceof TextContent ) ? $content->getText() : '';
-        }
-
-        $definition = preg_replace( '/<!--.*?-->/s', '', $text );
-        $lines = preg_split( '/\r\n|\r|\n/', $definition );
-
-        $themes = [];
-
-        foreach ( $lines as $line ) {
-            try {
-                $themeInfo = $this->newOptionsFromText( $line );
-                if ( $themeInfo ) {
-                    $themes[$themeInfo['id']] = $themeInfo;
-                }
-            } catch ( InvalidArgumentException $ex ) {
-                continue;
-            }
-        }
-
-        return $themes;
-    }
-
-    /**
-     * @param string $definition
-     * @return ?array
-     */
-    private function newOptionsFromText( string $definition ): ?array {
-        $match = [];
-        if ( !preg_match(
-            '/^\*+ *([a-zA-Z](?:[-_:.\w ]*[a-zA-Z0-9])?)(\s*\[.*?\])?\s*$/',
-            $definition,
-            $match
-        ) ) {
-            return null;
-        }
-
-        $info = [
-            'id' => trim( str_replace( ' ', '_', $match[1] ) ),
-        ];
-
-        if ( !isset( $info['id'] ) || empty( $info['id'] ) ) {
-            return null;
-        }
-
-        if ( str_starts_with( $info['id'], 'light' ) ) {
-            $info['kind'] = 'light';
-        } elseif ( str_starts_with( $info['id'], 'dark' ) ) {
-            $info['kind'] = 'dark';
-        }
-
-        if ( isset( $match[2] ) ) {
-            $options = trim( $match[2], ' []' );
-            foreach ( preg_split( '/\s*\|\s*/', $options, -1, PREG_SPLIT_NO_EMPTY ) as $option ) {
-                $arr = preg_split( '/\s*=\s*/', $option, 2 );
-                $option = $arr[0];
-                if ( isset( $arr[1] ) ) {
-                    $params = explode( ',', $arr[1] );
-                    $params = array_map( 'trim', $params );
-                } else {
-                    $params = [];
-                }
-
-                switch ( $option ) {
-                    case 'user-groups':
-                        $info['user-groups'] = $params;
-                        break;
-                    case 'default':
-                        $info['default'] = true;
-                        break;
-                    case 'bundled':
-                    case 'in-site-css':
-                        $info['in-site-css'] = true;
-                        break;
-                    case 'kind':
-                        $info['kind'] = $params[0];
-                        break;
-                }
-            }
-        }
-
-        return $info;
     }
 }

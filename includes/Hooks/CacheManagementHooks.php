@@ -3,9 +3,13 @@ namespace MediaWiki\Extension\ThemeToggle\Hooks;
 
 use ManualLogEntry;
 use MediaWiki\Extension\ThemeToggle\ThemeAndFeatureRegistry;
+use MediaWiki\Page\ProperPageIdentity;
 use MediaWiki\Permissions\Authority;
 use MediaWiki\Revision\RevisionRecord;
-use TitleValue;
+use MediaWiki\Storage\EditResult;
+use MediaWiki\Title\Title;
+use MediaWiki\User\UserIdentity;
+use WikiPage;
 
 class CacheManagementHooks implements
     \MediaWiki\Page\Hook\PageDeleteCompleteHook,
@@ -18,6 +22,18 @@ class CacheManagementHooks implements
         $this->registry = $registry;
     }
 
+	/**
+	 * @param WikiPage $wikiPage WikiPage modified
+	 * @param UserIdentity $user User performing the modification
+	 * @param string $summary Edit summary/comment
+	 * @param int $flags Flags passed to WikiPage::doUserEditContent()
+	 * @param RevisionRecord $revisionRecord New RevisionRecord of the article
+	 * @param EditResult $editResult Object storing information about the effects of this edit,
+	 *   including which edits were reverted and which edit is this based on (for reverts and null
+	 *   edits).
+	 * @return bool|void True or no return value to continue or false to stop other hook handlers
+	 *    from being called; save cannot be aborted
+	 */
     public function onPageSaveComplete(
         $wikiPage,
         $userIdentity,
@@ -26,14 +42,22 @@ class CacheManagementHooks implements
         $revisionRecord,
         $editResult
     ): void {
-        $title = $wikiPage->getTitle();
-        if ( $title->getNamespace() === NS_MEDIAWIKI && $title->getText() == ThemeAndFeatureRegistry::TITLE ) {
-            $this->registry->purgeCache();
-        }
+        $this->registry->handlePagePurge( $wikiPage->getTitle() );
     }
 
+	/**
+	 * @param ProperPageIdentity $page Page that was deleted.
+	 *   This object represents state before deletion (e.g. $page->exists() will return true).
+	 * @param Authority $deleter Who deleted the page
+	 * @param string $reason Reason the page was deleted
+	 * @param int $pageID ID of the page that was deleted
+	 * @param RevisionRecord $deletedRev Last revision of the deleted page
+	 * @param ManualLogEntry $logEntry ManualLogEntry used to record the deletion
+	 * @param int $archivedRevisionCount Number of revisions archived during the deletion
+	 * @return true|void
+	 */
     public function onPageDeleteComplete(
-        $page,
+        ProperPageIdentity $page,
         Authority $deleter,
         string $reason,
         int $pageID,
@@ -41,9 +65,6 @@ class CacheManagementHooks implements
         ManualLogEntry $logEntry,
         int $archivedRevisionCount
     ): void {
-        $title = TitleValue::newFromPage( $page );
-        if ( $title->getNamespace() === NS_MEDIAWIKI && $title->getText() == ThemeAndFeatureRegistry::TITLE ) {
-            $this->registry->purgeCache();
-        }
+        $this->registry->handlePagePurge( Title::newFromPageIdentity( $page ) );
     }
 }
