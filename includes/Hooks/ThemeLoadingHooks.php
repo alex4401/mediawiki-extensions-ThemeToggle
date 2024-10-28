@@ -1,16 +1,14 @@
 <?php
 namespace MediaWiki\Extension\ThemeToggle\Hooks;
 
-use Config;
 use ExtensionRegistry;
 use MediaWiki\Extension\ThemeToggle\ConfigNames;
 use MediaWiki\Extension\ThemeToggle\ExtensionConfig;
 use MediaWiki\Extension\ThemeToggle\ResourceLoader\WikiThemeModule;
 use MediaWiki\Extension\ThemeToggle\ThemeAndFeatureRegistry;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\Output\OutputPage;
 use MediaWiki\ResourceLoader as RL;
 use MediaWiki\ResourceLoader\ResourceLoader;
-use OutputPage;
 use Skin;
 
 class ThemeLoadingHooks implements

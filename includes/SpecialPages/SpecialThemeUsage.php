@@ -2,10 +2,10 @@
 /* Based on Extension:Gadgets' SpecialGadgetUsage.php */
 namespace MediaWiki\Extension\ThemeToggle\SpecialPages;
 
-use Html;
 use MediaWiki\Extension\ThemeToggle\ExtensionConfig;
 use MediaWiki\Extension\ThemeToggle\ThemeAndFeatureRegistry;
-use QueryPage;
+use MediaWiki\Html\Html;
+use MediaWiki\SpecialPage\QueryPage;
 
 class SpecialThemeUsage extends QueryPage {
     /** @var ExtensionConfig */

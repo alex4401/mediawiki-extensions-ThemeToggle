@@ -2,12 +2,11 @@
 
 namespace MediaWiki\Extension\ThemeToggle\Hooks;
 
-use Html;
-use Title;
-use TitleValue;
 use MediaWiki\Extension\ThemeToggle\ThemeAndFeatureRegistry;
+use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
+use MediaWiki\Title\TitleValue;
 
 class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 	/** @var LinkRenderer */
