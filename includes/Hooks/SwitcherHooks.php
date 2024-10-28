@@ -51,7 +51,16 @@ class SwitcherHooks implements
                 return self::SWITCHER_DROPDOWN;
 
             case 'auto':
-                return count( $this->registry->getIds() ) === 2 ? self::SWITCHER_DAYNIGHT : self::SWITCHER_DROPDOWN;
+                // WIKIDEV-279: Use day-night switcher if there's exactly 2 themes and one of them is light, one of them
+                // is dark.
+
+                $qualifiesFor2State = count( $this->registry->getIds() ) === 2;
+                if ( $qualifiesFor2State ) {
+                    $themes = array_values( $this->registry->getAll() );
+                    $qualifiesFor2State = $themes[0]->getKind() !== $themes[1]->getKind();
+                }
+
+                return $qualifiesFor2State ? self::SWITCHER_DAYNIGHT : self::SWITCHER_DROPDOWN;
         }
         return null;
     }
