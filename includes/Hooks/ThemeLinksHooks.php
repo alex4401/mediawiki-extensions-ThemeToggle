@@ -74,7 +74,7 @@ class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 		$html .= ' (' . wfMessage( 'themetoggle-list-display-as' ) . ' ';
 		$html .= $this->linkRenderer->makeLink(
 			new TitleValue( NS_MEDIAWIKI, $theme->getMessageId() ),
-			wfMessage( $theme->getMessageId() )
+			wfMessage( $theme->getMessageId() )->plain()
 		);
 		$html .= ')';
 		return $html;
