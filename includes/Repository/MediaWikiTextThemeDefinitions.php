@@ -9,7 +9,7 @@ use MediaWiki\Title\Title;
 use TextContent;
 
 class MediaWikiTextThemeDefinitions implements ThemeDefinitionsSource {
-    private const TITLE_TEXT = 'Theme-definitions';
+    public const TITLE_TEXT = 'Theme-definitions';
 
     public function __construct(
         private RevisionLookup $revisionLookup,

@@ -29,7 +29,8 @@ return [
             $services->getRevisionLookup(),
             $services->getUserOptionsLookup(),
             $services->getUserGroupManager(),
-            $services->getMainWANObjectCache()
+            $services->getMainWANObjectCache(),
+            ObjectCache::getInstance( CACHE_HASH )
         );
     },
 ];

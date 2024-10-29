@@ -2,6 +2,7 @@
 
 namespace MediaWiki\Extension\ThemeToggle\Hooks;
 
+use MediaWiki\Extension\ThemeToggle\Repository\MediaWikiTextThemeDefinitions;
 use MediaWiki\Extension\ThemeToggle\ThemeAndFeatureRegistry;
 use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
@@ -25,7 +26,8 @@ class ThemeLinksHooks implements \MediaWiki\Hook\OutputPageParserOutputHook {
 
 	public function onOutputPageParserOutput( $out, $parserOutput ): void {
 		$title = $out->getTitle();
-		if ( $title->getNamespace() !== NS_MEDIAWIKI || $title->getText() !== ThemeAndFeatureRegistry::TITLE ) {
+		// TODO: this needs to support other repos
+		if ( $title->getNamespace() !== NS_MEDIAWIKI || $title->getText() !== MediaWikiTextThemeDefinitions::TITLE_TEXT ) {
 			return;
 		}
 

@@ -41,7 +41,7 @@
 				"shared.js",
 				{
 					"name": "config.json",
-					"callback": "MediaWiki\\Extension\\ThemeToggle\\ResourceLoader\\SharedJsModule::getConfigArray"
+					"callback": "MediaWiki\\Extension\\ThemeToggle\\ResourceLoader\\SharedJsModule::makeConfigArray"
 				}
 			],
 			"messages": [
@@ -98,7 +98,7 @@
 		"Switcher": {
 			"class": "MediaWiki\\Extension\\ThemeToggle\\Hooks\\SwitcherHooks",
 			"services": [
-				"LinkRenderer",
+				"ThemeToggle.Config",
 				"ThemeToggle.ThemeAndFeatureRegistry"
 			]
 		}
