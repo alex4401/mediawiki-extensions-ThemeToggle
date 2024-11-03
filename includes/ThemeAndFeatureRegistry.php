@@ -116,7 +116,7 @@ class ThemeAndFeatureRegistry {
                 );
         } );
 
-        $this->postLoad();
+        $this->postLoad( $options );
 
         // Construct ThemeInfo objects from cachable constructor options
         $this->infos = array_map( fn ( $info ) => new ThemeInfo( $info ), $options );
@@ -127,10 +127,10 @@ class ThemeAndFeatureRegistry {
         return $this->getSource()->load();
     }
 
-    protected function postLoad(): void {
+    protected function postLoad( array &$options ): void {
         if ( empty( $options ) ) {
             // This should match default Theme-definitions message
-            $this->infos = [
+            $options = [
                 'none' => [
                     'id' => 'none',
                     'default' => true,
